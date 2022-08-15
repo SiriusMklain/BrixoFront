@@ -36,7 +36,7 @@ function Reference() {
                 </div>
 
                 <div className="data-block__content">
-                    <div className="data-block__grid">
+                    <div className="data-block__grid data-block__grid--reference">
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>Референс </label>
                             <input type="text"/>
@@ -72,7 +72,7 @@ function Reference() {
                         <button className="data-block__add-btn btn btn-blue">Добавить</button>
 
                     </div>
-                    <div className="table">
+                    <div className="table reference-table">
                         <table>
                             <thead>
                             <tr>

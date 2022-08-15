@@ -1,4 +1,4 @@
-.table{
+.validity-table{
   th,
   td{
     &:first-child{
@@ -23,12 +23,12 @@
       }
     }
   }
-  &__nav{
+  .table__nav{
     left: 730px;
   }
 }
 
-.data-block__grid{
+.data-block__grid--validity{
   border-bottom: 2px solid #E6ECFF;
   padding-bottom: 20px;
 }

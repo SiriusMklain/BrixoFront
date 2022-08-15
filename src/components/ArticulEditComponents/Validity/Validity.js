@@ -44,7 +44,7 @@ function Validity() {
                 </div>
 
                 <div className="data-block__content">
-                    <div className="data-block__grid">
+                    <div className="data-block__grid data-block__grid--validity">
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>TC </label>
                             <Select
@@ -105,7 +105,7 @@ function Validity() {
                         <button className="data-block__add-btn btn btn-blue">Добавить</button>
 
                     </div>
-                    <div className="table">
+                    <div className="table validity-table">
                         <table>
                             <thead>
                             <tr>

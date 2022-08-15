@@ -43,7 +43,7 @@ function MainData() {
                 <div className="data-block__title">Основные данные</div>
             </div>
             <div className="data-block__content">
-                <div className="data-block__grid">
+                <div className="data-block__grid data-block__grid--maindata">
                     <fieldset className="fg data-block__col data-block__col2">
                         <label>Артикул </label>
                         <input type="text"/>
