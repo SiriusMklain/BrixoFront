@@ -1,0 +1,93 @@
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all ease-out .225s;
+    padding: 0 20px;
+    height: 52px;
+    background: #F7F9FF;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    svg {
+        margin-right: 12px;
+    }
+    &:hover {
+        color: #fff;
+        //path {
+        //    fill: #fff;
+        //}
+    }
+}
+
+//.btn-blue-outline {
+//    border: 1px solid #E1E7FF;
+//    color: $primary;
+//    &:hover {
+//        box-shadow: 4px 4px 12px rgba(109, 113, 249, 0.4);
+//        background: $primary;
+//        border-color: $primary;
+//    }
+//}
+//
+//.btn-green-outline {
+//    border: 1px solid $green;
+//    color: $green;
+//    &:hover {
+//        border-color: $green;
+//        background: $green;
+//        box-shadow: 4px 4px 12px rgba(43, 190, 93, 0.4);
+//    }
+//}
+
+.btn-red-outline {
+    border: 1px solid #CA003D;
+    color: #CA003D;
+    &:hover {
+        border-color: #CA003D;
+        background: #CA003D;
+        box-shadow: 4px 4px 12px rgba(202, 0, 61, 0.4);
+    }
+}
+
+.btn-gray {
+    color: #232445;
+    background: #CFD8E7;
+    &:hover {
+        background: #232445;
+    }
+}
+
+.btn-blue {
+    color: #fff;
+    background-color: #6D71F9;
+    &:hover {
+        color: #fff;
+        background-color: darken(#6D71F9, 10%);
+    }
+}
+
+.delete-btn{
+    background: linear-gradient(145.35deg, #E21A1A 6.61%, #C94C4C 93.99%);
+    background-size: cover;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    &::before{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(#CAD3F6,.68);
+        left: 0;
+        top: 0;
+        border-radius: 50%;
+    }
+    &:hover{
+        background-size: 200% 200%;
+    }
+}

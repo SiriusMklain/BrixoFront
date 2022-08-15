@@ -1,0 +1,47 @@
+.table{
+  th,
+  td{
+    &:first-child{
+      width: 80px;
+    }
+    &:nth-child(2){
+      width: 197px;
+    }
+    &:nth-child(3){
+      width: 284px;
+    }
+    &:nth-child(4){
+      width: 280px;
+    }
+  }
+  tbody{
+    tr{
+      position: relative;
+      &:hover{
+        background: #EBF0FF;
+        box-shadow: 0px 0px 14px #E5ECFF;
+      }
+    }
+  }
+  &__nav{
+    left: 730px;
+  }
+}
+
+.data-block__grid{
+  border-bottom: 2px solid #E6ECFF;
+  padding-bottom: 20px;
+}
+
+.criterions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 50px;
+  padding: 19px 60px 12px;
+  &__group{
+    display: grid;
+    grid-template-columns: 1fr 0.6fr 34px;
+    align-items: center;
+    gap: 10px;
+  }
+}

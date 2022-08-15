@@ -1,0 +1,31 @@
+.table{
+  th,
+  td{
+    &:first-child{
+      width: 80px;
+    }
+    &:nth-child(2){
+      width: 253px;
+    }
+    &:nth-child(3){
+      width: 214px;
+    }
+  }
+  tbody{
+    tr{
+      position: relative;
+      &:hover{
+        background: #EBF0FF;
+        box-shadow: 0px 0px 14px #E5ECFF;
+      }
+    }
+  }
+  &__nav{
+    left: 730px;
+  }
+}
+
+.data-block__grid{
+  border-bottom: 2px solid #E6ECFF;
+  padding-bottom: 20px;
+}
