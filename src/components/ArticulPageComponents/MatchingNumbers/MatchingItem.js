@@ -1,8 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 function MatchingItem(props) {
     const {num, id, brand, oem, gtin, countries } = props
+    let navigate = useNavigate();
+    function goToEdit() {
+        navigate("/edit");
+    }
 
     return (
-        <tr>
+        <tr onClick={()=>goToEdit()}>
             <td>
                 <div className="table__td">
                     <span className="table__num gray-text">{num}</span>
