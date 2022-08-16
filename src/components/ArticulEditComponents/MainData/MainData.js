@@ -52,11 +52,7 @@ function MainData() {
                         <label>Бренд</label>
                         <Select
                             classNamePrefix="select"
-                            isDisabled={false}
-                            isLoading={false}
-                            isClearable={false}
-                            isRtl={false}
-                            isSearchable={false}
+                            isSearchable={true}
                             name="numsOfRows"
                             options={brands}
                             defaultValue={brands[0]}
@@ -85,12 +81,8 @@ function MainData() {
                             classNamePrefix="select"
                             classPrefix="multi-select"
                             isMulti
-                            isDisabled={false}
-                            isLoading={false}
-                            isClearable={false}
-                            isRtl={false}
-                            isSearchable={false}
-                            name="numsOfRows"
+                            isSearchable={true}
+                            name="countries"
                             options={countries}
                             placeholder={''}
                         />
@@ -103,14 +95,9 @@ function MainData() {
                         <label>GenArtNo</label>
                         <Select
                             classNamePrefix="select"
-                            isDisabled={false}
-                            isLoading={false}
-                            isClearable={false}
-                            isRtl={false}
-                            isSearchable={false}
-                            name="numsOfRows"
+                            isSearchable={true}
+                            name="GenArtNo"
                             options={GenArtNo}
-                            placeholder={''}
                             placeholder={''}
                         />
                     </fieldset>
@@ -120,12 +107,8 @@ function MainData() {
                             classNamePrefix="select"
                             classPrefix="multi-select"
                             isMulti
-                            isDisabled={false}
-                            isLoading={false}
-                            isClearable={false}
-                            isRtl={false}
-                            isSearchable={false}
-                            name="numsOfRows"
+                            isSearchable={true}
+                            name="SupersNo"
                             options={SupersNo}
                             placeholder={''}
                         />
@@ -136,12 +119,8 @@ function MainData() {
                             classNamePrefix="select"
                             classPrefix="multi-select"
                             isMulti
-                            isDisabled={false}
-                            isLoading={false}
-                            isClearable={false}
-                            isRtl={false}
-                            isSearchable={false}
-                            name="numsOfRows"
+                            isSearchable={true}
+                            name="TradeNo"
                             options={TradeNo}
                             placeholder={''}
                         />

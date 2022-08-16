@@ -229,6 +229,9 @@ input[type="date"]:valid::before {
       }
     }
   }
+  &__input{
+    height: 100% !important;
+  }
 }
 
 .select__value-container--is-multi{

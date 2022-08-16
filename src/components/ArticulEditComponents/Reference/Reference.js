@@ -1,18 +1,31 @@
 import Select from 'react-select';
 import ReferenceItem from "./ReferenceItem";
+import React, { useRef } from "react";
 
 import './Reference.scss';
+import {useState} from "react";
+import AsyncSelect from "react-select/async";
 
 
 function Reference() {
+    const references = [
+        {id: '1', refId: 'MC807966',country: 'GUS',madeBy: 'Honda'},
+        {id: '2', refId: 'MC807966',country: 'GUS',madeBy: 'Honda'},
+        {id: '3', refId: 'MC807966',country: 'GUS',madeBy: 'Honda'},
+        {id: '4', refId: 'MC807966',country: 'GUS',madeBy: 'Honda'},
+    ]
+    const [referencesArray, setReferencesArray] = useState(references);
+    const [referenceNum, setReferenceNum] = useState('');
+    const [referenceCountry, setReferenceCountry] = useState({});
+    const [referenceMaker, setReferenceMaker] = useState({});
     const countries = [
-        { value: '1', label: 'Россия' },
-        { value: '2', label: 'Грузия' },
-        { value: '3', label: 'Германия' },
-        { value: '4', label: 'Китай' },
-        { value: '5', label: 'Япония' },
-        { value: '6', label: 'Дания' },
-        { value: '7', label: 'Италия' },
+        { value: '1', label: 'Россия',name: 'RUS' },
+        { value: '2', label: 'Грузия',name: 'GUS' },
+        { value: '3', label: 'Германия',name: 'GER' },
+        { value: '4', label: 'Китай',name: 'CHI' },
+        { value: '5', label: 'Япония',name: 'JPN' },
+        { value: '6', label: 'Дания',name: 'DEN' },
+        { value: '7', label: 'Италия',name: 'ITA' },
     ]
 
     const makers = [
@@ -21,12 +34,31 @@ function Reference() {
         { value: '3', label: 'Honda3' },
     ]
 
-    const references = [
-        {id: 'MC807966',country: 'GUS',madeBy: 'Honda'},
-        {id: 'MC807966',country: 'GUS',madeBy: 'Honda'},
-        {id: 'MC807966',country: 'GUS',madeBy: 'Honda'},
-        {id: 'MC807966',country: 'GUS',madeBy: 'Honda'},
-    ]
+    const selectCountryRef  = useRef();
+    const selectMakerRef  = useRef();
+
+    const deleteReference = (id)=> {
+        setReferencesArray(referencesArray.filter(el => el.id != id))
+    }
+
+   const addNewReference =()=> {
+        if(referenceNum === "" || referenceCountry.name === "" || referenceMaker.label === ""){
+            return
+        }
+        setReferencesArray(
+            [...referencesArray,
+                {
+                    refId: referenceNum,
+                    country: referenceCountry.name,
+                    madeBy: referenceMaker.label
+                }]
+        )
+       setReferenceNum('')
+       setReferenceCountry({})
+       setReferenceMaker({})
+       selectCountryRef.current.clearValue();
+       selectMakerRef.current.clearValue();
+    }
 
     return (
         <>
@@ -39,37 +71,42 @@ function Reference() {
                     <div className="data-block__grid data-block__grid--reference">
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>Референс </label>
-                            <input type="text"/>
+                            <input
+                                type="text"
+                                value={referenceNum}
+                                onChange={el =>setReferenceNum(el.target.value)}
+                            />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>Страна </label>
                             <Select
+                                ref={selectCountryRef}
                                 classNamePrefix="select"
-                                isDisabled={false}
-                                isLoading={false}
-                                isClearable={false}
-                                isRtl={false}
-                                isSearchable={false}
+                                isSearchable={true}
                                 name="country"
                                 options={countries}
                                 placeholder={''}
+                                onChange={(el)=> setReferenceCountry(el)  }
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>Производитель  </label>
                             <Select
+                                ref={selectMakerRef}
                                 classNamePrefix="select"
-                                isDisabled={false}
-                                isLoading={false}
-                                isClearable={false}
-                                isRtl={false}
-                                isSearchable={false}
+                                isSearchable={true}
                                 name="maker"
                                 options={makers}
                                 placeholder={''}
+                                onChange={(el)=> setReferenceMaker(el)  }
                             />
                         </fieldset>
-                        <button className="data-block__add-btn btn btn-blue">Добавить</button>
+                        <button
+                            onClick={addNewReference}
+                            className="data-block__add-btn btn btn-blue"
+                        >
+                            Добавить
+                        </button>
 
                     </div>
                     <div className="table reference-table">
@@ -110,11 +147,13 @@ function Reference() {
                             </thead>
 
                             <tbody>
-                            {references.map((reference,index) =>
+                            {referencesArray.map((reference,index) =>
                                 <ReferenceItem
+                                    id={reference.id}
+                                    deleteFunc={deleteReference}
                                     key={index}
                                     num={index+1}
-                                    id={reference.id}
+                                    refId={reference.refId}
                                     country={reference.country}
                                     madeBy={reference.madeBy}
                                 />
