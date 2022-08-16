@@ -4,7 +4,6 @@ import React, { useRef } from "react";
 
 import './Reference.scss';
 import {useState} from "react";
-import AsyncSelect from "react-select/async";
 
 
 function Reference() {
@@ -38,7 +37,7 @@ function Reference() {
     const selectMakerRef  = useRef();
 
     const deleteReference = (id)=> {
-        setReferencesArray(referencesArray.filter(el => el.id != id))
+        setReferencesArray(referencesArray.filter(el => el.id !== id))
     }
 
    const addNewReference =()=> {

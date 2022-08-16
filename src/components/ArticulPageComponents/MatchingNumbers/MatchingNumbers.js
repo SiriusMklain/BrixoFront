@@ -1,6 +1,6 @@
 import Select from 'react-select';
 import MatchingItem from "./MatchingItem";
-
+import './MatchingNumbers.scss';
 
 function MatchingNumbers() {
     const numsOfRows = [
@@ -53,7 +53,7 @@ function MatchingNumbers() {
                     </div>
                 </div>
                 <div className="data-block__content">
-                    <div className="table table2">
+                    <div className="table table2 table--matchings">
                         <table>
                             <thead>
                             <tr>

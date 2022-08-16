@@ -1,0 +1,9 @@
+.table--matchings{
+  tbody{
+    tr{
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+}
