@@ -117,7 +117,7 @@ input[type="date"]:valid::before {
   transition: all 0s !important;
   font-weight: 600;
   font-size: 15px;
-  height: 48px;
+  min-height: 48px;
   &--is-focused{
     border-color: #6D71F9 !important;
     box-shadow:none !important;
@@ -238,8 +238,6 @@ input[type="date"]:valid::before {
   padding: 0 2.5px !important;
   min-height: 48px;
   height: unset !important;
-  flex-wrap: nowrap !important;
-  overflow: hidden;
 }
 
 .fg{

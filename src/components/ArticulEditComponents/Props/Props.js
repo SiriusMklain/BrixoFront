@@ -18,7 +18,10 @@ function Props() {
 
     const addProp = (index)=> {
         if(index === props.length-1){
-            setProps([...props, {id: toString(props.length), criteria: ""}])
+            setProps([...props, {
+                id: Math.floor(100000+Math.random() * 900000),
+                criteria: ""
+            }])
         }
     }
 

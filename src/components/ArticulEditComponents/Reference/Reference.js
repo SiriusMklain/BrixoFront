@@ -47,6 +47,7 @@ function Reference() {
         setReferencesArray(
             [...referencesArray,
                 {
+                    id: Math.floor(100000+Math.random() * 900000),
                     refId: referenceNum,
                     country: referenceCountry.name,
                     madeBy: referenceMaker.label

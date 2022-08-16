@@ -24,7 +24,8 @@
     }
   }
   .table__nav{
-    left: 730px;
+    left: unset;
+    right: 250px;
   }
 }
 
@@ -32,6 +33,7 @@
   border-bottom: 2px solid #E6ECFF;
   padding-bottom: 20px;
   display: flex;
+
 }
 
 .criterions{

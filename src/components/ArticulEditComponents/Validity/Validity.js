@@ -47,6 +47,10 @@ function Validity() {
         { value: '3', label: 'type3' },
     ]
 
+    const deleteValidity = (id)=> {
+        setValidities(validities.filter(el => el.id !== id))
+    }
+
     const addNewValidity = ()=> {
         if(
             validityTc.label === "" ||
@@ -59,6 +63,7 @@ function Validity() {
         setValidities(
             [...validities,
                 {
+                    id: Math.floor(100000+Math.random() * 900000),
                     tc: validityTc.label,
                     maker: validityMaker.label,
                     model: validityModel.label,
@@ -202,12 +207,14 @@ function Validity() {
                             <tbody>
                             {validities.map((validity,index) =>
                                 <ValidityItem
+                                    id={validity.id}
                                     key={index}
                                     num={index+1}
                                     tc={validity.tc}
                                     maker={validity.maker}
                                     model={validity.model}
                                     type={validity.type}
+                                    deleteFunc={deleteValidity}
                                 />
                             )}
                             </tbody>
