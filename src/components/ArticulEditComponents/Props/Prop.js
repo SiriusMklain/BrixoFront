@@ -1,9 +1,10 @@
 import Select from "react-select";
+import React from "react";
 
 function Prop(props){
-    const {id, criteria, deleteFunc, addNewProp} = props
+    const {index, id, criteria, value, deleteFunc, addNewProp} = props
 
-    const propsOptions = [
+    let propsOptions = [
         {value: '1', label: 'Width' },
         {value: '2', label: 'Height' },
         {value: '3', label: 'Length' },
@@ -11,44 +12,24 @@ function Prop(props){
         {value: '5', label: 'Outer Diameter' },
     ]
 
-    const getDefaultValue = ()=> {
-        if(criteria===""){
-            return null
-        } else {
-            return propsOptions.filter(el=> el.label === criteria)
-        }
-    }
-
     return(
         <div className="prop">
             <fieldset className="fg data-block__col data-block__col3">
                 <label>Критерий</label>
-                {criteria===""?
-                    <Select
-                        classNamePrefix="select"
-                        isSearchable={true}
-                        name="numsOfRows"
-                        options={propsOptions}
-                        placeholder={"Не выбрано"}
-                        onChange={addNewProp}
-                    />
-                    :
-                    <Select
-                        classNamePrefix="select"
-                        isSearchable={true}
-                        name="numsOfRows"
-                        options={propsOptions}
-                        defaultValue={getDefaultValue}
-                        onChange={addNewProp}
-                    />
-                }
-
+                <Select
+                    classNamePrefix="select"
+                    isSearchable={true}
+                    name="numsOfRows"
+                    options={propsOptions}
+                    placeholder={"Не выбрано"}
+                />
             </fieldset>
             <fieldset className="fg data-block__col data-block__col3">
                 <label>Значение</label>
                 <input
                     type="text"
-                    onChange={addNewProp}
+                    onChange={(el)=>addNewProp(index,id,el.target.value)}
+                    value={value}
                 />
             </fieldset>
             <button

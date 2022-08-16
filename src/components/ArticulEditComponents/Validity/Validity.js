@@ -117,7 +117,6 @@ function Validity() {
                                 isSearchable={false}
                                 name="country"
                                 options={makers}
-                                defaultValue={makers[0]}
                                 placeholder={'Не выбрано'}
                                 onChange={(el)=> setValidityMaker(el)  }
                             />
