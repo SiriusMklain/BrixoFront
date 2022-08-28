@@ -112,7 +112,6 @@ class MatchingNumbers extends Component {
                                     </th>
                                 </tr>
                                 </thead>
-
                                 <tbody>
                                 {this.state.articles.map((article, index) =>
                                     <MatchingItem
