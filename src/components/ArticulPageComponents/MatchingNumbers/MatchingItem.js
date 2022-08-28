@@ -1,17 +1,31 @@
-import { useNavigate } from "react-router-dom";
+import {Component} from "react";
+// import {useNavigate} from "react-router-dom";
 
-function MatchingItem(props) {
-    const {num, id, brand, oem, gtin, countries } = props
-    let navigate = useNavigate();
-    function goToEdit() {
-        navigate("/edit");
+
+class MatchingItem extends Component {
+    constructor(props) {
+        super(props);
+        const {num, id, brand, oem, gtin, countries } = props
+        this.num = num
+        this.id = id
+        this.brand = brand
+        this.oem = oem
+        this.gtin = gtin
+        this.countries = countries
+        this.state = {}
+        // this.navigate = this.useNavigate();
     }
 
-    return (
-        <tr onClick={()=>goToEdit()}>
+    goToEdit() {
+        this.navigate("/edit");
+    }
+
+    render() {
+        return (
+        <tr onClick={()=>this.goToEdit()}>
             <td>
                 <div className="table__td">
-                    <span className="table__num gray-text">{num}</span>
+                    <span className="table__num gray-text">{this.num}</span>
                 </div>
             </td>
             <td>
@@ -20,32 +34,32 @@ function MatchingItem(props) {
                         <input type="checkbox"/>
                         <label></label>
                     </div>
-                    <span>{id}</span>
+                    <span>{this.id}</span>
                 </div>
             </td>
             <td>
                 <div className="table__td">
-                    <span>{brand}</span>
+                    <span>{this.brand}</span>
                 </div>
             </td>
             <td>
                 <div className="table__td">
-                    <span>{oem}</span>
+                    <span>{this.oem}</span>
                 </div>
             </td>
             <td>
                 <div className="table__td">
-                    <span>{gtin}</span>
+                    <span>{this.gtin}</span>
                 </div>
             </td>
             <td>
                 <div className="table__td">
-                    <span>{countries}</span>
+                    <span>{this.countries}</span>
                 </div>
             </td>
         </tr>
     );
+    }
 }
-
 
 export default MatchingItem;
