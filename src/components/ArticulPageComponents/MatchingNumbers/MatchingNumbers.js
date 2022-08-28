@@ -189,7 +189,6 @@ class MatchingNumbers extends Component {
             </>
         );
     }
-
 }
 
 export default MatchingNumbers;
