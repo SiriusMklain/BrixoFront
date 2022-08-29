@@ -22,7 +22,8 @@ class MatchingNumbers extends Component {
     componentDidMount() {
 	var  self  =  this;
 	apiService.getArticles().then(function (result) {
-		self.setState({ articles:  result})
+        console.log(result.article)
+		self.setState({ articles:  result.article})
 	});
 }
 

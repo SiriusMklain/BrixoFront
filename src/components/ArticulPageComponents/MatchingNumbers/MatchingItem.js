@@ -1,6 +1,5 @@
 import {Component} from "react";
-// import {useNavigate} from "react-router-dom";
-
+import MainData from "../../ArticulEditComponents/MainData/MainData";
 
 class MatchingItem extends Component {
     constructor(props) {
@@ -12,17 +11,20 @@ class MatchingItem extends Component {
         this.oem = oem
         this.gtin = gtin
         this.countries = countries
-        this.state = {}
-        // this.navigate = this.useNavigate();
+        this.state = {
+            id: this.id
+        }
+
     }
 
-    goToEdit() {
-        this.navigate("/edit");
+    goToEdit = () => {
+        window.location.href='/edit/?id=' + this.id
     }
 
     render() {
         return (
-        <tr onClick={()=>this.goToEdit()}>
+
+        <tr onClick={this.goToEdit}>
             <td>
                 <div className="table__td">
                     <span className="table__num gray-text">{this.num}</span>
@@ -58,6 +60,7 @@ class MatchingItem extends Component {
                 </div>
             </td>
         </tr>
+
     );
     }
 }

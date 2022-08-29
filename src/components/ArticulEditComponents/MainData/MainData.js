@@ -8,23 +8,17 @@ const apiService = new ApiService();
 class MainData extends Component {
     constructor(props) {
         super(props);
+        const {id} = props
+        this.id = id
         this.state = {
             article: [],
             brands: [],
             brand: [],
-            countries: [
-                {value: '1', label: 'Россия'},
-                {value: '2', label: 'Грузия'},
-                {value: '3', label: 'Германия'},
-                {value: '4', label: 'Китай'},
-                {value: '5', label: 'Япония'},
-                {value: '6', label: 'Дания'},
-                {value: '7', label: 'Италия'},
-            ],
+            countries: [],
             GenArtNo: [
-                {value: '1', label: 'Колодки (454212)'},
-                {value: '2', label: 'Колодки (454212) 2'},
-                {value: '3', label: 'Колодки (454212) 3'}
+                {value: '1', label: '25'},
+                {value: '2', label: '7'},
+                {value: '3', label: '6'}
             ],
             SupersNo: [
                 {value: '1', label: 'BL1059W'},
@@ -44,24 +38,37 @@ class MainData extends Component {
 
     componentDidMount() {
         const self = this;
-        apiService.editArticle(41510).then(function (result) {
+        var paramsString = document.location.search;
+        var searchParams = new URLSearchParams(paramsString);
+
+        apiService.editArticle(searchParams.get("id")).then(function (result) {
             let brands = []
+            let brand = {}
             result.brands.forEach(function (item, index, array) {
                 brands.push({"value": index + 1, "label": item.name})
-            })
-            let brand = {}
-            for(brand of brands){
-               if (brand['label'] === result.article.brand_no_id.name){
-                     brand = {"value":String(brand["value"]), "label":brand["label"].trim()}
+                if (item.name === result.article.brand_no_id.name){
+                     brand = {"value":String(index+1), "label":item.name.trim()}
                }
-            }
-            self.setState({article: result.article, brands: brands, brand: brand})
-            console.log("TEST", self.state.brand)
+            })
+
+            let country = []
+            result.country.forEach(function (item, index, array) {
+                country.push({"value": index + 1, "label": item.country_name})
+
+            })
+
+            self.setState({
+                article: result.article,
+                brands: brands,
+                brand: brand,
+                country: country
+            })
         });
     }
 
     render() {
         return (
+
             <div className="data-block">
                 <div className="data-block__head">
                     <div className="data-block__title">Основные данные</div>
@@ -85,19 +92,19 @@ class MainData extends Component {
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>QuantUnit </label>
-                            <input type="text"/>
+                            <input type="text" value={this.state.article.quant_unit}/>
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>QuantPerUnit </label>
-                            <input type="text"/>
+                            <input type="text" value={this.state.article.quant_per_unit}/>
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>Статус</label>
-                            <input type="text"/>
+                            <input type="text" value={this.state.article.art_stat}/>
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>Дата</label>
-                            <input type="date"/>
+                            <input type="text" value={this.state.article.status_dat}/>
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col6">
                             <label>Страны</label>
@@ -107,13 +114,13 @@ class MainData extends Component {
                                 isMulti
                                 isSearchable={true}
                                 name="countries"
-                                options={this.state.countries}
+                                options={this.state.country}
                                 placeholder={''}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>GTIN </label>
-                            <input type="text"/>
+                            <input type="text" value={this.state.article.gtin}/>
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>GenArtNo</label>
@@ -122,7 +129,7 @@ class MainData extends Component {
                                 isSearchable={true}
                                 name="GenArtNo"
                                 options={this.state.GenArtNo}
-                                placeholder={''}
+                                placeholder={this.state.article.gen_art_no}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col6">
@@ -146,11 +153,12 @@ class MainData extends Component {
                                 isSearchable={true}
                                 name="TradeNo"
                                 options={this.state.TradeNo}
-                                placeholder={''}
+                                placeholder={this.state.article.art_no}
                             />
                         </fieldset>
                     </div>
                 </div>
+
             </div>
 
         );

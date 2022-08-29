@@ -22,7 +22,7 @@ class App extends Component {
                         <Routes>
                             <Route path="/">
                                 <Route index element={<Home/>}/>
-                                <Route path="edit" element={<Edit/>}/>
+                                <Route path="edit/*" element={<Edit/>}/>
                             </Route>
                         </Routes>
                     </div>
