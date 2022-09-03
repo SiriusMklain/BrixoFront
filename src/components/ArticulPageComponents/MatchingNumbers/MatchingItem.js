@@ -4,11 +4,11 @@ import MainData from "../../ArticulEditComponents/MainData/MainData";
 class MatchingItem extends Component {
     constructor(props) {
         super(props);
-        const {num, id, brand, oem, gtin, countries } = props
+        const {num, id, brand, art_no, gtin, countries } = props
         this.num = num
         this.id = id
+        this.art_no = art_no
         this.brand = brand
-        this.oem = oem
         this.gtin = gtin
         this.countries = countries
         this.state = {
@@ -36,17 +36,12 @@ class MatchingItem extends Component {
                         <input type="checkbox"/>
                         <label></label>
                     </div>
-                    <span>{this.id}</span>
+                    <span>{this.art_no}</span>
                 </div>
             </td>
             <td>
                 <div className="table__td">
                     <span>{this.brand}</span>
-                </div>
-            </td>
-            <td>
-                <div className="table__td">
-                    <span>{this.oem}</span>
                 </div>
             </td>
             <td>

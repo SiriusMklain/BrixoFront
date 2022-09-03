@@ -96,11 +96,7 @@ class MatchingNumbers extends Component {
                                             <span>Бренд</span>
                                         </div>
                                     </th>
-                                    <th>
-                                        <div className="table__th">
-                                            <span>OEM</span>
-                                        </div>
-                                    </th>
+
                                     <th>
                                         <div className="table__th">
                                             <span>GTIN</span>
@@ -119,8 +115,8 @@ class MatchingNumbers extends Component {
                                         key={index}
                                         num={index + 1}
                                         id={article.id}
+                                        art_no={article.art_no}
                                         brand={article.brand_no_id.name}
-                                        oem={article.oem}
                                         gtin={article.gtin}
                                         countries={article.country_id.map((country) => country.country_code + ', ')}
                                     />

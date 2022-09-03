@@ -1,24 +1,93 @@
 import MainData from "../../components/ArticulEditComponents/MainData/MainData";
-import Props from "../../components/ArticulEditComponents/Props/Props";
+import Characteristics from "../../components/ArticulEditComponents/Characteristics/Characteristics";
 import Reference from "../../components/ArticulEditComponents/Reference/Reference";
 import Validity from "../../components/ArticulEditComponents/Validity/Validity";
 import Docs from "../../components/ArticulEditComponents/Docs/Docs";
+import {Component} from "react";
+import ApiService from "../../util/ApiService";
 
-function Edit() {
-    return (
-        <div className="edit-page">
-            <div className="container">
-                <div className="home-page__title display2">Редактирование артикула</div>
+const apiService = new ApiService();
 
-                <MainData/>
-                <Props/>
-                <Reference/>
-                <Validity/>
-                <Docs/>
+class Edit extends Component {
+    constructor(props) {
+        super(props);
+        const {id} = props
+        this.id = id
+        this.state = {
+            article: [],
+            brands: [],
+            brand: [],
+            countries: [],
+            all_countries: [],
+            GenArtNo: [],
+            SupersNo: [],
+            TradeNo: [],
+            crit: []
+        }
+    }
+
+    componentDidMount() {
+        const self = this;
+        var paramsString = document.location.search;
+        var searchParams = new URLSearchParams(paramsString);
+
+        apiService.editArticle(searchParams.get("id")).then(function (result) {
+
+            let brands = []
+            let brand = {}
+            result.brands.forEach(function (item, index, array) {
+                brands.push({"value": index + 1, "label": item.name})
+                if (item.name === result.article.brand_no_id.name) {
+                    brand = {"value": String(index + 1), "label": item.name.trim()}
+                }
+            })
+
+            let all_countries = []
+            result.country.forEach(function (item, index) {
+                all_countries.push({"value": index + 1, "label": item.country_name})
+
+            })
+            let countries = []
+            result.article.country_id.forEach(function (item, index) {
+                countries.push({"value": index + 1, "label": item.country_name})
+            })
+            self.setState({
+                article: result.article,
+                brands: brands,
+                brand: brand,
+                countries: countries,
+                all_countries: all_countries,
+                crit: result.crit
+            })
+        });
+    }
+
+    render() {
+        return (
+            <div className="edit-page">
+                <div className="container">
+                    <div className="home-page__title display2">Редактирование артикула</div>
+                    <MainData
+                        article={this.state.article}
+                        brands={this.state.brands}
+                        brand={this.state.brand}
+                        countries={this.state.countries}
+                        all_countries={this.state.all_countries}
+                        GenArtNo={this.state.GenArtNo}
+                        SupersNo={this.state.SupersNo}
+                        TradeNo={this.state.TradeNo}
+                    />
+                    <Characteristics
+                         crit={this.state.crit}
+                         all_countries={this.state.all_countries}
+                    />
+                    <Reference/>
+                    <Validity/>
+                    <Docs/>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
-
 
 export default Edit;
