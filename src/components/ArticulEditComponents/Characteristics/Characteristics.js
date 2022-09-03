@@ -13,11 +13,6 @@ class Characteristics extends Component {
 
     }
 
-    componentDidMount() {
-        let crit = this.propsArray
-        console.log(55555, crit)
-    }
-
     deleteProp = (id) => {
         this.setProps(propsArray => propsArray.filter(el => el.id.toString() !== id.toString()))
     }

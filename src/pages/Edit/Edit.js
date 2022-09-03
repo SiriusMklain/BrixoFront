@@ -22,7 +22,8 @@ class Edit extends Component {
             GenArtNo: [],
             SupersNo: [],
             TradeNo: [],
-            crit: []
+            crit: [],
+            reference: []
         }
     }
 
@@ -57,7 +58,8 @@ class Edit extends Component {
                 brand: brand,
                 countries: countries,
                 all_countries: all_countries,
-                crit: result.crit
+                crit: result.crit,
+                reference: result.reference
             })
         });
     }
@@ -79,9 +81,12 @@ class Edit extends Component {
                     />
                     <Characteristics
                          crit={this.state.crit}
-                         all_countries={this.state.all_countries}
+
                     />
-                    <Reference/>
+                    <Reference
+                    reference={this.state.reference}
+                    all_countries={this.state.all_countries}
+                    />
                     <Validity/>
                     <Docs/>
                 </div>

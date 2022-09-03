@@ -1,11 +1,29 @@
-function ReferenceItem(props) {
-    const {id, num, refId, country, madeBy, deleteFunc} = props
+import Select from "react-select";
+import React, {Component} from "react";
 
-    return (
+
+
+class ReferenceItem extends  Component{
+    constructor(props) {
+        super(props);
+        const {id,  num, refId,  deleteFunc} = props
+        this.id = id
+        this.num = num
+        this.refId = refId
+
+        this.deleteFunc = deleteFunc
+    }
+
+    madeBy = () => {
+        return this.props.man.term_plain
+    }
+
+    render() {
+        return (
         <tr>
             <td>
                 <div className="table__td">
-                    <span className="table__num gray-text">{num}</span>
+                    <span className="table__num gray-text">{this.num}</span>
                 </div>
             </td>
             <td>
@@ -14,21 +32,21 @@ function ReferenceItem(props) {
                         <input type="checkbox"/>
                         <label></label>
                     </div>
-                    <span>{refId}</span>
+                    <span>{this.props.ref_no}</span>
                 </div>
             </td>
             <td>
                 <div className="table__td">
-                    <span>{country}</span>
+                    {/*<span>{this.props.country}</span>*/}
                 </div>
             </td>
             <td>
                 <div className="table__td">
-                    <span>{madeBy}</span>
+                    <span>{this.madeBy()}</span>
                 </div>
                 <div className="table__nav">
                     <button
-                        onClick={()=> {deleteFunc(id)}}
+                        onClick={()=> {this.deleteFunc(this.id)}}
                         className="table__delete delete-btn"
                     >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +57,14 @@ function ReferenceItem(props) {
             </td>
         </tr>
     );
+    }
 }
+
+// function ReferenceItem(props) {
+//     const {id, num, refId, country, madeBy, deleteFunc} = props
+//
+//
+// }
 
 
 export default ReferenceItem;
