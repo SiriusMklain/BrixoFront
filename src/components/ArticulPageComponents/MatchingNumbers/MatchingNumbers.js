@@ -4,28 +4,44 @@ import Select from 'react-select';
 import MatchingItem from "./MatchingItem";
 import './MatchingNumbers.scss';
 
-const apiService  =  new  ApiService();
+const apiService = new ApiService();
 
 class MatchingNumbers extends Component {
     constructor(props) {
         super(props);
         this.state = {
             articles: [],
+            nextPageURL: '',
+            prevPageURL: '',
             numsOfRows: [
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
                 {value: '3', label: '30'}
             ]
         }
+        this.nextPage = this.nextPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
     }
 
     componentDidMount() {
-	var  self  =  this;
-	apiService.getArticles().then(function (result) {
-        console.log(result.article)
-		self.setState({ articles:  result.article})
-	});
-}
+        var self = this;
+        apiService.getArticles().then(function (result) {
+            self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
+        });
+    }
+
+    prevPage() {
+        var self = this;
+        apiService.getArticlesByURL(self.state.prevPageURL).then((result) => {
+            self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
+        });
+    }
+
+    nextPage() {
+        apiService.getArticlesByURL(this.state.nextPageURL).then((result) => {
+            this.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
+        });
+    }
 
     render() {
         return (
@@ -115,10 +131,7 @@ class MatchingNumbers extends Component {
                                         key={index}
                                         num={index + 1}
                                         id={article.id}
-                                        art_no={article.art_no}
-                                        brand={article.brand_no_id.name}
-                                        gtin={article.gtin}
-                                        countries={article.country_id.map((country) => country.country_code + ', ')}
+                                        articles={article}
                                     />
                                 )}
                                 </tbody>
@@ -128,32 +141,29 @@ class MatchingNumbers extends Component {
                 </div>
                 <div className="nav">
                     <div className="nav__buttons">
-                        <a href="" className="nav__btn btn btn-gray">
-                            <svg width="17" height="13" viewBox="0 0 17 13" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M16.0557 6.4998L0.944554 6.4998M6.61122 12.0712L0.944554 6.4998L6.61122 0.92837"
-                                    stroke="#232445" strokeWidth="2" strokeLinecap="round"
-                                    strokeLinejoin="round"></path>
-                            </svg>
-                            <span>назад</span>
-                        </a>
-                        <a href="" className="nav__btn btn btn-red-outline">
-                            <span>Далее</span>
-                            <svg width="17" height="13" viewBox="0 0 17 13" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_69_3461)">
-                                    <path d="M0.944336 6.50002H16.0554M10.3888 0.928589L16.0554 6.50002L10.3888 12.0714"
-                                          stroke="#CA003D" stroke-width="2" stroke-linecap="round"
-                                          stroke-linejoin="round"></path>
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_69_3461">
-                                        <rect width="17" height="13" fill="white"></rect>
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </a>
+                        <svg width="17" height="13" viewBox="0 0 17 13" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M16.0557 6.4998L0.944554 6.4998M6.61122 12.0712L0.944554 6.4998L6.61122 0.92837"
+                                stroke="#232445" strokeWidth="2" strokeLinecap="round"
+                                strokeLinejoin="round"></path>
+                        </svg>
+                        <button className="nav__btn btn btn-gray" onClick={this.prevPage}>Назад</button>
+                        <button className="nav__btn btn btn-red-outline" onClick={this.nextPage}>Далее</button>
+                        <svg width="17" height="13" viewBox="0 0 17 13" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_69_3461)">
+                                <path d="M0.944336 6.50002H16.0554M10.3888 0.928589L16.0554 6.50002L10.3888 12.0714"
+                                      stroke="#CA003D" stroke-width="2" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_69_3461">
+                                    <rect width="17" height="13" fill="white"></rect>
+                                </clipPath>
+                            </defs>
+                        </svg>
+
                     </div>
                     <div className="pagination">
                         <div className="pagination__input fg">
