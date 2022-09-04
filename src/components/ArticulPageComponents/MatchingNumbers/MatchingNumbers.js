@@ -25,7 +25,12 @@ class MatchingNumbers extends Component {
 
     componentDidMount() {
         var self = this;
+        var paramsString = document.location.search;
+        var searchParams = new URLSearchParams(paramsString);
         apiService.getArticles().then(function (result) {
+            self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
+        });
+        apiService.getArticlesFiltersBrand(searchParams.get("brand_no")).then(function (result) {
             self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
         });
     }
