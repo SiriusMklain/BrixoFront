@@ -37,13 +37,13 @@ class MatchingNumbers extends Component {
 
     prevPage() {
         var self = this;
-        apiService.getArticlesByURL(self.state.prevPageURL).then((result) => {
+        apiService.getArticlesByURL(self.state.prevPageURL, "prev").then((result) => {
             self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
         });
     }
 
     nextPage() {
-        apiService.getArticlesByURL(this.state.nextPageURL).then((result) => {
+        apiService.getArticlesByURL(this.state.nextPageURL, "next").then((result) => {
             this.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
         });
     }
