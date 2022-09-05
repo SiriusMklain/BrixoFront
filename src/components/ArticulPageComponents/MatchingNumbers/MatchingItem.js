@@ -12,7 +12,6 @@ class MatchingItem extends Component {
         this.gtin = gtin
         this.countries = countries
         this.state = {
-            id: this.id,
             articles: [],
         }
 
@@ -27,7 +26,7 @@ class MatchingItem extends Component {
     }
 
     goToEdit = () => {
-        window.location.href = '/edit/?id=' + this.id
+        window.location.href = '/edit/?id=' + this.state.articles.id
     }
 
     getCountry = () => {
