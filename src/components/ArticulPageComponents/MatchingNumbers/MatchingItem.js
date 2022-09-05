@@ -14,7 +14,6 @@ class MatchingItem extends Component {
         this.state = {
             articles: [],
         }
-
     }
 
     componentWillReceiveProps(nextProps) {
