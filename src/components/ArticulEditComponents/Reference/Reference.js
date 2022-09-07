@@ -67,9 +67,21 @@ class Reference extends Component {
         this.selectCountryRef.current.clearValue();
         this.selectMakerRef.current.clearValue();
     }
+     getRefCountry(){
+        let countries = []
+         let country_code = []
+            this.props.reference.map((country) => countries.push(country.country_code_id))
+         
+         try{countries.map((item) => country_code.push(item.country_code + ', '))}catch (e) {
+             country_code = "Нет данных"
+         }
+         
+         return country_code
+
+     }
 
     render() {
-        console.log(this.props.reference)
+
         return (
             <>
                 <div className="data-block">
@@ -171,6 +183,7 @@ class Reference extends Component {
                                         ref_no={reference.ref_no}
                                         // refId={reference.art_no_id}
                                         man={reference.man_no_id}
+                                        country={this.getRefCountry()}
                                         // madeBy={this.props.all_countries}
                                     />
                                 )}

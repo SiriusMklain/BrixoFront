@@ -36,10 +36,20 @@ class Edit extends Component {
 
             let brands = []
             let brand = {}
+            let name = "Нет данных"
+            let _name = ""
             result.brands.forEach(function (item, index, array) {
-                brands.push({"value": index + 1, "label": item.name})
-                if (item.name === result.article.brand_no_id.name) {
-                    brand = {"value": String(index + 1), "label": item.name.trim()}
+                if (item.name){
+                    name = item.name
+                }
+                if (result.article.brand_no_id){
+                    _name = result.article.brand_no_id.name
+                }
+                brands.push({"value": index + 1, "label": name})
+                if (name === _name) {
+                    brand = {"value": String(index + 1), "label": name.trim()}
+                }else{
+                    return true
                 }
             })
 
@@ -81,7 +91,6 @@ class Edit extends Component {
                     />
                     <Characteristics
                          crit={this.state.crit}
-
                     />
                     <Reference
                     reference={this.state.reference}

@@ -6,7 +6,7 @@ import React, {Component} from "react";
 class ReferenceItem extends  Component{
     constructor(props) {
         super(props);
-        const {id,  num, refId,  deleteFunc} = props
+        const {id,  num, refId, deleteFunc} = props
         this.id = id
         this.num = num
         this.refId = refId
@@ -37,7 +37,7 @@ class ReferenceItem extends  Component{
             </td>
             <td>
                 <div className="table__td">
-                    {/*<span>{this.props.country}</span>*/}
+                    <span>{this.props.country}</span>
                 </div>
             </td>
             <td>
@@ -60,11 +60,6 @@ class ReferenceItem extends  Component{
     }
 }
 
-// function ReferenceItem(props) {
-//     const {id, num, refId, country, madeBy, deleteFunc} = props
-//
-//
-// }
 
 
 export default ReferenceItem;

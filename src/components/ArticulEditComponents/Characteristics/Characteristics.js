@@ -6,15 +6,24 @@ import Characteristic from "./Characteristic";
 class Characteristics extends Component {
     constructor(props) {
         super(props);
-        const {id, setProps} = props  //index, propsArray,deleteProp, setProps
+        const {id, crit} = props
         this.id = id
-        this.setProps = setProps
-        this.propsArray = this.props.crit
+        this.crit = crit
 
+        this.state = {
+            propsArray: this.crit
+        }
+        this.deleteProp = this.deleteProp.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({propsArray:this.props.crit})
+        console.log(this.state.propsArray)
     }
 
     deleteProp = (id) => {
-        this.setProps(propsArray => propsArray.filter(el => el.id.toString() !== id.toString()))
+        let propsArray = this.state.propsArray.filter(el => el.id.toString() !== id.toString())
+        this.setState({propsArray:propsArray})
     }
 
     addProp = (index, id, value) => {
@@ -51,7 +60,7 @@ class Characteristics extends Component {
                 <div className="data-block__content">
                     <div className="data-block__grid props">
 
-                        {this.props.crit.map((prop, index) =>
+                        {this.state.propsArray.map((prop, index) =>
                             <Characteristic
                                 index={index}
                                 id={prop.id}

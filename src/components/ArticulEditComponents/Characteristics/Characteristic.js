@@ -47,9 +47,7 @@ class Characteristic extends Component {
                 </fieldset>
                 <button
                     className="prop__delete"
-                    onClick={() => {
-                        this.deleteFunc(this.id)
-                    }}
+                    onClick={() => this.props.deleteFunc(this.id)}
                 >
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd"
