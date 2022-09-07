@@ -13,40 +13,56 @@ class MatchingNumbers extends Component {
             articles: [],
             nextPageURL: '',
             prevPageURL: '',
+            pages: 10,
             numsOfRows: [
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
-                {value: '3', label: '30'}
+                {value: '3', label: '50'}
             ]
         }
         this.nextPage = this.nextPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
         var self = this;
         var paramsString = document.location.search;
         var searchParams = new URLSearchParams(paramsString);
-        apiService.getArticles().then(function (result) {
-            self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
+
+        apiService.getArticles(self.state.pages).then(function (result) {
+            self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink, pages: result.chank.pages})
         });
         apiService.getArticlesFiltersBrand(searchParams.get("brand_no")).then(function (result) {
             self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
         });
     }
+    getPages(){
+        // return {"value": 2, "label": this.state.pages}
+    }
 
     prevPage() {
         var self = this;
-        apiService.getArticlesByURL(self.state.prevPageURL, "prev").then((result) => {
+        apiService.getArticlesByURL(self.state.prevPageURL, "prev", self.state.pages).then((result) => {
             self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
         });
     }
 
     nextPage() {
-        apiService.getArticlesByURL(this.state.nextPageURL, "next").then((result) => {
+        apiService.getArticlesByURL(this.state.nextPageURL, "next", this.state.pages).then((result) => {
             this.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
         });
     }
+
+    handleChange (e) {
+        let pages = Number(e.label)
+        console.log("TEST handleChange", this.state.pages)
+        apiService.getArticles(pages).then(function (result) {
+            this.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink, pages: pages})
+        });
+        console.log("state.pages", this.props.pages)
+    }
+
 
     render() {
         return (
@@ -78,7 +94,9 @@ class MatchingNumbers extends Component {
                                 name="numsOfRows"
                                 options={this.state.numsOfRows}
                                 defaultValue={this.state.numsOfRows[0]}
+                                value={this.getPages()}
                                 placeholder={''}
+                                onChange={this.handleChange}
                             />
                         </div>
                     </div>

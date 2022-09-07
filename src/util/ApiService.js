@@ -3,8 +3,8 @@ import axios from "axios";
 const API_URL =  "http://localhost:8000"
 
 class ApiService {
-    getArticles(){
-        const URL = `${API_URL}/api/v1/article/`;
+    getArticles(pages){
+        const URL = `${API_URL}/api/v1/article/?pages=${pages}`;
         return axios({
             method: "GET",
             url: URL,
@@ -27,8 +27,8 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    getArticlesByURL(link, direction ){
-        const URL = `${API_URL}${link}&direction=${direction}`;
+    getArticlesByURL(link, direction, pages ){
+        const URL = `${API_URL}${link}&direction=${direction}&pages=${pages}`;
         return axios({
             method: "GET",
             url: URL,
