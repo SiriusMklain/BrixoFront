@@ -1,24 +1,17 @@
 import './Characteristics.scss';
-import React, {Component} from "react";
+import React, {Component, useState, useEffect} from "react";
 import Characteristic from "./Characteristic";
 
 
 class Characteristics extends Component {
     constructor(props) {
         super(props);
-        const {id, crit} = props
+        const {id} = props
         this.id = id
-        this.crit = crit
-
         this.state = {
-            propsArray: this.crit
+            propsArray: this.props.crit
         }
         this.deleteProp = this.deleteProp.bind(this);
-    }
-
-    componentDidMount() {
-        this.setState({propsArray:this.props.crit})
-        console.log(this.state.propsArray)
     }
 
     deleteProp = (id) => {
@@ -51,7 +44,7 @@ class Characteristics extends Component {
     }
 
     render() {
-
+        console.log("Test crit", this.props.crit, "Test propsArray", this.state.propsArray )
         return (
             <div className="data-block">
                 <div className="data-block__head">
@@ -60,7 +53,7 @@ class Characteristics extends Component {
                 <div className="data-block__content">
                     <div className="data-block__grid props">
 
-                        {this.state.propsArray.map((prop, index) =>
+                        {this.props.crit.map((prop, index) =>
                             <Characteristic
                                 index={index}
                                 id={prop.id}
