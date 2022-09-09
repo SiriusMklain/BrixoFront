@@ -67,17 +67,14 @@ class Reference extends Component {
         this.selectCountryRef.current.clearValue();
         this.selectMakerRef.current.clearValue();
     }
-     getRefCountry(){
-        let countries = []
-         let country_code = []
-            this.props.reference.map((country) => countries.push(country.country_code_id))
-         
-         try{countries.map((item) => country_code.push(item.country_code + ', '))}catch (e) {
-             country_code = "Нет данных"
-         }
-         
+     getRefCountry(index){
+        let country_code = "Нет данных"
+        try{
+            country_code = this.props.reference[index].country_code_id.country_code
+        }catch (e) {
+            console.log(e)
+        }
          return country_code
-
      }
 
     render() {
@@ -183,7 +180,7 @@ class Reference extends Component {
                                         ref_no={reference.ref_no}
                                         // refId={reference.art_no_id}
                                         man={reference.man_no_id}
-                                        country={this.getRefCountry()}
+                                        country={this.getRefCountry(index)}
                                         // madeBy={this.props.all_countries}
                                     />
                                 )}
