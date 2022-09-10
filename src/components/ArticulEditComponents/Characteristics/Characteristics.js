@@ -1,7 +1,9 @@
 import './Characteristics.scss';
 import React, {Component, useState, useEffect} from "react";
 import Characteristic from "./Characteristic";
+import ApiService from "../../../util/ApiService";
 
+const apiService = new ApiService();
 
 class Characteristics extends Component {
     constructor(props) {
@@ -18,9 +20,9 @@ class Characteristics extends Component {
         this.setState({crit: nextProps.crit})
     }
 
-    deleteProp (e) {
-        console.log(e, this.state.crit)
-        let crit = this.state.crit.filter(el => el.id.toString() !== e.toString())
+    deleteProp (id) {
+        let crit = this.state.crit.filter(el => el.id !== id)
+        this.setState({crit: crit})
         this.setState({crit: crit})
     }
 
