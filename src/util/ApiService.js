@@ -111,6 +111,57 @@ class ApiService {
             data: data
         }).then((response) => response.data);
     }
+
+    saveReferences(pk, art_no) {
+        const URL = `${API_URL}/api/v1/references/${pk}/`;
+        const data = JSON.stringify(
+            {
+                "reference": [
+                    {
+                        "art_no": art_no,
+                        "art_no_id": 41509,
+                        "man_no_id": {
+                            "man_no": 36,
+                            "short_name": "FORD",
+                            "term_plain": "FORD"
+                        },
+                        "ref_no": "1704765",
+                        "country_code": "GUS"
+                    },
+                    {
+                        "art_no_id": 20758,
+                        "man_no_id": {
+                            "man_no": 80,
+                            "short_name": "NISSA",
+                            "term_plain": "NISSAN"
+                        },
+                        "ref_no": "16546AW300",
+                        "country_code": "TM"
+                    }
+                ],
+                "doc_no_id": [
+                    {
+                        "doc_no": 437800001,
+                        "doc_name": "A0001-1",
+                        "lang_no": 255,
+                        "doc_type": 1,
+                        "doc_term_no": 5,
+                        "doc_type_one": 1
+                    }
+                ]
+
+            }
+        )
+        return axios({
+            method: "PUT",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
+        }).then((response) => response.data);
+    }
 }
 
 export default ApiService;

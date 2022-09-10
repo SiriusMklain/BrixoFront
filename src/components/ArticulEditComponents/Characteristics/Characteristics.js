@@ -10,20 +10,27 @@ class Characteristics extends Component {
         super(props);
 
         this.state = {
+            searchParams: 0,
             crit: [],
+            art_no: '',
             id: 0
         }
         this.deleteProp = this.deleteProp.bind(this);
     }
 
+    componentDidMount() {
+        var paramsString = document.location.search;
+        this.searchParams = new URLSearchParams(paramsString);
+    }
+
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({crit: nextProps.crit})
+        this.setState({crit: nextProps.crit, art_no: nextProps.art_no})
     }
 
     deleteProp (id) {
         let crit = this.state.crit.filter(el => el.id !== id)
         this.setState({crit: crit})
-        this.setState({crit: crit})
+        this.updateData()
     }
 
     addProp = (index, id, value) => {
@@ -48,6 +55,11 @@ class Characteristics extends Component {
             value: ""
         }])
 
+    }
+
+    updateData(){
+        console.log("this.state.art_no", this.state.art_no)
+        // apiService.saveReferences(this.searchParams.get("id"), this.state.art_no)
     }
 
     render() {

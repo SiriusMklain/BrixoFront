@@ -101,10 +101,12 @@ class Edit extends Component {
                     />
                     <Characteristics
                         crit={this.state.crit}
+                        art_no={this.state.article.art_no}
                     />
                     <Reference
                         reference={this.state.reference}
                         all_countries={this.state.all_countries}
+                        art_no={this.state.article.art_no}
                     />
                     <Validity/>
                     <Docs/>
