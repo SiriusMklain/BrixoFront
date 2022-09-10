@@ -1,12 +1,160 @@
 import {Component} from "react";
 import './MainData.scss';
 import Select from "react-select";
+import ApiService from "../../../util/ApiService";
+
+const apiService = new ApiService();
 
 class MainData extends Component {
-    // eslint-disable-next-line no-useless-constructor
+
     constructor(props) {
         super(props);
+        this.state = {
+            propsArray: this.props.crit,
+            searchParams: 0,
+            art_no: '',
+            brand: {},
+            countries: [],
+            trades: [],
+            all_trades: [],
+            supers: [],
+            all_supers: [],
+            tradeNo: '',
+            supersNo: '',
+            quant_unit: '',
+            quant_per_unit: '',
+            art_stat: '',
+            status_dat: '',
+            gtin: '',
+            gen_art_no: '',
+
+        }
+
+        this.changeArticle = this.changeArticle.bind(this);
+        this.changeBrand = this.changeBrand.bind(this);
+        this.changeCountries = this.changeCountries.bind(this);
+        this.changeTrades = this.changeTrades.bind(this);
+        this.changeQuantUnit = this.changeQuantUnit.bind(this);
+        this.changeQuantPerUnit = this.changeQuantPerUnit.bind(this);
+        this.changeArtStat = this.changeArtStat.bind(this);
+        this.changeStatusDat = this.changeStatusDat.bind(this);
+        this.changeGTIN = this.changeGTIN.bind(this);
+        this.changeGenArtNo = this.changeGenArtNo.bind(this);
+        this.changeSupers = this.changeSupers.bind(this);
+
+
+        this.updateData = this.updateData.bind(this);
+
+        this.setName = this.setName.bind(this);
+        this.setSupers = this.setSupers.bind(this);
+        this.eventTradeEnter = this.eventTradeEnter.bind(this);
+         this.eventSupersEnter = this.eventSupersEnter.bind(this);
     }
+
+    componentDidMount() {
+        var paramsString = document.location.search;
+        this.searchParams = new URLSearchParams(paramsString);
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({
+            art_no: nextProps.article.art_no,
+            brand: nextProps.brand,
+            countries: nextProps.countries,
+            trades: nextProps.trades,
+            all_trades: nextProps.trades,
+            supers: nextProps.supers,
+            all_supers: nextProps.supers,
+            quant_unit: nextProps.article.quant_unit,
+            quant_per_unit: nextProps.article.quant_per_unit,
+            art_stat: nextProps.article.art_stat,
+            status_dat: nextProps.article.status_dat,
+            gtin: nextProps.article.gtin,
+            gen_art_no: nextProps.article.gen_art_no
+        })
+
+    }
+
+    changeArticle(e) {
+        this.setState({art_no: e.target.value})
+    }
+
+    changeBrand(e) {
+        this.setState({brand: e})
+    }
+
+    changeCountries(e) {
+
+        this.setState({countries: e})
+    }
+
+    changeTrades(e) {
+        this.setState({trades: e})
+    }
+
+    changeQuantUnit(e) {
+        this.setState({quant_unit: e.target.value})
+    }
+
+    changeQuantPerUnit(e) {
+        this.setState({quant_per_unit: e.target.value})
+    }
+
+    changeArtStat(e) {
+        this.setState({art_stat: e.target.value})
+    }
+
+    changeStatusDat(e) {
+        this.setState({status_dat: e.target.value})
+    }
+
+    changeGTIN(e) {
+        this.setState({gtin: e.target.value})
+    }
+    changeGenArtNo(e){
+        this.setState({gen_art_no: e.target.value})
+    }
+    changeSupers(e){
+        this.setState({supers: e})
+    }
+
+    updateData() {
+        console.log("state.supers", this.state.supers)
+        apiService.saveArticle(
+            this.searchParams.get("id"),
+            this.state.art_no,
+            this.state.brand["label"],
+            this.state.countries,
+            this.state.trades,
+            this.state.quant_unit,
+            this.state.quant_per_unit,
+            this.state.art_stat,
+            this.state.status_dat,
+            this.state.gtin,
+            this.state.gen_art_no,
+            this.state.supers,
+        )
+    }
+
+    setName(e) {
+        this.setState({tradeNo: e})
+    }
+    setSupers(e) {
+        this.setState({supersNo: e})
+    }
+
+    eventTradeEnter(e) {
+        if (e.key === "Enter") {
+            this.setState({trades: [...this.state.trades, {"value": 1, "label": this.state.tradeNo}]})
+        }
+    }
+    eventSupersEnter(e) {
+        if (e.key === "Enter") {
+            this.setState({supers: [...this.state.supers, {"value": 1, "label": this.state.supersNo}]})
+        }
+    }
+
+
     render() {
 
         return (
@@ -19,7 +167,11 @@ class MainData extends Component {
                     <div className="data-block__grid data-block__grid--maindata">
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>Артикул </label>
-                            <input type="text" value={this.props.article.art_no}/>
+                            <input type="text"
+                                   value={this.state.art_no}
+                                   onChange={this.changeArticle}
+                                   onBlur={this.updateData}
+                            />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>Бренд</label>
@@ -28,25 +180,43 @@ class MainData extends Component {
                                 isSearchable={true}
                                 name="numsOfRows"
                                 options={this.props.brands}
-                                value={this.props.brand}
+                                value={this.state.brand}
+                                onChange={this.changeBrand}
+                                onBlur={this.updateData}
                                 placeholder={""}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>QuantUnit </label>
-                            <input type="text" value={this.props.article.quant_unit}/>
+                            <input type="text"
+                                   value={this.state.quant_unit}
+                                   onChange={this.changeQuantUnit}
+                                   onBlur={this.updateData}
+                            />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>QuantPerUnit </label>
-                            <input type="text" value={this.props.article.quant_per_unit}/>
+                            <input type="text"
+                                   value={this.state.quant_per_unit}
+                                   onChange={this.changeQuantPerUnit}
+                                   onBlur={this.updateData}
+                            />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>Статус</label>
-                            <input type="text" value={this.props.article.art_stat}/>
+                            <input type="text"
+                                   value={this.state.art_stat}
+                                   onChange={this.changeArtStat}
+                                   onBlur={this.updateData}
+                            />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>Дата</label>
-                            <input type="text" value={this.props.article.status_dat}/>
+                            <input type="text"
+                                   value={this.state.status_dat}
+                                   onChange={this.changeStatusDat}
+                                   onBlur={this.updateData}
+                            />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col6">
                             <label>Страны</label>
@@ -57,17 +227,27 @@ class MainData extends Component {
                                 isSearchable={true}
                                 name="countries"
                                 options={this.props.all_countries}
-                                value={this.props.countries}
+                                value={this.state.countries}
+                                onChange={this.changeCountries}
+                                onBlur={this.updateData}
                                 placeholder={''}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>GTIN </label>
-                            <input type="text" value={this.props.article.gtin}/>
+                            <input type="text"
+                                   value={this.state.gtin}
+                                   onChange={this.changeGTIN}
+                                   onBlur={this.updateData}
+                            />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>GenArtNo</label>
-                            <input type="text" value={this.props.article.gen_art_no}/>
+                            <input type="text"
+                                   value={this.state.gen_art_no}
+                                   onChange={this.changeGenArtNo}
+                                   onBlur={this.updateData}
+                            />
 
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col6">
@@ -78,7 +258,12 @@ class MainData extends Component {
                                 isMulti
                                 isSearchable={true}
                                 name="SupersNo"
-                                options={this.props.SupersNo}
+                                options={this.state.all_supers}
+                                value={this.state.supers}
+                                onInputChange={this.setSupers}
+                                onKeyDown={this.eventSupersEnter}
+                                onChange={this.changeSupers}
+                                onBlur={this.updateData}
                                 placeholder={''}
                             />
                         </fieldset>
@@ -90,8 +275,13 @@ class MainData extends Component {
                                 isMulti
                                 isSearchable={true}
                                 name="TradeNo"
-                                options={this.props.TradeNo}
-                                placeholder={this.props.article.art_no}
+                                options={this.state.all_trades}
+                                value={this.state.trades}                                
+                                onInputChange={this.setName}
+                                onKeyDown={this.eventTradeEnter}
+                                onChange={this.changeTrades}
+                                onBlur={this.updateData}
+                                placeholder={''}
                             />
                         </fieldset>
                     </div>

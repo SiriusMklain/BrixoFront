@@ -19,9 +19,8 @@ class Edit extends Component {
             brand: [],
             countries: [],
             all_countries: [],
-            GenArtNo: [],
-            SupersNo: [],
-            TradeNo: [],
+            trades: [],
+            supers: [],
             crit: [],
             reference: []
         }
@@ -39,34 +38,46 @@ class Edit extends Component {
             let name = "Нет данных"
             let _name = ""
             result.brands.forEach(function (item, index, array) {
-                if (item.name){
+                if (item.name) {
                     name = item.name
                 }
-                if (result.article.brand_no_id){
+                if (result.article.brand_no_id) {
                     _name = result.article.brand_no_id.name
                 }
                 brands.push({"value": index + 1, "label": name})
                 if (name === _name) {
                     brand = {"value": String(index + 1), "label": name.trim()}
-                }else{
+                } else {
                     return true
                 }
             })
 
             let all_countries = []
             result.country.forEach(function (item, index) {
-                all_countries.push({"value": index + 1, "label": item.country_name})
+                all_countries.push({"value": index + 1, "label": item.country_code})
 
             })
             let countries = []
             result.article.country_id.forEach(function (item, index) {
-                countries.push({"value": index + 1, "label": item.country_name})
+                countries.push({"value": index + 1, "label": item.country_code})
             })
+            let trades = []
+            result.trade.forEach(function (item, index) {
+                trades.push({"value": index + 1, "label": item.trade_no})
+            })
+            let supers = []
+            result.supers.forEach(function (item, index) {
+                supers.push({"value": index + 1, "label": item.supers_no})
+            })
+
+
             self.setState({
                 article: result.article,
                 brands: brands,
                 brand: brand,
                 countries: countries,
+                trades: trades,
+                supers: supers,
                 all_countries: all_countries,
                 crit: result.crit,
                 reference: result.reference
@@ -85,16 +96,15 @@ class Edit extends Component {
                         brand={this.state.brand}
                         countries={this.state.countries}
                         all_countries={this.state.all_countries}
-                        GenArtNo={this.state.GenArtNo}
-                        SupersNo={this.state.SupersNo}
-                        TradeNo={this.state.TradeNo}
+                        trades={this.state.trades}
+                        supers={this.state.supers}
                     />
                     <Characteristics
-                         crit={this.state.crit}
+                        crit={this.state.crit}
                     />
                     <Reference
-                    reference={this.state.reference}
-                    all_countries={this.state.all_countries}
+                        reference={this.state.reference}
+                        all_countries={this.state.all_countries}
                     />
                     <Validity/>
                     <Docs/>

@@ -3,13 +3,7 @@ import ReferenceItem from "./ReferenceItem";
 import React, {Component, useRef} from "react";
 
 import './Reference.scss';
-import {useState} from "react";
 
-
-// const [referencesArray, setReferencesArray] = useState(this.references);
-//         const [referenceNum, setReferenceNum] = useState('');
-//         const [referenceCountry, setReferenceCountry] = useState({});
-//         const [referenceMaker, setReferenceMaker] = useState({});
 
 class Reference extends Component {
     constructor(props) {
@@ -20,22 +14,6 @@ class Reference extends Component {
         this.props.reference.map((reference, index) => console.log(reference.ref_no))
     }
 
-    references = [
-        {id: '1', refId: 'MC807966', country: 'GUS', madeBy: 'Honda'},
-        {id: '2', refId: 'MC807966', country: 'GUS', madeBy: 'Honda'},
-        {id: '3', refId: 'MC807966', country: 'GUS', madeBy: 'Honda'},
-        {id: '4', refId: 'MC807966', country: 'GUS', madeBy: 'Honda'},
-    ]
-
-    countries = [
-        {value: '1', label: 'Россия', name: 'RUS'},
-        {value: '2', label: 'Грузия', name: 'GUS'},
-        {value: '3', label: 'Германия', name: 'GER'},
-        {value: '4', label: 'Китай', name: 'CHI'},
-        {value: '5', label: 'Япония', name: 'JPN'},
-        {value: '6', label: 'Дания', name: 'DEN'},
-        {value: '7', label: 'Италия', name: 'ITA'},
-    ]
 
     makers = [
         {value: '1', label: 'Honda'},

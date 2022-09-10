@@ -6,22 +6,27 @@ import Characteristic from "./Characteristic";
 class Characteristics extends Component {
     constructor(props) {
         super(props);
-        const {id} = props
-        this.id = id
+
         this.state = {
-            propsArray: this.props.crit
+            crit: [],
+            id: 0
         }
         this.deleteProp = this.deleteProp.bind(this);
     }
 
-    deleteProp = (id) => {
-        let propsArray = this.state.propsArray.filter(el => el.id.toString() !== id.toString())
-        this.setState({propsArray:propsArray})
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({crit: nextProps.crit})
+    }
+
+    deleteProp (e) {
+        console.log(e, this.state.crit)
+        let crit = this.state.crit.filter(el => el.id.toString() !== e.toString())
+        this.setState({crit: crit})
     }
 
     addProp = (index, id, value) => {
-        console.log(value)
-        let newArray = this.propsArray.map(el => {
+
+        let newArray = this.crit.map(el => {
             if (el.id.toString() === id.toString()) {
                 return {
                     id: el.id,
@@ -44,7 +49,7 @@ class Characteristics extends Component {
     }
 
     render() {
-        console.log("Test crit", this.props.crit, "Test propsArray", this.state.propsArray )
+
         return (
             <div className="data-block">
                 <div className="data-block__head">
@@ -53,7 +58,7 @@ class Characteristics extends Component {
                 <div className="data-block__content">
                     <div className="data-block__grid props">
 
-                        {this.props.crit.map((prop, index) =>
+                        {this.state.crit.map((prop, index) =>
                             <Characteristic
                                 index={index}
                                 id={prop.id}
@@ -61,7 +66,7 @@ class Characteristics extends Component {
                                 addNewProp={this.addProp}
                                 key={index}
                                 criteria={prop.crit_val}
-                                crit_name ={prop.crit_no_id}
+                                crit_name={prop.crit_no_id}
                                 value={prop.value}
                                 crit={this.props.crit}
                                 all_countries={this.props.all_countries}
