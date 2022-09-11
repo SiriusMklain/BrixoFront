@@ -112,28 +112,14 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    updateCrit(art_no_id, crit) {
-        console.log(crit, crit.crit_no_id.crit_no)
+    updateCrit(art_no_id, crit_id, crit_no, criteria) {
+
         const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
         const data = JSON.stringify(
             {
-                "crit": [
-                    {
-                        "crit_no_id": {
-                            "crit_no": 100
-                        },
-                        "crit_val": "HA"
-                    }
-                ],
-                "new_crit": [
-                    {
-                        "art_no_id": 41510,
-                        "crit_no_id": {
-                            "crit_no": 100
-                        },
-                        "crit_val": "VA"
-                    }
-                ]
+                "id": crit_id,
+                "crit_no": crit_no,
+                "crit_val": criteria
             }
         )
         return axios({

@@ -94,7 +94,7 @@ class Edit extends Component {
     }
 
     render() {
-        console.log("Test id", art_no_id)
+
         return (
             <div className="edit-page">
                 <div className="container">

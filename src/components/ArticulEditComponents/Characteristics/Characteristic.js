@@ -3,8 +3,6 @@ import React, {Component} from "react";
 import ApiService from "../../../util/ApiService";
 
 
-const apiService = new ApiService();
-
 
 class Characteristic extends Component {
     constructor(props) {
@@ -19,19 +17,23 @@ class Characteristic extends Component {
             name: [],
             criteria: '',
             crit: [],
-            all_crit: []
+            all_crit: [],
+            crit_id: 0,
+            crit_no: 0
 
         }
         this.changeCritName = this.changeCritName.bind(this);
         this.changeCriteria = this.changeCriteria.bind(this);
 
+
+
     }
     componentDidMount() {
-        this.setState({name: this.props.name, criteria: this.props.criteria, all_crit: this.props.all_crit})
+        this.setState({name: this.props.name, crit_id: this.props.name.id, crit_no: this.props.name.crit_no, criteria: this.props.criteria, all_crit: this.props.all_crit})
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({name: nextProps.name, criteria: nextProps.criteria, all_crit: nextProps.all_crit})
+        this.setState({name: nextProps.name, criteria: nextProps.criteria, all_crit: nextProps.all_crit, crit_id:nextProps.name.id})
     }
 
 
@@ -43,17 +45,10 @@ class Characteristic extends Component {
         this.setState({criteria: e.target.value})
     }
 
-    updateData() {
-        
-        apiService.updateCrit(
-            this.props.art_no_id,
-            this.state.name,
 
-        )
-    }
 
     render() {
-
+        console.log("Crit_id", this.state.crit_id)
         return (
             <div className="prop">
                 <fieldset className="fg data-block__col data-block__col3">
@@ -65,7 +60,7 @@ class Characteristic extends Component {
                         options={this.state.all_crit}
                         value={this.state.name}
                         onChange={this.changeCritName}
-                        onBlur={this.updateData}
+                        onBlur={() => this.props.updateFunc(this.state.crit_id, this.state.crit_no, this.state.criteria)}
                     />
                 </fieldset>
                 <fieldset className="fg data-block__col data-block__col3">
@@ -75,7 +70,7 @@ class Characteristic extends Component {
                         // onChange={(el) => this.addNewProp(this.index, this.id, el.target.value)}
                         value={this.state.criteria}
                         onChange={this.changeCriteria}
-                        onBlur={this.updateData}
+                        onBlur={() => this.props.updateFunc(this.state.crit_id, this.state.name, this.state.criteria)}
                     />
                 </fieldset>
                 <button
