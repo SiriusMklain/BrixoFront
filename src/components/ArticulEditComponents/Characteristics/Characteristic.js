@@ -1,7 +1,5 @@
 import Select from "react-select";
 import React, {Component} from "react";
-import ApiService from "../../../util/ApiService";
-
 
 
 class Characteristic extends Component {
@@ -19,7 +17,8 @@ class Characteristic extends Component {
             crit: [],
             all_crit: [],
             crit_id: 0,
-            crit_no: 0
+            old_name: [],
+            old_criteria: ''
 
         }
         this.changeCritName = this.changeCritName.bind(this);
@@ -29,7 +28,9 @@ class Characteristic extends Component {
 
     }
     componentDidMount() {
-        this.setState({name: this.props.name, crit_id: this.props.name.id, crit_no: this.props.name.crit_no, criteria: this.props.criteria, all_crit: this.props.all_crit})
+        this.setState({name: this.props.name, old_name: this.props.name,
+            criteria: this.props.criteria, old_criteria: this.props.criteria,
+            crit_id: this.props.name.id, all_crit: this.props.all_crit})
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -42,13 +43,14 @@ class Characteristic extends Component {
     }
 
     changeCriteria(e) {
+        console.log("TEST", e.target.value)
         this.setState({criteria: e.target.value})
     }
 
 
 
     render() {
-        console.log("Crit_id", this.state.crit_id)
+
         return (
             <div className="prop">
                 <fieldset className="fg data-block__col data-block__col3">
@@ -60,7 +62,7 @@ class Characteristic extends Component {
                         options={this.state.all_crit}
                         value={this.state.name}
                         onChange={this.changeCritName}
-                        onBlur={() => this.props.updateFunc(this.state.crit_id, this.state.crit_no, this.state.criteria)}
+                        onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name, this.state.old_criteria, this.state.criteria)}
                     />
                 </fieldset>
                 <fieldset className="fg data-block__col data-block__col3">
@@ -70,7 +72,8 @@ class Characteristic extends Component {
                         // onChange={(el) => this.addNewProp(this.index, this.id, el.target.value)}
                         value={this.state.criteria}
                         onChange={this.changeCriteria}
-                        onBlur={() => this.props.updateFunc(this.state.crit_id, this.state.name, this.state.criteria)}
+                        onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name, this.state.old_criteria, this.state.criteria)}
+                        onBlurCapture={()=> this.props.createFunc(this.state.name, this.state.criteria)}
                     />
                 </fieldset>
                 <button

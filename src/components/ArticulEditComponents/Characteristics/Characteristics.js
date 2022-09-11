@@ -12,11 +12,11 @@ class Characteristics extends Component {
         this.state = {
             crit: [],
             art_no: '',
-            id: 0,
-            crit_id: 0
+            id: 0
         }
         this.deleteProp = this.deleteProp.bind(this);
         this.updateData = this.updateData.bind(this);
+        this.createProp = this.createProp.bind(this);
     }
 
 
@@ -30,29 +30,6 @@ class Characteristics extends Component {
         this.deleteCrit(index)
     }
 
-    addProp = (index, id, value) => {
-
-        let newArray = this.crit.map(el => {
-            if (el.id.toString() === id.toString()) {
-                return {
-                    id: el.id,
-                    criteria: el.criteria,
-                    value: value
-                }
-            }
-            return el
-        })
-        this.setProps(newArray)
-        if (index !== this.propsArray.length - 1) {
-            return
-        }
-        this.setProps([...this.propsArray, {
-            id: Math.floor(100000 + Math.random() * 900000),
-            criteria: "",
-            value: ""
-        }])
-
-    }
 
     deleteCrit(index) {
         apiService.deleteCrit(this.props.art_no_id, this.state.crit[index])
@@ -60,18 +37,23 @@ class Characteristics extends Component {
 
     }
 
-    setCritNameAndId(index, crit_no_id, crit_id) {
-        console.log("CRIT_ID", crit_id)
+    setCritName(index, crit_no_id) {
+
         if (crit_no_id !== null) {
-            // this.setState({crit_id: crit_id})
-            return {"value": index, "label": crit_no_id.name, "id": crit_id, "crit_no": crit_no_id.crit_no}
+            return {"value": index, "label": crit_no_id.name}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
     }
 
-    updateData(crit_id, crit_no, criteria) {
-        apiService.updateCrit(this.props.art_no_id, crit_id, crit_no, criteria)
+    updateData(old_name, name, old_criteria, criteria) {
+        apiService.updateCrit(this.props.art_no_id, old_name.label, name.label, old_criteria, criteria)
+        window.location.reload()
+    }
+
+    createProp(name, criteria) {
+        apiService.createCrit(this.props.art_no_id,  name.label,  criteria)
+        window.location.reload()
     }
 
     render() {
@@ -93,7 +75,7 @@ class Characteristics extends Component {
                                 addNewProp={this.addProp}
                                 key={index}
                                 criteria={prop.crit_val}
-                                name={this.setCritNameAndId(index, prop.crit_no_id, prop.id)}
+                                name={this.setCritName(index, prop.crit_no_id)}
                                 value={prop.value}
                                 all_crit={this.props.all_crit}
                                 all_countries={this.props.all_countries}
@@ -103,7 +85,7 @@ class Characteristics extends Component {
                             index={-1}
                             id={-1}
                             deleteFunc={this.deleteProp}
-                            addNewProp={this.addProp}
+                            createFunc={this.createProp}
                             key={-1}
                             criteria={''}
                             name={''}
@@ -117,48 +99,6 @@ class Characteristics extends Component {
         );
     }
 }
-
-// function Characteristics() {
-//     const [propsArray, setProps] = useState([
-//         {id: '1', criteria: "Width", value: ""},
-//         {id: '2', criteria: "Height", value: ""},
-//         {id: '3', criteria: "Length", value: ""},
-//         {id: '4', criteria: "Inner Diameter", value: ""},
-//         {id: '5', criteria: "Outer Diameter", value: ""},
-//         {id: '6', criteria: "", value: ""},
-//     ]);
-//
-//
-//     const deleteProp = (id) => {
-//         setProps(propsArray => propsArray.filter(el => el.id.toString() !== id.toString()))
-//     }
-//
-//     const addProp = (index, id, value) => {
-//         console.log(value)
-//         let newArray = propsArray.map(el => {
-//             if (el.id.toString() === id.toString()) {
-//                 return {
-//                     id: el.id,
-//                     criteria: el.criteria,
-//                     value: value
-//                 }
-//             }
-//             return el
-//         })
-//         setProps(newArray)
-//         if (index !== propsArray.length - 1) {
-//             return
-//         }
-//         setProps([...propsArray, {
-//             id: Math.floor(100000 + Math.random() * 900000),
-//             criteria: "",
-//             value: ""
-//         }])
-//         // console.log(props)
-//     }
-//
-//
-// }
 
 
 export default Characteristics;

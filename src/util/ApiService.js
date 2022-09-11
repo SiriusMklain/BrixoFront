@@ -51,7 +51,8 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    updateArticle(pk, art_no, brand, countries, trades, quant_unit, quant_per_unit, art_stat, status_dat, gtin, gen_art_no, supers) {
+    updateArticle(pk, art_no, brand, countries, trades, quant_unit, quant_per_unit,
+                  art_stat, status_dat, gtin, gen_art_no, supers) {
         const URL = `${API_URL}/api/v1/article/${pk}/`;
         const data = JSON.stringify(
             {
@@ -112,18 +113,45 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    updateCrit(art_no_id, crit_id, crit_no, criteria) {
+    updateCrit(art_no_id, old_name, name, old_criteria, criteria) {
 
         const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
         const data = JSON.stringify(
             {
-                "id": crit_id,
-                "crit_no": crit_no,
-                "crit_val": criteria
+                "crit": {
+                    "name": old_name,
+                    "crit_val": old_criteria
+                },
+                "new_crit": {
+                    "new_name": name,
+                    "new_crit_val": criteria
+                }
             }
         )
         return axios({
             method: "PUT",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
+        }).then((response) => response.data);
+    }
+
+    createCrit(art_no_id, name, criteria) {
+
+        const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
+        const data = JSON.stringify(
+            {
+                "crit": {
+                    "name": name,
+                    "crit_val": criteria
+                }
+            }
+        )
+        return axios({
+            method: "POST",
             url: URL,
             headers: {
                 'content-type': 'application/json',

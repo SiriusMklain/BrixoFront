@@ -131,7 +131,7 @@ class MainData extends Component {
     }
 
     updateData() {
-        console.log("this.props.art_no_id", this.props.art_no_id)
+
         apiService.updateArticle(
             this.props.art_no_id,
             this.state.art_no,
@@ -288,7 +288,7 @@ class MainData extends Component {
                                 isSearchable={true}
                                 name="TradeNo"
                                 options={this.state.all_trades}
-                                value={this.state.trades}                                
+                                value={this.state.trades}
                                 onInputChange={this.setName}
                                 onKeyDown={this.eventTradeEnter}
                                 onChange={this.changeTrades}
