@@ -52,7 +52,7 @@ class Characteristics extends Component {
     }
 
     createProp(name, criteria) {
-        apiService.createCrit(this.props.art_no_id,  name.label,  criteria)
+        apiService.createCrit(this.props.art_no_id, name.label, criteria)
         window.location.reload()
     }
 
