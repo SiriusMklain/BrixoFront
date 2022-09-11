@@ -8,6 +8,10 @@ import ApiService from "../../util/ApiService";
 
 const apiService = new ApiService();
 
+var paramsString = document.location.search;
+var art_no_id = new URLSearchParams(paramsString)
+art_no_id = art_no_id.get("id")
+
 class Edit extends Component {
     constructor(props) {
         super(props);
@@ -22,16 +26,15 @@ class Edit extends Component {
             trades: [],
             supers: [],
             crit: [],
+            characteristics: [],
             reference: []
         }
     }
 
     componentDidMount() {
         const self = this;
-        var paramsString = document.location.search;
-        var searchParams = new URLSearchParams(paramsString);
 
-        apiService.editArticle(searchParams.get("id")).then(function (result) {
+        apiService.editArticle(art_no_id).then(function (result) {
 
             let brands = []
             let brand = {}
@@ -69,6 +72,10 @@ class Edit extends Component {
             result.supers.forEach(function (item, index) {
                 supers.push({"value": index + 1, "label": item.supers_no})
             })
+            let characteristics = []
+            result.characteristics.forEach(function (item, index) {
+                characteristics.push({"value": index + 1, "label": item.name})
+            })
 
 
             self.setState({
@@ -80,17 +87,20 @@ class Edit extends Component {
                 supers: supers,
                 all_countries: all_countries,
                 crit: result.crit,
+                characteristics: characteristics,
                 reference: result.reference
             })
         });
     }
 
     render() {
+        console.log("Test id", art_no_id)
         return (
             <div className="edit-page">
                 <div className="container">
                     <div className="home-page__title display2">Редактирование артикула</div>
                     <MainData
+                        art_no_id={art_no_id}
                         article={this.state.article}
                         brands={this.state.brands}
                         brand={this.state.brand}
@@ -100,10 +110,12 @@ class Edit extends Component {
                         supers={this.state.supers}
                     />
                     <Characteristics
+                        art_no_id={art_no_id}
                         crit={this.state.crit}
-                        art_no={this.state.article.art_no}
+                        all_crit={this.state.characteristics}
                     />
                     <Reference
+                        art_no_id={art_no_id}
                         reference={this.state.reference}
                         all_countries={this.state.all_countries}
                         art_no={this.state.article.art_no}

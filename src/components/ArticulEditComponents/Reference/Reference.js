@@ -3,15 +3,28 @@ import ReferenceItem from "./ReferenceItem";
 import React, {Component, useRef} from "react";
 
 import './Reference.scss';
+import ApiService from "../../../util/ApiService";
 
+const apiService = new ApiService();
 
 class Reference extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            searchParams: 0,
+            reference: [],
+            all_countries: [],
+            art_no: '',
+        }
     }
 
     componentDidMount() {
-        this.props.reference.map((reference, index) => console.log(reference.ref_no))
+        var paramsString = document.location.search;
+        this.searchParams = new URLSearchParams(paramsString);
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({reference: nextProps.reference, art_no: nextProps.art_no})
     }
 
 
@@ -22,9 +35,11 @@ class Reference extends Component {
     ]
 
 
-    // deleteReference = (id) => {
-    //     this.setReferencesArray(this.referencesArray.filter(el => el.id !== id))
-    // }
+    deleteReference = (id) => {
+        let reference = this.state.reference.filter(el => el.id !== id)
+        this.setState({reference: reference})
+        this.updateData()
+    }
 
     addNewReference = () => {
         if (this.props === "r" || this.props === "" || this.props === "") {
@@ -45,15 +60,21 @@ class Reference extends Component {
         this.selectCountryRef.current.clearValue();
         this.selectMakerRef.current.clearValue();
     }
-     getRefCountry(index){
+
+    getRefCountry(index) {
         let country_code = "Нет данных"
-        try{
+        try {
             country_code = this.props.reference[index].country_code_id.country_code
-        }catch (e) {
-            console.log(e)
+        } catch (e) {
+
         }
-         return country_code
-     }
+        return country_code
+    }
+
+    updateData() {
+        console.log("this.state.reference", this.state.art_no)
+        apiService.saveReferences(this.searchParams.get("id"), this.state.art_no)
+    }
 
     render() {
 
@@ -149,10 +170,10 @@ class Reference extends Component {
                                 </thead>
 
                                 <tbody>
-                                {this.props.reference.map((reference, index) =>
+                                {this.state.reference.map((reference, index) =>
                                     <ReferenceItem
                                         id={reference.art_no_id}
-                                        // deleteFunc={this.deleteReference}
+                                        deleteFunc={this.deleteReference}
                                         key={index}
                                         num={index + 1}
                                         ref_no={reference.ref_no}

@@ -11,7 +11,6 @@ class MainData extends Component {
         super(props);
         this.state = {
             propsArray: this.props.crit,
-            searchParams: 0,
             art_no: '',
             brand: {},
             countries: [],
@@ -52,8 +51,21 @@ class MainData extends Component {
     }
 
     componentDidMount() {
-        var paramsString = document.location.search;
-        this.searchParams = new URLSearchParams(paramsString);
+        this.setState({
+            art_no: this.props.article.art_no,
+            brand: this.props.brand,
+            countries: this.props.countries,
+            trades: this.props.trades,
+            all_trades: this.props.trades,
+            supers: this.props.supers,
+            all_supers: this.props.supers,
+            quant_unit: this.props.article.quant_unit,
+            quant_per_unit: this.props.article.quant_per_unit,
+            art_stat: this.props.article.art_stat,
+            status_dat: this.props.article.status_dat,
+            gtin: this.props.article.gtin,
+            gen_art_no: this.props.article.gen_art_no
+        })
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -119,9 +131,9 @@ class MainData extends Component {
     }
 
     updateData() {
-        console.log("state.supers", this.state.supers)
-        apiService.saveArticle(
-            this.searchParams.get("id"),
+        console.log("this.props.art_no_id", this.props.art_no_id)
+        apiService.updateArticle(
+            this.props.art_no_id,
             this.state.art_no,
             this.state.brand["label"],
             this.state.countries,

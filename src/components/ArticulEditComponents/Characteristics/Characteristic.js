@@ -1,5 +1,9 @@
 import Select from "react-select";
 import React, {Component} from "react";
+import ApiService from "../../../util/ApiService";
+
+
+const apiService = new ApiService();
 
 
 class Characteristic extends Component {
@@ -11,15 +15,41 @@ class Characteristic extends Component {
         this.value = value
         this.deleteProp = deleteProp
         this.addNewProp = addNewProp
+        this.state = {
+            name: [],
+            criteria: '',
+            crit: [],
+            all_crit: []
+
+        }
+        this.changeCritName = this.changeCritName.bind(this);
+        this.changeCriteria = this.changeCriteria.bind(this);
 
     }
+    componentDidMount() {
+        this.setState({name: this.props.name, criteria: this.props.criteria, all_crit: this.props.all_crit})
+    }
 
-    crit_name = (index) => {
-        if(this.props.crit_name !== null){
-            return {"value": index, "label": this.props.crit_name.name}
-        }else{
-             return {"value": index, "label":  'Нет данных'}
-        }
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({name: nextProps.name, criteria: nextProps.criteria, all_crit: nextProps.all_crit})
+    }
+
+
+    changeCritName(e) {
+        this.setState({name: e})
+    }
+
+    changeCriteria(e) {
+        this.setState({criteria: e.target.value})
+    }
+
+    updateData() {
+        
+        apiService.updateCrit(
+            this.props.art_no_id,
+            this.state.name,
+
+        )
     }
 
     render() {
@@ -32,22 +62,25 @@ class Characteristic extends Component {
                         classNamePrefix="select"
                         isSearchable={true}
                         name="numsOfRows"
-                        options={this.crit_name(this.index)}
-                        value={this.crit_name(this.index)}
-                        // placeholder={this.props.criteria}
+                        options={this.state.all_crit}
+                        value={this.state.name}
+                        onChange={this.changeCritName}
+                        onBlur={this.updateData}
                     />
                 </fieldset>
                 <fieldset className="fg data-block__col data-block__col3">
                     <label>Значение</label>
                     <input
                         type="text"
-                        onChange={(el) => this.addNewProp(this.index, this.id, el.target.value)}
-                        value={this.props.criteria}
+                        // onChange={(el) => this.addNewProp(this.index, this.id, el.target.value)}
+                        value={this.state.criteria}
+                        onChange={this.changeCriteria}
+                        onBlur={this.updateData}
                     />
                 </fieldset>
                 <button
                     className="prop__delete"
-                    onClick={() => this.props.deleteFunc(this.id)}
+                    onClick={() => this.props.deleteFunc(this.id, this.index)}
                 >
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd"

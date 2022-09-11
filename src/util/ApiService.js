@@ -51,7 +51,7 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    saveArticle(pk, art_no, brand, countries, trades, quant_unit, quant_per_unit, art_stat, status_dat, gtin, gen_art_no, supers) {
+    updateArticle(pk, art_no, brand, countries, trades, quant_unit, quant_per_unit, art_stat, status_dat, gtin, gen_art_no, supers) {
         const URL = `${API_URL}/api/v1/article/${pk}/`;
         const data = JSON.stringify(
             {
@@ -103,6 +103,63 @@ class ApiService {
         )
         return axios({
             method: "PUT",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
+        }).then((response) => response.data);
+    }
+
+    updateCrit(art_no_id, crit) {
+        console.log(crit, crit.crit_no_id.crit_no)
+        const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
+        const data = JSON.stringify(
+            {
+                "crit": [
+                    {
+                        "crit_no_id": {
+                            "crit_no": 100
+                        },
+                        "crit_val": "HA"
+                    }
+                ],
+                "new_crit": [
+                    {
+                        "art_no_id": 41510,
+                        "crit_no_id": {
+                            "crit_no": 100
+                        },
+                        "crit_val": "VA"
+                    }
+                ]
+            }
+        )
+        return axios({
+            method: "PUT",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
+        }).then((response) => response.data);
+    }
+
+    deleteCrit(art_no_id, crit) {
+        console.log(crit, crit.crit_no_id.crit_no)
+        const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
+        const data = JSON.stringify(
+            {
+                "crit_no_id": {
+                    "crit_no": crit.crit_no_id.crit_no
+                },
+                "crit_val": crit.crit_val
+            }
+        )
+        return axios({
+            method: "DELETE",
             url: URL,
             headers: {
                 'content-type': 'application/json',

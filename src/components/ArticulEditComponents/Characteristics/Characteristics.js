@@ -1,5 +1,5 @@
 import './Characteristics.scss';
-import React, {Component, useState, useEffect} from "react";
+import React, {Component} from "react";
 import Characteristic from "./Characteristic";
 import ApiService from "../../../util/ApiService";
 
@@ -10,7 +10,6 @@ class Characteristics extends Component {
         super(props);
 
         this.state = {
-            searchParams: 0,
             crit: [],
             art_no: '',
             id: 0
@@ -18,19 +17,15 @@ class Characteristics extends Component {
         this.deleteProp = this.deleteProp.bind(this);
     }
 
-    componentDidMount() {
-        var paramsString = document.location.search;
-        this.searchParams = new URLSearchParams(paramsString);
-    }
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({crit: nextProps.crit, art_no: nextProps.art_no})
     }
 
-    deleteProp (id) {
+    deleteProp (id, index) {
         let crit = this.state.crit.filter(el => el.id !== id)
         this.setState({crit: crit})
-        this.updateData()
+        this.deleteCrit(index)
     }
 
     addProp = (index, id, value) => {
@@ -57,9 +52,18 @@ class Characteristics extends Component {
 
     }
 
-    updateData(){
-        console.log("this.state.art_no", this.state.art_no)
-        // apiService.saveReferences(this.searchParams.get("id"), this.state.art_no)
+    deleteCrit(index){
+        apiService.deleteCrit(this.props.art_no_id, this.state.crit[index])
+        window.location.reload(false )
+
+    }
+    setCritName(index, crit_no_id){
+        console.log("crit_no_id", crit_no_id)
+        if(crit_no_id !== null){
+            return {"value": index, "label": crit_no_id.name}
+        }else{
+             return {"value": index, "label":  'Нет данных'}
+        }
     }
 
     render() {
@@ -80,12 +84,24 @@ class Characteristics extends Component {
                                 addNewProp={this.addProp}
                                 key={index}
                                 criteria={prop.crit_val}
-                                crit_name={prop.crit_no_id}
+                                name={this.setCritName(index, prop.crit_no_id)}
                                 value={prop.value}
-                                crit={this.props.crit}
+                                all_crit={this.props.all_crit}
                                 all_countries={this.props.all_countries}
                             />
                         )}
+                        <Characteristic
+                                index={-1}
+                                id={-1}
+                                deleteFunc={this.deleteProp}
+                                addNewProp={this.addProp}
+                                key={-1}
+                                criteria={''}
+                                name={''}
+                                value={''}
+                                all_crit={this.props.all_crit}
+                                all_countries={this.props.all_countries}
+                            />
                     </div>
                 </div>
             </div>
