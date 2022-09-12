@@ -43,7 +43,7 @@ class Reference extends Component {
     deleteData(index) {
         console.log("Test Delete", index, this.props.art_no_id, this.state.reference[index])
         apiService.deleteReference(this.props.art_no_id, this.state.reference[index])
-        window.location.reload()
+        // window.location.reload()
 
     }
     addNewReference = () => {

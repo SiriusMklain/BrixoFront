@@ -33,7 +33,7 @@ class Characteristics extends Component {
 
     deleteData(index) {
         apiService.deleteCrit(this.props.art_no_id, this.state.crit[index])
-        window.location.reload(false)
+        // window.location.reload()
 
     }
 
@@ -48,12 +48,12 @@ class Characteristics extends Component {
 
     updateData(old_name, name, old_criteria, criteria) {
         apiService.updateCrit(this.props.art_no_id, old_name.label, name.label, old_criteria, criteria)
-        window.location.reload()
+        // window.location.reload()
     }
 
     createData(name, criteria) {
         apiService.createCrit(this.props.art_no_id, name.label, criteria)
-        window.location.reload()
+        // window.location.reload()
     }
 
     render() {
