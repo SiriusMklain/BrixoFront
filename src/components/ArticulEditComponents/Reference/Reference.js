@@ -1,6 +1,6 @@
 import Select from 'react-select';
 import ReferenceItem from "./ReferenceItem";
-import React, {Component, useRef} from "react";
+import React, {Component} from "react";
 
 import './Reference.scss';
 import ApiService from "../../../util/ApiService";
@@ -35,12 +35,17 @@ class Reference extends Component {
     ]
 
 
-    deleteReference = (id) => {
+    deleteReference = (id, index) => {
         let reference = this.state.reference.filter(el => el.id !== id)
         this.setState({reference: reference})
-        this.updateData()
+        this.deleteData(index)
     }
+    deleteData(index) {
+        console.log("Test Delete", index, this.props.art_no_id, this.state.reference[index])
+        apiService.deleteReference(this.props.art_no_id, this.state.reference[index])
+        window.location.reload()
 
+    }
     addNewReference = () => {
         if (this.props === "r" || this.props === "" || this.props === "") {
             return
@@ -172,6 +177,7 @@ class Reference extends Component {
                                 <tbody>
                                 {this.state.reference.map((reference, index) =>
                                     <ReferenceItem
+                                        index={index}
                                         id={reference.art_no_id}
                                         deleteFunc={this.deleteReference}
                                         key={index}

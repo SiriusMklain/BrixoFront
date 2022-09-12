@@ -14,9 +14,9 @@ class Characteristics extends Component {
             art_no: '',
             id: 0
         }
-        this.deleteProp = this.deleteProp.bind(this);
+        this.deleteCrit = this.deleteCrit.bind(this);
         this.updateData = this.updateData.bind(this);
-        this.createProp = this.createProp.bind(this);
+        this.createData = this.createData.bind(this);
     }
 
 
@@ -24,14 +24,14 @@ class Characteristics extends Component {
         this.setState({crit: nextProps.crit, art_no: nextProps.art_no})
     }
 
-    deleteProp(id, index) {
+    deleteCrit(id, index) {
         let crit = this.state.crit.filter(el => el.id !== id)
         this.setState({crit: crit})
-        this.deleteCrit(index)
+        this.deleteData(index)
     }
 
 
-    deleteCrit(index) {
+    deleteData(index) {
         apiService.deleteCrit(this.props.art_no_id, this.state.crit[index])
         window.location.reload(false)
 
@@ -51,7 +51,7 @@ class Characteristics extends Component {
         window.location.reload()
     }
 
-    createProp(name, criteria) {
+    createData(name, criteria) {
         apiService.createCrit(this.props.art_no_id, name.label, criteria)
         window.location.reload()
     }
@@ -70,7 +70,7 @@ class Characteristics extends Component {
                             <Characteristic
                                 index={index}
                                 id={prop.id}
-                                deleteFunc={this.deleteProp}
+                                deleteFunc={this.deleteCrit}
                                 updateFunc={this.updateData}
                                 addNewProp={this.addProp}
                                 key={index}
@@ -84,8 +84,8 @@ class Characteristics extends Component {
                         <Characteristic
                             index={-1}
                             id={-1}
-                            deleteFunc={this.deleteProp}
-                            createFunc={this.createProp}
+                            deleteFunc={this.deleteCrit}
+                            createFunc={this.createData}
                             key={-1}
                             criteria={''}
                             name={''}

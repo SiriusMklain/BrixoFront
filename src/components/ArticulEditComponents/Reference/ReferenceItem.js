@@ -6,7 +6,8 @@ import React, {Component} from "react";
 class ReferenceItem extends  Component{
     constructor(props) {
         super(props);
-        const {id,  num, refId, deleteFunc} = props
+        const {index, id,  num, refId, deleteFunc} = props
+        this.index = index
         this.id = id
         this.num = num
         this.refId = refId
@@ -46,7 +47,7 @@ class ReferenceItem extends  Component{
                 </div>
                 <div className="table__nav">
                     <button
-                        onClick={()=> {this.deleteFunc(this.id)}}
+                        onClick={() => this.props.deleteFunc(this.id, this.index)}
                         className="table__delete delete-btn"
                     >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
