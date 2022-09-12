@@ -46,9 +46,21 @@ class Characteristics extends Component {
 
     updateData(old_name, name, old_criteria, criteria) {
         apiService.updateCrit(this.props.art_no_id, old_name.label, name.label, old_criteria, criteria)
+
     }
 
     createData(name, criteria) {
+        let new_crit = {
+                    art_no_id: this.props.art_no_id*1,
+                    crit_val: criteria,
+                    id: Math.floor(100000 + Math.random() * 900000),
+                    crit_no_id: {
+                        crit_no: 0,
+                        description: "",
+                        id: 0,
+                        name: name.label
+                    }}
+        this.setState({crit: [...this.state.crit, new_crit]})
         apiService.createCrit(this.props.art_no_id, name.label, criteria)
     }
 
