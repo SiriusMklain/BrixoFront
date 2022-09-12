@@ -47,7 +47,7 @@ class ReferenceItem extends  Component{
                 </div>
                 <div className="table__nav">
                     <button
-                        onClick={() => this.props.deleteFunc(this.id, this.index)}
+                        onClick={() => this.props.deleteFunc(this.props.ref_no, this.index)}
                         className="table__delete delete-btn"
                     >
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

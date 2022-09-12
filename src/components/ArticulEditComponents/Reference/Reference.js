@@ -11,17 +11,13 @@ class Reference extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchParams: 0,
             reference: [],
             all_countries: [],
             art_no: '',
         }
+        this.deleteReference = this.deleteReference.bind(this);
     }
 
-    componentDidMount() {
-        var paramsString = document.location.search;
-        this.searchParams = new URLSearchParams(paramsString);
-    }
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({reference: nextProps.reference, art_no: nextProps.art_no})
@@ -35,16 +31,13 @@ class Reference extends Component {
     ]
 
 
-    deleteReference = (id, index) => {
-        let reference = this.state.reference.filter(el => el.id !== id)
+    deleteReference = (ref_no, index) => {
+        let reference = this.state.reference.filter(el => el.ref_no !== ref_no)
         this.setState({reference: reference})
         this.deleteData(index)
     }
     deleteData(index) {
-        console.log("Test Delete", index, this.props.art_no_id, this.state.reference[index])
         apiService.deleteReference(this.props.art_no_id, this.state.reference[index])
-        // window.location.reload()
-
     }
     addNewReference = () => {
         if (this.props === "r" || this.props === "" || this.props === "") {
@@ -76,10 +69,10 @@ class Reference extends Component {
         return country_code
     }
 
-    updateData() {
-        console.log("this.state.reference", this.state.art_no)
-        apiService.saveReferences(this.searchParams.get("id"), this.state.art_no)
-    }
+    // updateData() {
+    //     console.log("this.state.reference", this.state.art_no)
+    //     apiService.saveReferences(this.searchParams.get("id"), this.state.art_no)
+    // }
 
     render() {
 
