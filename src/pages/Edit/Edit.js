@@ -77,7 +77,6 @@ class Edit extends Component {
                 characteristics.push({"value": index + 1, "label": item.name})
             })
 
-
             self.setState({
                 article: result.article,
                 brands: brands,

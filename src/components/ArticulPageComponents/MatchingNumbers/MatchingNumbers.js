@@ -56,11 +56,9 @@ class MatchingNumbers extends Component {
 
     handleChange (e) {
         let pages = Number(e.label)
-        console.log("TEST handleChange", this.state.pages)
         apiService.getArticles(pages).then(function (result) {
             this.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink, pages: pages})
         });
-        console.log("state.pages", this.props.pages)
     }
 
 

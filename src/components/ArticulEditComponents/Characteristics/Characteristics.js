@@ -61,8 +61,15 @@ class Characteristics extends Component {
                 name: name.label
             }
         }
-        this.setState({crit: [...this.state.crit, new_crit]})
-        apiService.createCrit(this.props.art_no_id, name.label, criteria)
+
+        let result = this.state.crit.find(item => item.crit_no_id.name === new_crit.crit_no_id.name)
+        if (result === undefined) {
+            this.setState({crit: [...this.state.crit, new_crit]})
+            apiService.createCrit(this.props.art_no_id, name.label, criteria)
+        }else {
+            this.setState({crit: this.state.crit})
+        }
+
     }
 
     render() {

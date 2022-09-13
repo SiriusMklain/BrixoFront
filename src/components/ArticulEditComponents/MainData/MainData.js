@@ -6,7 +6,6 @@ import ApiService from "../../../util/ApiService";
 const apiService = new ApiService();
 
 class MainData extends Component {
-
     constructor(props) {
         super(props);
         this.supersValue = React.createRef();
@@ -31,7 +30,6 @@ class MainData extends Component {
             searchStatus: true
 
         }
-
         this.changeArticle = this.changeArticle.bind(this);
         this.changeBrand = this.changeBrand.bind(this);
         this.changeCountries = this.changeCountries.bind(this);
@@ -43,7 +41,6 @@ class MainData extends Component {
         this.changeGTIN = this.changeGTIN.bind(this);
         this.changeGenArtNo = this.changeGenArtNo.bind(this);
         this.changeSupers = this.changeSupers.bind(this);
-
 
         this.updateData = this.updateData.bind(this);
 
@@ -87,7 +84,6 @@ class MainData extends Component {
             gtin: nextProps.article.gtin,
             gen_art_no: nextProps.article.gen_art_no
         })
-
     }
 
     changeArticle(e) {
@@ -179,11 +175,8 @@ class MainData extends Component {
         }
     }
 
-
     render() {
-
         return (
-
             <div className="data-block">
                 <div className="data-block__head">
                     <div className="data-block__title">Основные данные</div>
@@ -313,12 +306,9 @@ class MainData extends Component {
                         </fieldset>
                     </div>
                 </div>
-
             </div>
-
         );
     }
-
 }
 
 export default MainData;

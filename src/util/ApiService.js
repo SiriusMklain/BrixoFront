@@ -130,7 +130,6 @@ class ApiService {
     }
 
     deleteCrit(art_no_id, crit) {
-        console.log(crit, crit.crit_no_id.crit_no)
         const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
         const data = JSON.stringify(
             {

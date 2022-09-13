@@ -48,7 +48,6 @@ class Characteristic extends Component {
     }
 
     changeCriteria(e) {
-        console.log("TEST", e.target.value)
         this.setState({criteria: e.target.value})
     }
 

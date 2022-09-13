@@ -20,7 +20,7 @@ function ValidityItem(props) {
 
     function deleteCriterion(criterionIndex) {
         setCriterionArray((criterionArray) => criterionArray.filter((_, index) => index !== criterionIndex));
-        console.log(criterionArray)
+
         if(criterionArray.length===1){
             setDropdownVisible(false)
         }
