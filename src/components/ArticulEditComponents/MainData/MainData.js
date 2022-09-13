@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import './MainData.scss';
 import Select from "react-select";
 import ApiService from "../../../util/ApiService";
@@ -9,6 +9,8 @@ class MainData extends Component {
 
     constructor(props) {
         super(props);
+        this.supersValue = React.createRef();
+        this.tradeValue = React.createRef();
         this.state = {
             propsArray: this.props.crit,
             art_no: '',
@@ -26,6 +28,7 @@ class MainData extends Component {
             status_dat: '',
             gtin: '',
             gen_art_no: '',
+            searchStatus: true
 
         }
 
@@ -47,7 +50,7 @@ class MainData extends Component {
         this.setName = this.setName.bind(this);
         this.setSupers = this.setSupers.bind(this);
         this.eventTradeEnter = this.eventTradeEnter.bind(this);
-         this.eventSupersEnter = this.eventSupersEnter.bind(this);
+        this.eventSupersEnter = this.eventSupersEnter.bind(this);
     }
 
     componentDidMount() {
@@ -123,15 +126,21 @@ class MainData extends Component {
     changeGTIN(e) {
         this.setState({gtin: e.target.value})
     }
-    changeGenArtNo(e){
+
+    changeGenArtNo(e) {
         this.setState({gen_art_no: e.target.value})
     }
-    changeSupers(e){
-        this.setState({supers: e})
+
+    changeSupers(e) {
+        try {
+            this.setState({supers: e})
+        } catch (e) {
+
+        }
+
     }
 
     updateData() {
-
         apiService.updateArticle(
             this.props.art_no_id,
             this.state.art_no,
@@ -151,17 +160,21 @@ class MainData extends Component {
     setName(e) {
         this.setState({tradeNo: e})
     }
+
     setSupers(e) {
         this.setState({supersNo: e})
     }
 
     eventTradeEnter(e) {
         if (e.key === "Enter") {
+            this.tradeValue.current.setValue()
             this.setState({trades: [...this.state.trades, {"value": 1, "label": this.state.tradeNo}]})
         }
     }
+
     eventSupersEnter(e) {
         if (e.key === "Enter") {
+            this.supersValue.current.setValue()
             this.setState({supers: [...this.state.supers, {"value": 1, "label": this.state.supersNo}]})
         }
     }
@@ -265,10 +278,11 @@ class MainData extends Component {
                         <fieldset className="fg data-block__col data-block__col6">
                             <label>Замены (SupersNo)</label>
                             <Select
+                                ref={this.supersValue}
                                 classNamePrefix="select"
                                 classPrefix="multi-select"
                                 isMulti
-                                isSearchable={true}
+                                isSearchable={this.state.searchStatus}
                                 name="SupersNo"
                                 options={this.state.all_supers}
                                 value={this.state.supers}
@@ -282,6 +296,7 @@ class MainData extends Component {
                         <fieldset className="fg data-block__col data-block__col6">
                             <label>Торговые номера (TradeNo) </label>
                             <Select
+                                ref={this.tradeValue}
                                 classNamePrefix="select"
                                 classPrefix="multi-select"
                                 isMulti

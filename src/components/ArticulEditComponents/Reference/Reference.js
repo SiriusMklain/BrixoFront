@@ -10,6 +10,9 @@ const apiService = new ApiService();
 class Reference extends Component {
     constructor(props) {
         super(props);
+        this.referenceValue = React.createRef();
+        this.countryValue = React.createRef();
+        this.makerValue = React.createRef();
         this.state = {
             reference: [],
             references: [],
@@ -26,6 +29,7 @@ class Reference extends Component {
         this.setValueReferense = this.setValueReferense.bind(this);
         this.setValueCountry = this.setValueCountry.bind(this);
         this.setValueMaker = this.setValueMaker.bind(this);
+
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -43,15 +47,24 @@ class Reference extends Component {
     }
 
     setValueReferense(e) {
-        this.setState({reference_value: e.label})
+        try {
+            this.setState({reference_value: e.label})
+        } catch (e) {
+        }
     }
 
     setValueCountry(e) {
-        this.setState({country_value: e.label})
+        try {
+            this.setState({country_value: e.label})
+        } catch (e) {
+        }
     }
 
     setValueMaker(e) {
-        this.setState({maker_value: e.label})
+        try {
+            this.setState({maker_value: e.label})
+        } catch (e) {
+        }
     }
 
     addNewReference = () => {
@@ -73,9 +86,13 @@ class Reference extends Component {
         }
         this.setState({reference: [...this.state.reference, new_reference]}
         )
-
-        console.log(this.state.reference)
         apiService.saveReferences(this.props.art_no_id, this.state.reference_value, this.state.country_value, this.state.maker_value)
+
+        this.setState({reference_value: '', country_value: '', maker_value: ''})
+
+        this.referenceValue.current.clearValue()
+        this.countryValue.current.clearValue()
+        this.makerValue.current.clearValue()
     }
 
     getRefCountry(index) {
@@ -127,6 +144,7 @@ class Reference extends Component {
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>Референс </label>
                                 <Select
+                                    ref={this.referenceValue}
                                     classNamePrefix="select"
                                     isSearchable={true}
                                     name="reference"
@@ -139,18 +157,19 @@ class Reference extends Component {
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>Страна </label>
                                 <Select
+                                    ref={this.countryValue}
                                     classNamePrefix="select"
                                     isSearchable={true}
                                     name="country"
                                     options={this.props.all_countries}
                                     onChange={this.setValueCountry}
                                     placeholder={'Поиск'}
-                                    // onChange={(el) => this.setReferenceCountry(el)}
                                 />
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>Производитель </label>
                                 <Select
+                                    ref={this.makerValue}
                                     classNamePrefix="select"
                                     isSearchable={true}
                                     name="maker"
