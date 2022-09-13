@@ -158,7 +158,6 @@ class ApiService {
             {
                 "short_name": reference.man_no_id.short_name,
                 "ref_no": reference.ref_no,
-                "country_code": reference.country_code_id.country_code
             }
         )
         return axios({
