@@ -171,48 +171,17 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    saveReferences(pk, art_no) {
-        const URL = `${API_URL}/api/v1/references/${pk}/`;
+    saveReferences(art_no_id, reference, country, maker) {
+        const URL = `${API_URL}/api/v1/references/${art_no_id}/`;
         const data = JSON.stringify(
             {
-                "reference": [
-                    {
-                        "art_no": art_no,
-                        "art_no_id": 41509,
-                        "man_no_id": {
-                            "man_no": 36,
-                            "short_name": "FORD",
-                            "term_plain": "FORD"
-                        },
-                        "ref_no": "1704765",
-                        "country_code": "GUS"
-                    },
-                    {
-                        "art_no_id": 20758,
-                        "man_no_id": {
-                            "man_no": 80,
-                            "short_name": "NISSA",
-                            "term_plain": "NISSAN"
-                        },
-                        "ref_no": "16546AW300",
-                        "country_code": "TM"
-                    }
-                ],
-                "doc_no_id": [
-                    {
-                        "doc_no": 437800001,
-                        "doc_name": "A0001-1",
-                        "lang_no": 255,
-                        "doc_type": 1,
-                        "doc_term_no": 5,
-                        "doc_type_one": 1
-                    }
-                ]
-
+                "short_name": maker,
+                "ref_no": reference,
+                "country_code": country
             }
         )
         return axios({
-            method: "PUT",
+            method: "POST",
             url: URL,
             headers: {
                 'content-type': 'application/json',

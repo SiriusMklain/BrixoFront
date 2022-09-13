@@ -13,15 +13,20 @@ class Reference extends Component {
         this.state = {
             reference: [],
             references: [],
+            reference_value: '',
             all_countries: [],
             art_no: '',
-            makers: []
+            makers: [],
+            country_value: '',
+            maker_value: ''
         }
         this.deleteReference = this.deleteReference.bind(this);
         this.searchMakers = this.searchMakers.bind(this);
         this.searchReferences = this.searchReferences.bind(this);
+        this.setValueReferense = this.setValueReferense.bind(this);
+        this.setValueCountry = this.setValueCountry.bind(this);
+        this.setValueMaker = this.setValueMaker.bind(this);
     }
-
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({reference: nextProps.reference, art_no: nextProps.art_no})
@@ -32,67 +37,80 @@ class Reference extends Component {
         this.setState({reference: reference})
         this.deleteData(index)
     }
+
     deleteData(index) {
         apiService.deleteReference(this.props.art_no_id, this.state.reference[index])
     }
+
+    setValueReferense(e) {
+        this.setState({reference_value: e.label})
+    }
+
+    setValueCountry(e) {
+        this.setState({country_value: e.label})
+    }
+
+    setValueMaker(e) {
+        this.setState({maker_value: e.label})
+    }
+
     addNewReference = () => {
-        if (this.props === "r" || this.props === "" || this.props === "") {
+        if (this.state.reference_value === "" || this.state.country_value === "" || this.state.maker_value === "") {
             return
         }
-        this.setReferencesArray(
-            [...this.props.reference,
-                {
-                    id: Math.floor(100000 + Math.random() * 900000),
-                    refId: this.props.reference,
-                    country: this.props.reference,
-                    madeBy: this.props.reference
-                }]
+        let new_reference = {
+            art_no_id: this.props.art_no_id * 1,
+            country_code_id: {
+                country_code: this.state.country_value,
+                country_name: ""
+            },
+            man_no_id: {
+                man_no: Math.floor(100000 + Math.random() * 900000),
+                short_name: "",
+                term_plain: this.state.maker_value,
+            },
+            ref_no: this.state.reference_value
+        }
+        this.setState({reference: [...this.state.reference, new_reference]}
         )
-        this.setReferenceNum('')
-        this.setReferenceCountry({})
-        this.setReferenceMaker({})
-        this.selectCountryRef.current.clearValue();
-        this.selectMakerRef.current.clearValue();
+
+        console.log(this.state.reference)
+        apiService.saveReferences(this.props.art_no_id, this.state.reference_value, this.state.country_value, this.state.maker_value)
     }
 
     getRefCountry(index) {
         let country_code = "Нет данных"
         try {
-            country_code = this.props.reference[index].country_code_id.country_code
+            country_code = this.state.reference[index].country_code_id.country_code
         } catch (e) {
 
         }
         return country_code
     }
 
-    // updateData() {
-    //     console.log("this.state.reference", this.state.art_no)
-    //     apiService.saveReferences(this.searchParams.get("id"), this.state.art_no)
-    // }
-
     searchMakers(lexem) {
         const self = this;
-        if(lexem.length > 2){
-           apiService.searchMakers(lexem).then(function (result) {
-            let makers = [];
-            result.ref_name.forEach(function (item, index) {
-                makers.push({"value": index + 1, "label": item.short_name})
+        if (lexem.length > 2) {
+            apiService.searchMakers(lexem).then(function (result) {
+                let makers = [];
+                result.ref_name.forEach(function (item, index) {
+                    makers.push({"value": index + 1, "label": item.short_name})
+                });
+                self.setState({makers: makers})
             });
-               self.setState({makers: makers})
-        });
         }
     }
 
     searchReferences(lexem) {
         const self = this;
-        if(lexem.length > 2){
-           apiService.searchReferences(lexem).then(function (result) {
-            let references = [];
-            result.ref_no.forEach(function (item, index) {
-                references.push({"value": index + 1, "label": item.ref_no})
+        if (lexem.length > 2) {
+            apiService.searchReferences(lexem).then(function (result) {
+                let references = [];
+                result.ref_no.forEach(function (item, index) {
+                    references.push({"value": index + 1, "label": item.ref_no})
+                });
+                self.setState({references: references})
             });
-               self.setState({references: references})
-        });
         }
     }
 
@@ -104,7 +122,6 @@ class Reference extends Component {
                     <div className="data-block__head">
                         <div className="data-block__title">Референсы</div>
                     </div>
-
                     <div className="data-block__content">
                         <div className="data-block__grid data-block__grid--reference">
                             <fieldset className="fg data-block__col data-block__col3">
@@ -114,6 +131,7 @@ class Reference extends Component {
                                     isSearchable={true}
                                     name="reference"
                                     options={this.state.references}
+                                    onChange={this.setValueReferense}
                                     onInputChange={this.searchReferences}
                                     placeholder={'Поиск'}
                                 />
@@ -121,11 +139,11 @@ class Reference extends Component {
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>Страна </label>
                                 <Select
-                                    // ref={this.selectCountryRef}
                                     classNamePrefix="select"
                                     isSearchable={true}
                                     name="country"
                                     options={this.props.all_countries}
+                                    onChange={this.setValueCountry}
                                     placeholder={'Поиск'}
                                     // onChange={(el) => this.setReferenceCountry(el)}
                                 />
@@ -133,14 +151,13 @@ class Reference extends Component {
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>Производитель </label>
                                 <Select
-                                    // ref={this.selectMakerRef}
                                     classNamePrefix="select"
                                     isSearchable={true}
                                     name="maker"
                                     options={this.state.makers}
+                                    onChange={this.setValueMaker}
                                     onInputChange={this.searchMakers}
                                     placeholder={'Поиск'}
-                                    // onChange={(el) => this.setReferenceMaker(el)}
                                 />
                             </fieldset>
                             <button
@@ -202,10 +219,8 @@ class Reference extends Component {
                                         key={index}
                                         num={index + 1}
                                         ref_no={reference.ref_no}
-                                        // refId={reference.art_no_id}
                                         man={reference.man_no_id}
                                         country={this.getRefCountry(index)}
-                                        // madeBy={this.props.all_countries}
                                     />
                                 )}
                                 </tbody>
@@ -226,7 +241,7 @@ class Reference extends Component {
 //         {id: '3', refId: 'MC807966', country: 'GUS', madeBy: 'Honda'},
 //         {id: '4', refId: 'MC807966', country: 'GUS', madeBy: 'Honda'},
 //     ]
-//     const [referencesArray, setReferencesArray] = useState(references);
+//     const [referencesArray, setNewReference] = useState(references);
 //     const [referenceNum, setReferenceNum] = useState('');
 //     const [referenceCountry, setReferenceCountry] = useState({});
 //     const [referenceMaker, setReferenceMaker] = useState({});
@@ -250,14 +265,14 @@ class Reference extends Component {
 //     const selectMakerRef = useRef();
 //
 //     const deleteReference = (id) => {
-//         setReferencesArray(referencesArray.filter(el => el.id !== id))
+//         setNewReference(referencesArray.filter(el => el.id !== id))
 //     }
 //
 //     const addNewReference = () => {
 //         if (referenceNum === "" || referenceCountry.name === "" || referenceMaker.label === "") {
 //             return
 //         }
-//         setReferencesArray(
+//         setNewReference(
 //             [...referencesArray,
 //                 {
 //                     id: Math.floor(100000 + Math.random() * 900000),
