@@ -12,12 +12,14 @@ class Reference extends Component {
         super(props);
         this.state = {
             reference: [],
+            references: [],
             all_countries: [],
             art_no: '',
             makers: []
         }
         this.deleteReference = this.deleteReference.bind(this);
         this.searchMakers = this.searchMakers.bind(this);
+        this.searchReferences = this.searchReferences.bind(this);
     }
 
 
@@ -81,6 +83,19 @@ class Reference extends Component {
         }
     }
 
+    searchReferences(lexem) {
+        const self = this;
+        if(lexem.length > 2){
+           apiService.searchReferences(lexem).then(function (result) {
+            let references = [];
+            result.ref_no.forEach(function (item, index) {
+                references.push({"value": index + 1, "label": item.ref_no})
+            });
+               self.setState({references: references})
+        });
+        }
+    }
+
     render() {
 
         return (
@@ -94,10 +109,13 @@ class Reference extends Component {
                         <div className="data-block__grid data-block__grid--reference">
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>Референс </label>
-                                <input
-                                    type="text"
-                                    // value={this.props.}
-                                    // onChange={el => this.setReferenceNum(el.target.value)}
+                                <Select
+                                    classNamePrefix="select"
+                                    isSearchable={true}
+                                    name="reference"
+                                    options={this.state.references}
+                                    onInputChange={this.searchReferences}
+                                    placeholder={'Поиск'}
                                 />
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col3">
@@ -108,7 +126,7 @@ class Reference extends Component {
                                     isSearchable={true}
                                     name="country"
                                     options={this.props.all_countries}
-                                    placeholder={''}
+                                    placeholder={'Поиск'}
                                     // onChange={(el) => this.setReferenceCountry(el)}
                                 />
                             </fieldset>
