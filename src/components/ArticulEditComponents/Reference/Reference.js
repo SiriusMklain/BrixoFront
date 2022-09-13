@@ -14,22 +14,16 @@ class Reference extends Component {
             reference: [],
             all_countries: [],
             art_no: '',
+            makers: []
         }
         this.deleteReference = this.deleteReference.bind(this);
+        this.searchMakers = this.searchMakers.bind(this);
     }
 
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({reference: nextProps.reference, art_no: nextProps.art_no})
     }
-
-
-    makers = [
-        {value: '1', label: 'Honda'},
-        {value: '2', label: 'Honda2'},
-        {value: '3', label: 'Honda3'},
-    ]
-
 
     deleteReference = (ref_no, index) => {
         let reference = this.state.reference.filter(el => el.ref_no !== ref_no)
@@ -74,6 +68,19 @@ class Reference extends Component {
     //     apiService.saveReferences(this.searchParams.get("id"), this.state.art_no)
     // }
 
+    searchMakers(lexem) {
+        const self = this;
+        if(lexem.length > 2){
+           apiService.searchMakers(lexem).then(function (result) {
+            let makers = [];
+            result.ref_name.forEach(function (item, index) {
+                makers.push({"value": index + 1, "label": item.short_name})
+            });
+               self.setState({makers: makers})
+        });
+        }
+    }
+
     render() {
 
         return (
@@ -112,8 +119,9 @@ class Reference extends Component {
                                     classNamePrefix="select"
                                     isSearchable={true}
                                     name="maker"
-                                    options={this.makers}
-                                    placeholder={''}
+                                    options={this.state.makers}
+                                    onInputChange={this.searchMakers}
+                                    placeholder={'Поиск'}
                                     // onChange={(el) => this.setReferenceMaker(el)}
                                 />
                             </fieldset>

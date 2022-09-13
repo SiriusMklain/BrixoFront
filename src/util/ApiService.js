@@ -221,6 +221,18 @@ class ApiService {
             data: data
         }).then((response) => response.data);
     }
+
+    searchMakers(lexem) {
+        const URL = `${API_URL}/api/v1/manufacture_search/${lexem}/`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
 }
 
 export default ApiService;
