@@ -69,7 +69,6 @@ class Characteristics extends Component {
         }else {
             this.setState({crit: this.state.crit})
         }
-
     }
 
     render() {
@@ -92,7 +91,7 @@ class Characteristics extends Component {
                                 key={index}
                                 criteria={prop.crit_val}
                                 name={this.setCritName(index, prop.crit_no_id)}
-                                value={prop.value}
+                                defaultValue={prop.value}
                                 all_crit={this.props.all_crit}
                                 all_countries={this.props.all_countries}
                             />
@@ -105,7 +104,7 @@ class Characteristics extends Component {
                             key={-1}
                             criteria={''}
                             name={''}
-                            value={''}
+                            defaultValue={''}
                             all_crit={this.props.all_crit}
                             all_countries={this.props.all_countries}
                         />

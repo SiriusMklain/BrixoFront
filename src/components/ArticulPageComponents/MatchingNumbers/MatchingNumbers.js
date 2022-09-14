@@ -29,7 +29,6 @@ class MatchingNumbers extends Component {
     }
 
     componentDidMount() {
-        var self = this;
         var paramsString = document.location.search;
         var searchParams = new URLSearchParams(paramsString);
 
@@ -39,19 +38,18 @@ class MatchingNumbers extends Component {
         let direction = localStorage.getItem('direction')
 
         if (pages) {
-            self.setState({pages: pages})
+            this.setState({pages: pages})
         }
         if (next || prev || direction) {
-            self.setState({nextPageLSS: next, prevPageLSS: prev, direction: direction})
+            this.setState({nextPageLSS: next, prevPageLSS: prev, direction: direction})
         }
 
-
-        apiService.getArticles(self.state.pages, self.state.pages, self.state.pages, self.state.pages).then(function (result) {
-            self.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
+        apiService.getArticles(this.state.pages).then(result => {
+            this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
-        apiService.getArticlesFiltersBrand(searchParams.get("brand_no")).then(function (result) {
-            self.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
-        });
+        // apiService.getArticlesFiltersBrand(searchParams.get("brand_no")).then(result => {
+        //     this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
+        // });
     }
 
     getPages() {
@@ -69,6 +67,8 @@ class MatchingNumbers extends Component {
 
     nextPage() {
         let _return = localStorageService.getArticlePages(this.state.nextPageLSS, "next", this.state.pages)
+        localStorage.setItem('nextPageLSS', "0");
+        localStorage.setItem('prevPageLSS', "100");
 
         apiService.getArticlesByURL(this.state.nextPageLSS, "next", this.state.pages).then((result) => {
             this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
@@ -87,6 +87,7 @@ class MatchingNumbers extends Component {
                 pages: pages
             })
         });
+
     }
 
 
@@ -108,7 +109,7 @@ class MatchingNumbers extends Component {
                             </svg>
                         </div>
                         <div className="data-block__num">
-                            <div className="data-block__num-title">records per page</div>
+                            <div className="data-block__num-title">Отображаемые артикулы</div>
                             <Select
                                 className="data-block__num-select"
                                 classNamePrefix="select"
@@ -119,7 +120,6 @@ class MatchingNumbers extends Component {
                                 isSearchable={false}
                                 name="numsOfRows"
                                 options={this.state.numsOfRows}
-                                defaultValue={this.state.numsOfRows[0]}
                                 value={this.getPages()}
                                 placeholder={''}
                                 onChange={this.handleChange}
@@ -201,10 +201,10 @@ class MatchingNumbers extends Component {
                         <button className="nav__btn btn btn-red-outline" onClick={this.nextPage}>Далее</button>
                         <svg width="17" height="13" viewBox="0 0 17 13" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_69_3461)">
+                            <g clipPath="url(#clip0_69_3461)">
                                 <path d="M0.944336 6.50002H16.0554M10.3888 0.928589L16.0554 6.50002L10.3888 12.0714"
-                                      stroke="#CA003D" stroke-width="2" stroke-linecap="round"
-                                      stroke-linejoin="round"></path>
+                                      stroke="#CA003D" strokeWidth="2" strokeLinecap="round"
+                                      strokeLinejoin="round"></path>
                             </g>
                             <defs>
                                 <clipPath id="clip0_69_3461">
