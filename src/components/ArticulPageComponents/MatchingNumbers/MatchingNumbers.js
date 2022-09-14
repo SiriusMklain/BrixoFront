@@ -3,17 +3,20 @@ import ApiService from "../../../util/ApiService";
 import Select from 'react-select';
 import MatchingItem from "./MatchingItem";
 import './MatchingNumbers.scss';
+import LocalStorageService from "../../../util/LocalStorageService";
 
 const apiService = new ApiService();
+const localStorageService = new LocalStorageService();
 
 class MatchingNumbers extends Component {
     constructor(props) {
         super(props);
         this.state = {
             articles: [],
-            nextPageURL: '',
-            prevPageURL: '',
+            nextPageLSS: 1,
+            prevPageLSS: 1,
             pages: 10,
+            direction: '',
             numsOfRows: [
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
@@ -30,34 +33,59 @@ class MatchingNumbers extends Component {
         var paramsString = document.location.search;
         var searchParams = new URLSearchParams(paramsString);
 
-        apiService.getArticles(self.state.pages).then(function (result) {
-            self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink, pages: result.chank.pages})
+        let pages = localStorage.getItem('pages')
+        let next = localStorage.getItem('next')
+        let prev = localStorage.getItem('prev')
+        let direction = localStorage.getItem('direction')
+
+        if (pages) {
+            self.setState({pages: pages})
+        }
+        if (next || prev || direction) {
+            self.setState({nextPageLSS: next, prevPageLSS: prev, direction: direction})
+        }
+
+
+        apiService.getArticles(self.state.pages, self.state.pages, self.state.pages, self.state.pages).then(function (result) {
+            self.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
         apiService.getArticlesFiltersBrand(searchParams.get("brand_no")).then(function (result) {
-            self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
+            self.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
     }
-    getPages(){
-        // return {"value": 2, "label": this.state.pages}
+
+    getPages() {
+        return {"value": 0, "label": this.state.pages}
     }
 
     prevPage() {
-        var self = this;
-        apiService.getArticlesByURL(self.state.prevPageURL, "prev", self.state.pages).then((result) => {
-            self.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
+        let self = this;
+        let _return = localStorageService.getArticlePages(self.state.prevPageLSS, "prev", self.state.pages)
+
+        apiService.getArticlesByURL(self.state.prevPageLSS, "prev", self.state.pages).then((result) => {
+            self.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
     }
 
     nextPage() {
-        apiService.getArticlesByURL(this.state.nextPageURL, "next", this.state.pages).then((result) => {
-            this.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink})
+        let _return = localStorageService.getArticlePages(this.state.nextPageLSS, "next", this.state.pages)
+
+        apiService.getArticlesByURL(this.state.nextPageLSS, "next", this.state.pages).then((result) => {
+            this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
     }
 
-    handleChange (e) {
+    handleChange(e) {
+        let self = this
         let pages = Number(e.label)
+        localStorage.setItem('pages', pages);
         apiService.getArticles(pages).then(function (result) {
-            this.setState({articles: result.article, nextPageURL: result.nextlink, prevPageURL: result.prevlink, pages: pages})
+            self.setState({
+                articles: result.article,
+                nextPageLSS: result.nextlink,
+                prevPageLSS: result.prevlink,
+                pages: pages
+            })
         });
     }
 

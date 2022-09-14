@@ -3,8 +3,8 @@ import axios from "axios";
 const API_URL = "http://localhost:8000"
 
 class ApiService {
-    getArticles(pages) {
-        const URL = `${API_URL}/api/v1/article/?pages=${pages}`;
+    getArticles(pages, direction, next, prev) {
+        const URL = `${API_URL}/api/v1/article/?pages=${pages}&direction=${direction}&next=${next}&direction=${prev}`;
         return axios({
             method: "GET",
             url: URL,
