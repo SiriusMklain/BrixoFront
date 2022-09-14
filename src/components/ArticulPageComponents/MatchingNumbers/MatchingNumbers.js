@@ -61,7 +61,7 @@ class MatchingNumbers extends Component {
     prevPage() {
         let self = this;
         let _return = localStorageService.getArticlePages(self.state.prevPageLSS, "prev", self.state.pages)
-
+        console.log(_return)
         apiService.getArticlesByURL(self.state.prevPageLSS, "prev", self.state.pages).then((result) => {
             self.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
