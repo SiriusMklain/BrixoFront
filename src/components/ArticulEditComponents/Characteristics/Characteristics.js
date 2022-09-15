@@ -17,6 +17,7 @@ class Characteristics extends Component {
         this.deleteCrit = this.deleteCrit.bind(this);
         this.updateData = this.updateData.bind(this);
         this.createData = this.createData.bind(this);
+        this.enterUpdate = this.enterUpdate.bind(this);
     }
 
 
@@ -66,8 +67,15 @@ class Characteristics extends Component {
         if (result === undefined) {
             this.setState({crit: [...this.state.crit, new_crit]})
             apiService.createCrit(this.props.art_no_id, name.label, criteria)
-        }else {
+        } else {
             this.setState({crit: this.state.crit})
+        }
+    }
+
+    enterUpdate(e, name, criteria) {
+        if (e.code === "Enter" || e.code === "NumpadEnter") {
+            this.createData(name, criteria)
+
         }
     }
 
@@ -100,7 +108,8 @@ class Characteristics extends Component {
                             index={-1}
                             id={-1}
                             deleteFunc={this.deleteCrit}
-                            createFunc={this.createData}
+                            // createFunc={this.createData}
+                            enterFunc={this.enterUpdate}
                             key={-1}
                             criteria={''}
                             name={''}

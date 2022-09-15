@@ -12,11 +12,13 @@ class MatchingNumbers extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            article: '',
             articles: [],
-            nextPageLSS: 1,
-            prevPageLSS: 1,
+            next: 1,
+            prev: 1,
             chunk: 10,
-            direction: '',
+            page_from: 0,
+            page_to: 120,
             numsRows: [
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
@@ -26,32 +28,33 @@ class MatchingNumbers extends Component {
         this.nextPage = this.nextPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.searhArticle = this.searhArticle.bind(this);
     }
 
     componentDidMount() {
-        apiService.getArticles(this.state.chunk).then(result => {
-            this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
+        apiService.getArticles(
+            this.state.chunk,
+            this.state.next,
+            this.state.prev,
+            this.state.page_from,
+            this.state.page_to
+        ).then(result => {
+            this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
         });
-        // apiService.getArticlesFiltersBrand(searchParams.get("brand_no")).then(result => {
-        //     this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
-        // });
+
     }
+
     componentWillMount() {
         let chunk = localStorage.getItem('chunk')
         let next = localStorage.getItem('next')
         let prev = localStorage.getItem('prev')
-        let direction = localStorage.getItem('direction')
         if (chunk) {
-            console.log("Pages", chunk)
             this.setState({chunk: chunk})
         }
-        if (next || prev || direction) {
-            this.setState({nextPageLSS: next, prevPageLSS: prev, direction: direction})
+        if (next || prev) {
+            this.setState({next: next, prev: prev})
         }
 
-        apiService.getArticles(this.state.chunk).then(result => {
-            this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
-        });
     }
 
     getPages() {
@@ -60,34 +63,61 @@ class MatchingNumbers extends Component {
 
     prevPage() {
         let self = this;
-        let _return = localStorageService.getArticlePages(self.state.prevPageLSS, "prev", self.state.chunk)
+        let _return = localStorageService.getArticlePages(self.state.prev, "prev", self.state.chunk)
         console.log(_return)
-        apiService.getArticlesByURL(self.state.prevPageLSS, "prev", self.state.chunk).then((result) => {
-            self.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
+        apiService.getArticlesByURL(self.state.prev, "prev", self.state.chunk).then((result) => {
+            self.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
         });
     }
 
     nextPage() {
-        let _return = localStorageService.getArticlePages(this.state.nextPageLSS, "next", this.state.chunk)
-        localStorage.setItem('nextPageLSS', "0");
-        localStorage.setItem('prevPageLSS', "100");
+        let _return = localStorageService.getArticlePages(this.state.next, "next", this.state.chunk)
+        localStorage.setItem('next', "0");
+        localStorage.setItem('prev', "100");
 
-        apiService.getArticlesByURL(this.state.nextPageLSS, "next", this.state.chunk).then((result) => {
-            this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
+        apiService.getArticlesByURL(this.state.next, "next", this.state.chunk).then((result) => {
+            this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
         });
     }
 
     handleChange(e) {
         let chunk = Number(e.label)
         localStorage.setItem('chunk', chunk);
-        apiService.getArticles(chunk).then(result => {
+        apiService.getArticles(
+            chunk,
+            this.state.next,
+            this.state.prev,
+            this.state.page_from,
+            this.state.page_to
+        ).then(result => {
             this.setState({
                 articles: result.article,
-                nextPageLSS: result.nextlink,
-                prevPageLSS: result.prevlink,
+                next: result.nextlink,
+                prev: result.prevlink,
                 chunk: chunk
             }, () => console.log(this.state.articles))
         });
+
+    }
+
+    searhArticle(lexem) {
+        this.setState({article: lexem.target.value})
+        console.log(lexem.target.value)
+        if (lexem.target.value.length > 0) {
+            apiService.searchArticles(lexem.target.value).then(result => {
+                this.setState({articles: result.article})
+            });
+        } else {
+            apiService.getArticles(
+                this.state.chunk,
+                this.state.next,
+                this.state.prev,
+                this.state.page_from,
+                this.state.page_to
+            ).then(result => {
+                this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
+            });
+        }
 
     }
 
@@ -101,7 +131,10 @@ class MatchingNumbers extends Component {
                     </div>
                     <div className="data-block__nav">
                         <div className="data-block__search search-field">
-                            <input type="text" placeholder="Поиск"/>
+                            <input type="text" placeholder="Поиск"
+                                   value={this.state.article}
+                                   onChange={this.searhArticle}
+                            />
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path

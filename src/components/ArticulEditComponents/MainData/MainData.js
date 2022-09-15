@@ -48,6 +48,7 @@ class MainData extends Component {
         this.setSupers = this.setSupers.bind(this);
         this.eventTradeEnter = this.eventTradeEnter.bind(this);
         this.eventSupersEnter = this.eventSupersEnter.bind(this);
+        this.enterUpdate = this.enterUpdate.bind(this);
     }
 
     componentDidMount() {
@@ -91,16 +92,16 @@ class MainData extends Component {
     }
 
     changeBrand(e) {
-        this.setState({brand: e})
+        this.setState({brand: e}, () => this.updateData())
     }
 
     changeCountries(e) {
 
-        this.setState({countries: e})
+        this.setState({countries: e}, () => this.updateData())
     }
 
     changeTrades(e) {
-        this.setState({trades: e})
+        this.setState({trades: e}, () => this.updateData())
     }
 
     changeQuantUnit(e) {
@@ -129,7 +130,7 @@ class MainData extends Component {
 
     changeSupers(e) {
         try {
-            this.setState({supers: e})
+            this.setState({supers: e}, () => this.updateData())
         } catch (e) {
 
         }
@@ -164,14 +165,29 @@ class MainData extends Component {
     eventTradeEnter(e) {
         if (e.key === "Enter") {
             this.tradeValue.current.setValue()
-            this.setState({trades: [...this.state.trades, {"value": 1, "label": this.state.tradeNo}]})
+            this.setState({
+                trades: [...this.state.trades, {
+                    "value": 1,
+                    "label": this.state.tradeNo
+                }]
+            }, () => this.updateData())
         }
     }
 
     eventSupersEnter(e) {
         if (e.key === "Enter") {
             this.supersValue.current.setValue()
-            this.setState({supers: [...this.state.supers, {"value": 1, "label": this.state.supersNo}]})
+            this.setState({
+                supers: [...this.state.supers, {
+                    "value": 1,
+                    "label": this.state.supersNo
+                }]
+            }, () => this.updateData())
+        }
+    }
+    enterUpdate(e) {
+        if (e.key === "Enter") {
+            this.updateData()
         }
     }
 
@@ -189,6 +205,7 @@ class MainData extends Component {
                                    value={this.state.art_no}
                                    onChange={this.changeArticle}
                                    onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
@@ -210,6 +227,7 @@ class MainData extends Component {
                                    value={this.state.quant_unit}
                                    onChange={this.changeQuantUnit}
                                    onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
@@ -218,6 +236,7 @@ class MainData extends Component {
                                    value={this.state.quant_per_unit}
                                    onChange={this.changeQuantPerUnit}
                                    onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
@@ -226,6 +245,7 @@ class MainData extends Component {
                                    value={this.state.art_stat}
                                    onChange={this.changeArtStat}
                                    onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col2">
@@ -234,6 +254,7 @@ class MainData extends Component {
                                    value={this.state.status_dat}
                                    onChange={this.changeStatusDat}
                                    onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col6">
@@ -257,6 +278,7 @@ class MainData extends Component {
                                    value={this.state.gtin}
                                    onChange={this.changeGTIN}
                                    onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
@@ -265,6 +287,7 @@ class MainData extends Component {
                                    value={this.state.gen_art_no}
                                    onChange={this.changeGenArtNo}
                                    onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
                             />
 
                         </fieldset>

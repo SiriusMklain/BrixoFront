@@ -3,8 +3,8 @@ import axios from "axios";
 const API_URL = "http://localhost:8000"
 
 class ApiService {
-    getArticles(chunk, direction, next, prev) {
-        const URL = `${API_URL}/api/v1/article/?chunk=${chunk}&direction=${direction}&next=${next}&direction=${prev}`;
+    getArticles(chunk, next, prev, page_from, page_to) {
+        const URL = `${API_URL}/api/v1/article/?chunk=${chunk}&next=${next}&prev=${prev}&page_from=${page_from}&page_to=${page_to}`;
         return axios({
             method: "GET",
             url: URL,
@@ -187,6 +187,17 @@ class ApiService {
             },
             credentials: 'include',
             data: data
+        }).then((response) => response.data);
+    }
+    searchArticles(lexem) {
+        const URL = `${API_URL}/api/v1/article/search/${lexem}/`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
         }).then((response) => response.data);
     }
 

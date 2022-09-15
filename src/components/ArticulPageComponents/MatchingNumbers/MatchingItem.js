@@ -14,16 +14,16 @@ class MatchingItem extends Component {
         this.state = {
             articles: [],
         }
-        this.getBrand = this.getBrand.bind(this);
+
     }
 
     componentDidMount() {
         this.setState({articles: this.props.articles})
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     this.setState({articles: nextProps.articles});
-    // }
+    componentWillReceiveProps(nextProps) {
+        this.setState({articles: nextProps.articles});
+    }
 
     shouldComponentUpdate(nextProps) {
         return this.state.articles !== nextProps.articles;
@@ -67,7 +67,7 @@ class MatchingItem extends Component {
                 </td>
                 <td>
                     <div className="table__td">
-                        <span>{this.getBrand}</span>
+                        <span>{this.getBrand()}</span>
                     </div>
                 </td>
                 <td>

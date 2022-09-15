@@ -76,7 +76,8 @@ class Characteristic extends Component {
                         onChange={this.changeCriteria}
                         onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name,
                             this.state.old_criteria, this.state.criteria)}
-                        onBlurCapture={() => this.props.createFunc(this.state.name, this.state.criteria)}
+                        // onBlurCapture={() => this.props.createFunc(this.state.name, this.state.criteria)}
+                        onKeyDown={(e) => this.props.enterFunc(e, this.state.name, this.state.criteria)}
                     />
                 </fieldset>
                 <button
