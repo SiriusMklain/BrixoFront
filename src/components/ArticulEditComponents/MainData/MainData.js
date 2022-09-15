@@ -170,7 +170,7 @@ class MainData extends Component {
                     "value": 1,
                     "label": this.state.tradeNo
                 }]
-            }, () => this.updateData())
+            })
         }
     }
 
@@ -182,7 +182,7 @@ class MainData extends Component {
                     "value": 1,
                     "label": this.state.supersNo
                 }]
-            }, () => this.updateData())
+            })
         }
     }
     enterUpdate(e) {
