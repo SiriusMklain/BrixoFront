@@ -15,12 +15,12 @@ class MatchingNumbers extends Component {
             articles: [],
             nextPageLSS: 1,
             prevPageLSS: 1,
-            pages: 10,
+            chunk: 10,
             direction: '',
-            numsOfRows: [
+            numsRows: [
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
-                {value: '3', label: '50'}
+                {value: '3', label: '30'}
             ]
         }
         this.nextPage = this.nextPage.bind(this);
@@ -29,63 +29,64 @@ class MatchingNumbers extends Component {
     }
 
     componentDidMount() {
-        var paramsString = document.location.search;
-        var searchParams = new URLSearchParams(paramsString);
-
-        let pages = localStorage.getItem('pages')
-        let next = localStorage.getItem('next')
-        let prev = localStorage.getItem('prev')
-        let direction = localStorage.getItem('direction')
-
-        if (pages) {
-            this.setState({pages: pages})
-        }
-        if (next || prev || direction) {
-            this.setState({nextPageLSS: next, prevPageLSS: prev, direction: direction})
-        }
-
-        apiService.getArticles(this.state.pages).then(result => {
+        apiService.getArticles(this.state.chunk).then(result => {
             this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
         // apiService.getArticlesFiltersBrand(searchParams.get("brand_no")).then(result => {
         //     this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         // });
     }
+    componentWillMount() {
+        let chunk = localStorage.getItem('chunk')
+        let next = localStorage.getItem('next')
+        let prev = localStorage.getItem('prev')
+        let direction = localStorage.getItem('direction')
+        if (chunk) {
+            console.log("Pages", chunk)
+            this.setState({chunk: chunk})
+        }
+        if (next || prev || direction) {
+            this.setState({nextPageLSS: next, prevPageLSS: prev, direction: direction})
+        }
+
+        apiService.getArticles(this.state.chunk).then(result => {
+            this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
+        });
+    }
 
     getPages() {
-        return {"value": 0, "label": this.state.pages}
+        return {"value": 0, "label": this.state.chunk}
     }
 
     prevPage() {
         let self = this;
-        let _return = localStorageService.getArticlePages(self.state.prevPageLSS, "prev", self.state.pages)
+        let _return = localStorageService.getArticlePages(self.state.prevPageLSS, "prev", self.state.chunk)
         console.log(_return)
-        apiService.getArticlesByURL(self.state.prevPageLSS, "prev", self.state.pages).then((result) => {
+        apiService.getArticlesByURL(self.state.prevPageLSS, "prev", self.state.chunk).then((result) => {
             self.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
     }
 
     nextPage() {
-        let _return = localStorageService.getArticlePages(this.state.nextPageLSS, "next", this.state.pages)
+        let _return = localStorageService.getArticlePages(this.state.nextPageLSS, "next", this.state.chunk)
         localStorage.setItem('nextPageLSS', "0");
         localStorage.setItem('prevPageLSS', "100");
 
-        apiService.getArticlesByURL(this.state.nextPageLSS, "next", this.state.pages).then((result) => {
+        apiService.getArticlesByURL(this.state.nextPageLSS, "next", this.state.chunk).then((result) => {
             this.setState({articles: result.article, nextPageLSS: result.nextlink, prevPageLSS: result.prevlink})
         });
     }
 
     handleChange(e) {
-        let self = this
-        let pages = Number(e.label)
-        localStorage.setItem('pages', pages);
-        apiService.getArticles(pages).then(function (result) {
-            self.setState({
+        let chunk = Number(e.label)
+        localStorage.setItem('chunk', chunk);
+        apiService.getArticles(chunk).then(result => {
+            this.setState({
                 articles: result.article,
                 nextPageLSS: result.nextlink,
                 prevPageLSS: result.prevlink,
-                pages: pages
-            })
+                chunk: chunk
+            }, () => console.log(this.state.articles))
         });
 
     }
@@ -119,7 +120,7 @@ class MatchingNumbers extends Component {
                                 isRtl={false}
                                 isSearchable={false}
                                 name="numsOfRows"
-                                options={this.state.numsOfRows}
+                                options={this.state.numsRows}
                                 value={this.getPages()}
                                 placeholder={''}
                                 onChange={this.handleChange}
