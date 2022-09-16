@@ -27,8 +27,8 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    getArticlesByURL(link, direction, pages) {
-        const URL = `${API_URL}${link}&direction=${direction}&pages=${pages}`;
+    getArticlesByURL(link, direction, chunk, page_from, page_to) {
+        const URL = `${API_URL}${link}&direction=${direction}&chunk=${chunk}&page_from=${page_from}&page_to=${page_to}`;
         return axios({
             method: "GET",
             url: URL,
