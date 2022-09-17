@@ -189,8 +189,8 @@ class ApiService {
             data: data
         }).then((response) => response.data);
     }
-    searchArticles(lexem) {
-        const URL = `${API_URL}/api/v1/article/search/${lexem}/`;
+    searchArticles(lexem, type) {
+        const URL = `${API_URL}/api/v1/article/search/?lexem=${lexem}&type=${type}`;
         return axios({
             method: "GET",
             url: URL,

@@ -107,7 +107,7 @@ class Reference extends Component {
 
     searchMakers(lexem) {
         const self = this;
-        if (lexem.length > 2) {
+        if (lexem.length > 1) {
             apiService.searchMakers(lexem).then(function (result) {
                 let makers = [];
                 result.ref_name.forEach(function (item, index) {
@@ -120,7 +120,7 @@ class Reference extends Component {
 
     searchReferences(lexem) {
         const self = this;
-        if (lexem.length > 2) {
+        if (lexem.length > 1) {
             apiService.searchReferences(lexem).then(function (result) {
                 let references = [];
                 result.ref_no.forEach(function (item, index) {

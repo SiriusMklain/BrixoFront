@@ -12,7 +12,7 @@ class MatchingNumbers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            article: '',
+            article: [],
             articles: [],
             next: 1,
             prev: 1,
@@ -52,15 +52,10 @@ class MatchingNumbers extends Component {
 
     componentWillMount() {
         let chunk = localStorage.getItem('chunk')
-        let next = localStorage.getItem('next')
-        let prev = localStorage.getItem('prev')
+
         if (chunk) {
             this.setState({chunk: chunk})
         }
-        // if (next || prev) {
-        //     this.setState({next: next, prev: prev})
-        // }
-
     }
 
     getPages() {
@@ -73,7 +68,7 @@ class MatchingNumbers extends Component {
         apiService.getArticlesByURL(
             this.state.next, "next",
             localStorage.getItem('chunk') * 1,
-            localStorage.getItem('page_from') * 1 ,
+            localStorage.getItem('page_from') * 1,
             localStorage.getItem('page_to') * 1
         ).then((result) => {
             this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
@@ -118,7 +113,7 @@ class MatchingNumbers extends Component {
         this.setState({article: lexem.target.value})
         console.log(lexem.target.value)
         if (lexem.target.value.length > 0) {
-            apiService.searchArticles(lexem.target.value).then(result => {
+            apiService.searchArticles(lexem.target.value, "full").then(result => {
                 this.setState({articles: result.article})
             });
         } else {

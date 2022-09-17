@@ -15,7 +15,7 @@ class Docs extends Component{
     }
     componentDidMount(){
           apiService.getImages(this.props.art_no_id).then((result)=>
-              this.setState({docs: result.docs}, ()=> console.log(this.state.docs))
+              this.setState({docs: result.docs})
           )
 
         }
