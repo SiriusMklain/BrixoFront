@@ -7,24 +7,24 @@ import logo from '../../assets/img/logo.svg'
 import avatarIcon from '../../assets/img/avatar.png'
 import ApiService from "../../util/ApiService";
 
+
 const apiService = new ApiService();
 
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.searchValue = React.createRef();
         this.state = {
             dropdownVisible: false,
             dropdownInvisible: true,
             article: [],
             articles: [],
-            brands: ''
+            brands: []
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
         this.searchArticle = this.searchArticle.bind(this)
         this.goToEdit = this.goToEdit.bind(this)
-        this.setBrand = this.setBrand.bind(this)
+
     }
 
     componentDidMount() {
@@ -33,6 +33,7 @@ class Header extends Component {
         })
     }
 
+
     getDropdownVisible() {
         this.setState({dropdownVisible: true})
     }
@@ -40,10 +41,7 @@ class Header extends Component {
     getDropdownInvisible() {
         this.setState({dropdownVisible: false})
     }
-    setBrand(e){
-        console.log(e.target.innerText)
-        apiService.getArticlesFiltersBrand(4682)
-    }
+
 
     dropdown() {
         return (
@@ -53,8 +51,9 @@ class Header extends Component {
                     <div className="header__user-links">
                         {this.state.brands.map((brand, index) =>
                             <Link to="/" className="header__user-link"
-                                  onClick={this.setBrand}
+                                  onClick={(e) => this.props.setBrandFunction(e)}
                             >{brand.name}
+                                <input type="hidden" defaultValue={brand.brand_no}/>
                             </Link>
                         )}
                     </div>
@@ -109,7 +108,6 @@ class Header extends Component {
                         <div className="header__right">
                             <div className="header__search">
                                 <Select
-                                    ref={this.searchValue}
                                     classNamePrefix="select"
                                     isSearchable={true}
                                     options={this.state.articles}

@@ -3,8 +3,9 @@ import Characteristics from "../../components/ArticulEditComponents/Characterist
 import Reference from "../../components/ArticulEditComponents/Reference/Reference";
 import Validity from "../../components/ArticulEditComponents/Validity/Validity";
 import Docs from "../../components/ArticulEditComponents/Docs/Docs";
-import {Component} from "react";
+import React, {Component} from "react";
 import ApiService from "../../util/ApiService";
+import Header from "../../components/Header/Header";
 
 const apiService = new ApiService();
 
@@ -97,6 +98,7 @@ class Edit extends Component {
         return (
             <div className="edit-page">
                 <div className="container">
+                    <Header/>
                     <div className="home-page__title display2">Редактирование артикула</div>
                     <MainData
                         art_no_id={art_no_id}

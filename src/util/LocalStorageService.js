@@ -8,7 +8,7 @@ class LocalStorageService {
         if (count === 100/chunk && direction === "next") {
             page_from = localStorage.getItem('page_from') * 1 + 100
             page_to = localStorage.getItem('page_to') * 1 + 100
-            localStorage.setItem('count', 1);
+            localStorage.setItem('count', "1");
             localStorage.setItem('page_from', page_from);
             localStorage.setItem('page_to', page_to);
 

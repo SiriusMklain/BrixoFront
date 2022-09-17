@@ -5,12 +5,11 @@ import React, {Component} from "react";
 class Characteristic extends Component {
     constructor(props) {
         super(props);
-        const {index, id, value, deleteCrit, addNewProp} = props
+        const {index, id, value, deleteCrit} = props
         this.index = index
         this.id = id
         this.value = value
         this.deleteCrit = deleteCrit
-        this.addNewProp = addNewProp
         this.state = {
             name: [],
             criteria: '',

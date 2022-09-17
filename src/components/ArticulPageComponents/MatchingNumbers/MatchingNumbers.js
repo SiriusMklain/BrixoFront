@@ -33,10 +33,11 @@ class MatchingNumbers extends Component {
     }
 
     componentDidMount() {
+
         localStorage.setItem('chunk', this.state.chunk);
-        localStorage.setItem('page_from', 0);
-        localStorage.setItem('page_to', 100);
-        localStorage.setItem('count', 1);
+        localStorage.setItem('page_from', "0");
+        localStorage.setItem('page_to', "100");
+        localStorage.setItem('count', "1");
 
         apiService.getArticles(
             this.state.chunk,
@@ -48,6 +49,10 @@ class MatchingNumbers extends Component {
             this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
         });
 
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({articles: nextProps.articles_filter})
     }
 
     componentWillMount() {

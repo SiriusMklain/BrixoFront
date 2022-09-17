@@ -17,7 +17,7 @@ class App extends Component {
         return (
             <Router>
                 <div className="wrapper">
-                    <Header/>
+                    {/*<Header/>*/}
                     <div className="content">
                         <Routes>
                             <Route path="/">
