@@ -9,18 +9,13 @@ class Docs extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            doc: [],
-            docs: [
-        {imgSrc: '', name: '001'},
-        {imgSrc: 'doc.png', name: '002'},
-        {imgSrc: 'doc2.png', name: '003'},
-    ]
+            docs: []
         }
 
     }
     componentDidMount(){
           apiService.getImages(this.props.art_no_id).then((result)=>
-              this.setState({doc: result}, ()=> console.log(this.state.doc))
+              this.setState({docs: result.docs}, ()=> console.log(this.state.docs))
           )
 
         }
@@ -32,11 +27,11 @@ class Docs extends Component{
             </div>
             <div className="data-block__content">
                 <div className="docs">
-                    {this.state.docs.map((doc,index) =>
+                    {this.state.docs.map((item,index) =>
                         <DocItem
                             key={index}
-                            imgSrc={doc.imgSrc}
-                            name={doc.name}
+                            path_image={item.path_image}
+                            doc_name={item.doc_name}
                         />
                     )}
                     <div className="docs__input">

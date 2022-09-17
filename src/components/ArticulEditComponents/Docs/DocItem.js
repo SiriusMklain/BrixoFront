@@ -4,11 +4,9 @@ import React, {Component} from "react";
 class DocsItem extends Component{
     constructor(props) {
         super(props);
-        const { imgSrc, name } = props
-        this.imgSrc = imgSrc
-        this.name = name
         this.state = {
-            images: require.context('../../../assets/img', true)
+            path_image: '',
+            doc_name: ''
         }
     }
 
@@ -16,8 +14,8 @@ class DocsItem extends Component{
        return (
         <div className="docs__item">
             <div className="docs__item-img">
-                {this.imgSrc ?
-                    <img src={this.state.images(`./${this.imgSrc}`)} alt=""/> :
+                {this.props.path_image ?
+                    <img src={this.props.path_image} alt=""/> :
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M19 2H5C4.20435 2 3.44129 2.31607 2.87868 2.87868C2.31607 3.44129 2 4.20435 2 5V19C2
                         19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 22 5 22H19C19.1645 21.9977
@@ -41,7 +39,7 @@ class DocsItem extends Component{
                 }
             </div>
             <div className="docs__item-title">
-                {this.name}
+                {this.props.doc_name}
             </div>
         </div>
 
