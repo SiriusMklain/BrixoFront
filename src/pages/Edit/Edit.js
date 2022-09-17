@@ -120,7 +120,9 @@ class Edit extends Component {
                         art_no={this.state.article.art_no}
                     />
                     <Validity/>
-                    <Docs/>
+                    <Docs
+                    art_no_id={art_no_id}
+                    />
                 </div>
             </div>
         );

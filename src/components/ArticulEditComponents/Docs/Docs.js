@@ -1,20 +1,38 @@
 import './Docs.scss';
-// import img from '../../../assets'
 import DocItem from "./DocItem";
-function Docs() {
-    const docs = [
-        {imgSrc: '', name: 'MC807966 32423аdfsfsdf'},
-        {imgSrc: 'doc.png', name: 'MC807966 32423аdfsfsdf'},
-        {imgSrc: 'doc2.png', name: 'MC807966 32423аdfsfsdf'},
+import {Component} from "react";
+import ApiService from "../../../util/ApiService";
+
+const apiService = new ApiService();
+
+class Docs extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            doc: [],
+            docs: [
+        {imgSrc: '', name: '001'},
+        {imgSrc: 'doc.png', name: '002'},
+        {imgSrc: 'doc2.png', name: '003'},
     ]
-    return (
+        }
+
+    }
+    componentDidMount(){
+          apiService.getImages(this.props.art_no_id).then((result)=>
+              this.setState({doc: result}, ()=> console.log(this.state.doc))
+          )
+
+        }
+    render() {
+        return (
         <div className="data-block">
             <div className="data-block__head">
                 <div className="data-block__title">Документы</div>
             </div>
             <div className="data-block__content">
                 <div className="docs">
-                    {docs.map((doc,index) =>
+                    {this.state.docs.map((doc,index) =>
                         <DocItem
                             key={index}
                             imgSrc={doc.imgSrc}
@@ -33,6 +51,9 @@ function Docs() {
         </div>
 
     );
+    }
+
+
 }
 
 

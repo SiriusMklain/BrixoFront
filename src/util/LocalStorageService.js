@@ -14,8 +14,7 @@ class LocalStorageService {
 
         } else if (count < 100/chunk && count > 0 && direction === "prev") {
             page_from = localStorage.getItem('page_from') * 1
-            console.log("Count", count)
-            // localStorage.setItem('count', count - 1);
+
             if (page_from - 100/chunk < 0) {
                 localStorage.setItem('page_from', 100/chunk);
                 let temp_page_to = 100 + chunk * 1
