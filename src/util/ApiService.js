@@ -15,10 +15,22 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    getArticlesFiltersBrand(pk) {
-        const URL = `${API_URL}/api/v1/article/brand_filter/${pk}/`;
+    getArticlesBrand() {
+        const URL = `${API_URL}/api/v1/article/brand_filter/`;
         return axios({
             method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
+    getArticlesFiltersBrand(brand) {
+        const URL = `${API_URL}/api/v1/article/brand_filter/?brand=${brand}`;
+        return axios({
+            method: "PUT",
             url: URL,
             headers: {
                 'content-type': 'application/json',
