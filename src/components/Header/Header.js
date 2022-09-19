@@ -19,7 +19,7 @@ class Header extends Component {
             articles: [],
             brands: [],
             brand_style: {},
-            customStyles : {control: base => ({...base,  height: 45, minHeight: 45})}
+            customStyles : {control: base => ({...base,  height: 46, minHeight: 45})}
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -109,7 +109,7 @@ class Header extends Component {
                         </div>
 
                         <div className="header__right">
-                            <div className="header__search ">
+                            <div className="header__search " style={{marginRight: 30, maxWidth: 250}}>
                                 <Select
                                     classNamePrefix="select"
                                     isSearchable={true}
