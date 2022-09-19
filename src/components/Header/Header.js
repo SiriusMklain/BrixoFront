@@ -18,7 +18,8 @@ class Header extends Component {
             article: [],
             articles: [],
             brands: [],
-            brand_style: {}
+            brand_style: {},
+            customStyles : {control: base => ({...base,  height: 45, minHeight: 45})}
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -108,7 +109,7 @@ class Header extends Component {
                         </div>
 
                         <div className="header__right">
-                            <div className="header__search">
+                            <div className="header__search ">
                                 <Select
                                     classNamePrefix="select"
                                     isSearchable={true}
@@ -116,9 +117,15 @@ class Header extends Component {
                                     onInputChange={this.searchArticle}
                                     onChange={this.goToEdit}
                                     placeholder={'Поиск артикулов'}
+                                    styles={this.state.customStyles}
                                 />
 
                             </div>
+                            <button  className="data-block__add-btn btn btn-blue" style={{marginRight: 30, minWidth: 200}}
+
+                            >
+                                Добавить артикул
+                            </button>
                             <button className="header__notification">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
