@@ -18,10 +18,7 @@ class Header extends Component {
             article: [],
             articles: [],
             brands: [],
-            brandStyle: {
-                color: 'white',
-                backgroundColor: '#6D71F9'
-            },
+            brand_style: {}
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -30,13 +27,8 @@ class Header extends Component {
 
     }
 
-    componentDidMount() {
-        apiService.getArticlesBrand().then((result) => {
-            this.setState({brands: result.brands})
-        })
-    }
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({dropdownVisible: nextProps.getDropdownVisible})
+        this.setState({brands: nextProps.brands, dropdownVisible: nextProps.getDropdownVisible})
     }
 
     getDropdownVisible() {
@@ -53,14 +45,14 @@ class Header extends Component {
                 <div className="header__user-dropdown">
                     <div className="header__user-title">Выберите бренд</div>
                     <div className="header__user-links">
-                        <Link style={this.state.brandStyle} to="/" className="header__user-link"
+                        <Link style={this.props.brand_style} to="/" className="header__user-link"
                               onClick={(e) => this.props.setBrandFunction(e)}
                         >Все бренды
                             <input type="hidden" defaultValue={"all"}/>
                         </Link>
                         {this.state.brands.map((brand, index) =>
-                            <Link to="/" className="header__user-link"
-                                  onClick={(e) => this.props.setBrandFunction(e)}
+                            <Link style={brand.brand_style} to="/" className="header__user-link"
+                                  onClick={(e) => this.props.setBrandFunction(e, index)}
                             >{brand.name}
                                 <input type="hidden" defaultValue={brand.brand_no}/>
                             </Link>
@@ -77,8 +69,12 @@ class Header extends Component {
                         </svg>
                         <span>Выйти из системы</span>
                     </button>
-                </div>
 
+                </div>
+                <div
+                    onClick={this.getDropdownInvisible}
+                    className="header__user-backdrop">
+                </div>
             </>
         )
     }
