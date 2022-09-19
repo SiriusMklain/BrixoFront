@@ -10,23 +10,24 @@ class Home extends  Component{
     constructor(props) {
         super(props);
         this.state = {
-            articles_filter: []
+            articles_filter: [],
+            dropdownVisible: false
         }
         this.setBrand = this.setBrand.bind(this)
     }
 
     setBrand(e) {
         let brand_no = e.target.firstElementChild.value
-        console.log("brand_no", e.target.firstElementChild.value)
         if(brand_no === 'all'){
             brand_no = 'all'
             window.location.href = '/'
         }
         apiService.getArticlesFiltersBrand(brand_no, localStorage.getItem("chunk")).then((result) => {
-                this.setState({articles_filter: result.article})
+                this.setState({articles_filter: result.article, dropdownVisible: true})
             }
         )
         localStorage.setItem("brand_no", brand_no)
+
     }
 
     render() {
@@ -35,6 +36,7 @@ class Home extends  Component{
             <div className="container">
                 <Header
                     setBrandFunction={this.setBrand}
+                    dropdownVisible={this.state.dropdownVisible}
                 />
                 <div className="home-page__title display2">Список и поиск артикулов</div>
                 <Articuls/>

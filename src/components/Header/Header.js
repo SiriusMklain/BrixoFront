@@ -15,10 +15,13 @@ class Header extends Component {
         super(props);
         this.state = {
             dropdownVisible: false,
-            dropdownInvisible: true,
             article: [],
             articles: [],
-            brands: []
+            brands: [],
+            brandStyle: {
+                color: 'white',
+                backgroundColor: '#6D71F9'
+            },
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -32,7 +35,9 @@ class Header extends Component {
             this.setState({brands: result.brands})
         })
     }
-
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({dropdownVisible: nextProps.getDropdownVisible})
+    }
 
     getDropdownVisible() {
         this.setState({dropdownVisible: true})
@@ -49,8 +54,8 @@ class Header extends Component {
                 <div className="header__user-dropdown">
                     <div className="header__user-title">Выберите бренд</div>
                     <div className="header__user-links">
-                        <Link to="/" className="header__user-link"
-                        onClick={(e) => this.props.setBrandFunction(e)}
+                        <Link style={this.state.brandStyle} to="/" className="header__user-link"
+                              onClick={(e) => this.props.setBrandFunction(e)}
                         >Все бренды
                             <input type="hidden" defaultValue={"all"}/>
                         </Link>
@@ -74,10 +79,7 @@ class Header extends Component {
                         <span>Выйти из системы</span>
                     </button>
                 </div>
-                <div
-                    onClick={this.getDropdownInvisible}
-                    className="header__user-backdrop">
-                </div>
+
             </>
         )
     }
