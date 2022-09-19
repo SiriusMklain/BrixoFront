@@ -25,6 +25,7 @@ class Header extends Component {
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
         this.searchArticle = this.searchArticle.bind(this)
         this.goToEdit = this.goToEdit.bind(this)
+        this.addArticle = this.addArticle.bind(this)
 
     }
 
@@ -96,6 +97,13 @@ class Header extends Component {
     goToEdit(e) {
         window.location.href = '/edit/?id=' + this.state.article[e.value - 1].id
     }
+    addArticle(){
+        apiService.createArticle().then((result) =>{
+            let id = result.id
+            console.log("ID", id)
+            window.location.href = '/edit/?id=' + id
+        })
+    }
 
     render() {
         return (
@@ -121,8 +129,9 @@ class Header extends Component {
                                 />
 
                             </div>
-                            <button  className="data-block__add-btn btn btn-blue" style={{marginRight: 30, minWidth: 200}}
-
+                            <button  className="data-block__add-btn btn btn-blue"
+                                     style={{marginRight: 30, minWidth: 200}}
+                                     onClick={this.addArticle}
                             >
                                 Добавить артикул
                             </button>

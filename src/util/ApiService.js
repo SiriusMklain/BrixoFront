@@ -15,6 +15,18 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    createArticle() {
+        const URL = `${API_URL}/api/v1/article/`;
+        return axios({
+            method: "POST",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
     getArticlesBrand() {
         const URL = `${API_URL}/api/v1/article/brand_filter/`;
         return axios({
@@ -201,6 +213,7 @@ class ApiService {
             data: data
         }).then((response) => response.data);
     }
+
     searchArticles(lexem, type) {
         const URL = `${API_URL}/api/v1/article/search/?lexem=${lexem}&type=${type}`;
         return axios({
