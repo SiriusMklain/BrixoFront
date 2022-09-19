@@ -111,7 +111,7 @@ class Reference extends Component {
             apiService.searchMakers(lexem).then(function (result) {
                 let makers = [];
                 result.ref_name.forEach(function (item, index) {
-                    makers.push({"value": index + 1, "label": item.short_name})
+                    makers.push({"value": index + 1, "label": item.term_plain})
                 });
                 self.setState({makers: makers})
             });
