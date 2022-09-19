@@ -50,8 +50,10 @@ class Header extends Component {
                     <div className="header__user-title">Выберите бренд</div>
                     <div className="header__user-links">
                         <Link to="/" className="header__user-link"
-                        onClick={() => window.location.href = '/'}
-                        >Все бренды</Link>
+                        onClick={(e) => this.props.setBrandFunction(e)}
+                        >Все бренды
+                            <input type="hidden" defaultValue={"all"}/>
+                        </Link>
                         {this.state.brands.map((brand, index) =>
                             <Link to="/" className="header__user-link"
                                   onClick={(e) => this.props.setBrandFunction(e)}

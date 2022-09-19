@@ -3,8 +3,8 @@ import axios from "axios";
 const API_URL = "http://localhost:8000"
 
 class ApiService {
-    getArticles(chunk, next, prev, page_from, page_to) {
-        const URL = `${API_URL}/api/v1/article/?chunk=${chunk}&next=${next}&prev=${prev}&page_from=${page_from}&page_to=${page_to}`;
+    getArticles(brand_no, chunk, next, prev, page_from, page_to) {
+        const URL = `${API_URL}/api/v1/article/?brand_no=${brand_no}&chunk=${chunk}&next=${next}&prev=${prev}&page_from=${page_from}&page_to=${page_to}`;
         return axios({
             method: "GET",
             url: URL,
@@ -27,8 +27,8 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    getArticlesFiltersBrand(brand) {
-        const URL = `${API_URL}/api/v1/article/brand_filter/?brand=${brand}`;
+    getArticlesFiltersBrand(brand, chunk) {
+        const URL = `${API_URL}/api/v1/article/brand_filter/?brand=${brand}&chunk=${chunk}`;
         return axios({
             method: "PUT",
             url: URL,
@@ -39,8 +39,8 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    getArticlesByURL(link, direction, chunk, page_from, page_to) {
-        const URL = `${API_URL}${link}&direction=${direction}&chunk=${chunk}&page_from=${page_from}&page_to=${page_to}`;
+    getArticlesByURL(link, direction, brand_no, chunk, page_from, page_to) {
+        const URL = `${API_URL}${link}&direction=${direction}&brand_no=${brand_no}&chunk=${chunk}&page_from=${page_from}&page_to=${page_to}`;
         return axios({
             method: "GET",
             url: URL,

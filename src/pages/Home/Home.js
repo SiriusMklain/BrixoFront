@@ -16,10 +16,17 @@ class Home extends  Component{
     }
 
     setBrand(e) {
-        apiService.getArticlesFiltersBrand(e.target.firstElementChild.value).then((result) => {
+        let brand_no = e.target.firstElementChild.value
+        console.log("brand_no", e.target.firstElementChild.value)
+        if(brand_no === 'all'){
+            brand_no = 'all'
+            window.location.href = '/'
+        }
+        apiService.getArticlesFiltersBrand(brand_no, localStorage.getItem("chunk")).then((result) => {
                 this.setState({articles_filter: result.article})
             }
         )
+        localStorage.setItem("brand_no", brand_no)
     }
 
     render() {

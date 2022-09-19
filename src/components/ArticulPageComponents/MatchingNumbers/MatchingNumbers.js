@@ -38,8 +38,13 @@ class MatchingNumbers extends Component {
         localStorage.setItem('page_from', "0");
         localStorage.setItem('page_to', "100");
         localStorage.setItem('count', "1");
+        let brand_no = localStorage.getItem("brand_no")
+        if (!brand_no) {
+            brand_no = 'all'
+        }
 
         apiService.getArticles(
+            brand_no,
             this.state.chunk,
             this.state.next,
             this.state.prev,
@@ -72,6 +77,7 @@ class MatchingNumbers extends Component {
 
         apiService.getArticlesByURL(
             this.state.next, "next",
+            localStorage.getItem("brand_no"),
             localStorage.getItem('chunk') * 1,
             localStorage.getItem('page_from') * 1,
             localStorage.getItem('page_to') * 1
@@ -85,6 +91,7 @@ class MatchingNumbers extends Component {
 
         apiService.getArticlesByURL(
             this.state.prev, "prev",
+            localStorage.getItem("brand_no"),
             localStorage.getItem('chunk') * 1,
             localStorage.getItem('page_from') * 1,
             localStorage.getItem('page_to') * 1
@@ -98,6 +105,7 @@ class MatchingNumbers extends Component {
         let chunk = Number(e.label)
         localStorage.setItem('chunk', chunk);
         apiService.getArticles(
+            localStorage.getItem("brand_no"),
             chunk,
             this.state.next,
             this.state.prev,
