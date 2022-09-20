@@ -116,7 +116,7 @@ class Header extends Component {
                     <div className='header__inner'>
                         <div className="header__left">
                             <div className="header__logo">
-                                <img src={logo} alt=""/>
+                                <a href={"/"}><img src={logo} alt=""/></a>
                             </div>
                         </div>
 
