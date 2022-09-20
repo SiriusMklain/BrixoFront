@@ -262,6 +262,18 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    getErrors() {
+        const URL = `${API_URL}/api/v1/errors/`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
 }
 
 export default ApiService;
