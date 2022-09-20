@@ -40,6 +40,7 @@ class MatchingNumbers extends Component {
         localStorage.setItem('count', "1");
         let brand_no = localStorage.getItem("brand_no")
         if (!brand_no) {
+            localStorage.setItem('brand_no', "all");
             brand_no = 'all'
         }
 
