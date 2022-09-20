@@ -20,6 +20,8 @@ class MatchingNumbers extends Component {
             count: 1,
             page_from: 0,
             page_to: 100,
+            article_count: 0,
+            count_pages: 1,
             numsRows: [
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
@@ -52,7 +54,7 @@ class MatchingNumbers extends Component {
             this.state.page_from,
             this.state.page_to
         ).then(result => {
-            this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
+            this.setState({articles: result.article, article_count: result.article_count, next: result.nextlink, prev: result.prevlink})
         });
 
     }
@@ -83,7 +85,7 @@ class MatchingNumbers extends Component {
             localStorage.getItem('page_from') * 1,
             localStorage.getItem('page_to') * 1
         ).then((result) => {
-            this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
+            this.setState({articles: result.article, count_pages: this.state.count_pages + 1, next: result.nextlink, prev: result.prevlink})
         });
     }
 
@@ -97,7 +99,7 @@ class MatchingNumbers extends Component {
             localStorage.getItem('page_from') * 1,
             localStorage.getItem('page_to') * 1
         ).then((result) => {
-            this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
+            this.setState({articles: result.article, count_pages: this.state.count_pages - 1, next: result.nextlink, prev: result.prevlink})
         });
     }
 
@@ -274,10 +276,10 @@ class MatchingNumbers extends Component {
                     </div>
                     <div className="pagination">
                         <div className="pagination__input fg">
-                            <input type="text" value="1"/>
+                            <input type="text" value={this.state.count_pages * this.state.chunk}/>
                         </div>
                         <div className="pagination__num">
-                            из <span>2000</span>
+                            из <span>{this.state.article_count}</span>
                         </div>
                         <div className="pagination__buttons">
                             <button className="pagination__btn">
