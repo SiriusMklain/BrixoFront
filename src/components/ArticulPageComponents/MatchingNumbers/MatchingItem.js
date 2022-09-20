@@ -1,5 +1,4 @@
 import {Component} from "react";
-import MainData from "../../ArticulEditComponents/MainData/MainData";
 
 class MatchingItem extends Component {
     constructor(props) {
@@ -14,7 +13,6 @@ class MatchingItem extends Component {
         this.state = {
             articles: [],
         }
-
     }
 
     componentDidMount() {
@@ -34,36 +32,37 @@ class MatchingItem extends Component {
     }
 
     getCountry = () => {
-        try{
+        try {
             return this.state.articles.country_id.map((country) => country.country_code + ', ')
-        }catch (e) {
+        } catch (e) {
         }
     }
 
     getBrand() {
-        try{
+        try {
             return this.state.articles.brand_no_id.name
-        }catch (e) {
+        } catch (e) {
         }
     }
 
     render() {
         return (
-
-            <tr onClick={this.goToEdit}>
+            <tr>
                 <td>
                     <div className="table__td">
                         <span className="table__num gray-text">{this.num}</span>
                     </div>
                 </td>
                 <td>
-                    <div className="table__td">
-                        <div className="table__check check">
-                            <input type="checkbox"/>
-                            <label></label>
+                    <a href={'/edit/?id=' + this.state.articles.id}>
+                        <div className="table__td">
+                            <div className="table__check check">
+                                <input type="checkbox"/>
+                                <label></label>
+                            </div>
+                            <span>{this.state.articles.art_no}</span>
                         </div>
-                        <span>{this.state.articles.art_no}</span>
-                    </div>
+                    </a>
                 </td>
                 <td>
                     <div className="table__td">

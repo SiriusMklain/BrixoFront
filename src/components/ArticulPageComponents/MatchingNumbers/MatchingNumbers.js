@@ -104,6 +104,7 @@ class MatchingNumbers extends Component {
     handleChange(e) {
         let chunk = Number(e.label)
         localStorage.setItem('chunk', chunk);
+        localStorage.setItem('count', 1);
         apiService.getArticles(
             localStorage.getItem("brand_no"),
             chunk,

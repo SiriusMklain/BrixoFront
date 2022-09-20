@@ -25,6 +25,7 @@ class Header extends Component {
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
         this.searchArticle = this.searchArticle.bind(this)
         this.goToEdit = this.goToEdit.bind(this)
+        this.goToHome = this.goToHome.bind(this)
         this.addArticle = this.addArticle.bind(this)
 
     }
@@ -97,6 +98,9 @@ class Header extends Component {
     goToEdit(e) {
         window.location.href = '/edit/?id=' + this.state.article[e.value - 1].id
     }
+    goToHome() {
+        window.location.href = '/'
+    }
     addArticle(){
         apiService.createArticle().then((result) =>{
             let id = result.id
@@ -135,7 +139,9 @@ class Header extends Component {
                             >
                                 Добавить артикул
                             </button>
-                            <button className="header__notification">
+                            <button className="header__notification"
+                                onClick={this.goToHome}
+                            >
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path

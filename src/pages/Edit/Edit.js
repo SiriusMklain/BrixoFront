@@ -28,12 +28,16 @@ class Edit extends Component {
             supers: [],
             crit: [],
             characteristics: [],
-            reference: []
+            reference: [],
+            notification_num: ''
         }
     }
 
     componentDidMount() {
         const self = this;
+        apiService.getErrors().then((result) => {
+            self.setState({notification_num: result.length})
+        })
 
         apiService.editArticle(art_no_id).then(function (result) {
 
@@ -98,7 +102,9 @@ class Edit extends Component {
         return (
             <div className="edit-page">
                 <div className="container">
-                    <Header/>
+                    <Header
+                        notification_num={this.state.notification_num}
+                    />
                     <div className="home-page__title display2">Редактирование артикула</div>
                     <MainData
                         art_no_id={art_no_id}
@@ -123,7 +129,7 @@ class Edit extends Component {
                     />
                     <Validity/>
                     <Docs
-                    art_no_id={art_no_id}
+                        art_no_id={art_no_id}
                     />
                 </div>
             </div>

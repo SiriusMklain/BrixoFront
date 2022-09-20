@@ -1,5 +1,4 @@
 import {Component} from "react";
-import {Link} from "react-router-dom";
 
 class ArticulItem extends Component {
     constructor(props) {
@@ -15,13 +14,16 @@ class ArticulItem extends Component {
                     </div>
                 </td>
                 <td>
-                    <div className="table__td">
-                        <div className="table__check check">
-                            <input type="checkbox"/>
-                            <label></label>
+                    <a href={'/edit/?id=' + this.props.id}>
+                        <div className="table__td">
+                            <div className="table__check check">
+                                <input type="checkbox"/>
+                                <label></label>
+                            </div>
+                            <span>{this.props.art_no}</span>
                         </div>
-                        <span><a href={"/edit/?id=" + this.props.id}>{this.props.art_no} </a></span>
-                    </div>
+                    </a>
+
                 </td>
                 <td>
                     <div className="table__td">
@@ -32,6 +34,5 @@ class ArticulItem extends Component {
         );
     }
 }
-
 
 export default ArticulItem;
