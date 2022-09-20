@@ -1,16 +1,9 @@
 import {Component} from "react";
+import {Link} from "react-router-dom";
 
 class ArticulItem extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            num: '',
-            art_no: '',
-            errors: []
-        }
-    }
-    componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({num: nextProps.num, art_no: nextProps.art_no, errors: nextProps.errors})
     }
 
     render() {
@@ -18,7 +11,7 @@ class ArticulItem extends Component {
             <tr>
                 <td>
                     <div className="table__td">
-                        <span className="table__num gray-text">{this.state.num}</span>
+                        <span className="table__num gray-text">{this.props.num}</span>
                     </div>
                 </td>
                 <td>
@@ -27,12 +20,12 @@ class ArticulItem extends Component {
                             <input type="checkbox"/>
                             <label></label>
                         </div>
-                        <span>{this.state.art_no}</span>
+                        <span><a href={"/edit/?id=" + this.props.id}>{this.props.art_no} </a></span>
                     </div>
                 </td>
                 <td>
                     <div className="table__td">
-                        <span>{this.state.errors}</span>
+                        <span>{this.props.errors}</span>
                     </div>
                 </td>
             </tr>

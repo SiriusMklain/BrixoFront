@@ -11,11 +11,9 @@ class Articuls extends Component {
             articuls: []
         }
     }
-    componentDidMount() {
-        apiService.getErrors().then((result) => {
-            this.setState({articuls: result}, () => console.log(this.state.articuls))
-        })
-    }
+     componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({articuls: nextProps.articuls})
+     }
 
     render() {
         return (
@@ -66,6 +64,7 @@ class Articuls extends Component {
                                     <ArticulItem
                                         key={index}
                                         num={index + 1}
+                                        id={articul.id}
                                         art_no={articul.art_no}
                                         errors={articul.errors.map((error) => error + ', ')}
                                     />

@@ -19,7 +19,7 @@ class Header extends Component {
             articles: [],
             brands: [],
             brand_style: {},
-            customStyles : {control: base => ({...base,  height: 46, minHeight: 45})}
+            customStyles : {control: base => ({...base,  height: 46, minHeight: 45})},
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -142,7 +142,7 @@ class Header extends Component {
                                         d="M10.97 15.9042C11.3844 15.9164 11.7913 16.0175 12.1628 16.2005H12.1852C12.4955 16.4537 12.5483 16.9057 12.3045 17.2228C11.8605 17.8581 11.1501 18.2587 10.3735 18.3117C9.57566 18.4068 8.77216 18.1859 8.13695 17.6968C7.81028 17.4728 7.59798 17.1186 7.55544 16.7264C7.55544 16.3116 7.94312 16.119 8.30097 16.0375C8.72011 15.9492 9.14737 15.9046 9.57582 15.9042H10.97ZM10.0306 1.66666C12.6101 1.66666 15.2717 3.53339 15.5475 6.23719C15.5922 6.79277 15.5475 7.37056 15.5922 7.93355C15.7386 8.65956 16.0755 9.33423 16.5689 9.88917C16.8756 10.3452 17.0533 10.8748 17.0834 11.4226V11.5929C17.0879 12.332 16.8231 13.0477 16.3378 13.6078C15.7227 14.2655 14.8881 14.6788 13.9894 14.7708C11.3339 15.1115 8.64531 15.1115 5.98983 14.7708C5.08046 14.6858 4.23416 14.2719 3.61159 13.6078C3.14152 13.0423 2.89502 12.326 2.91825 11.5929V11.4226C2.94735 10.8769 3.11954 10.3483 3.41776 9.88917C3.91329 9.33371 4.25498 8.6598 4.40931 7.93355C4.45404 7.37056 4.40931 6.80017 4.45404 6.23719C4.73734 3.53339 7.34669 1.66666 9.95604 1.66666H10.0306Z"
                                         fill="#6D71F9"/>
                                 </svg>
-                                <span className="header__notification-num">3</span>
+                                <span className="header__notification-num">{this.props.notification_num}</span>
                             </button>
                             <div className="header__user">
                                 <div className="header__user-img">

@@ -14,13 +14,19 @@ class Home extends Component {
             articles_filter: [],
             dropdownVisible: false,
             brand_no: 'all',
-            brand_style: {}
+            brand_style: {},
+            articuls: [],
+            notification_num: ''
         }
         this.setBrand = this.setBrand.bind(this)
         this.getStyle = this.getStyle.bind(this)
     }
 
+
     componentDidMount() {
+         apiService.getErrors().then((result) => {
+            this.setState({articuls: result.slice(0,5), notification_num: result.length})
+        })
         apiService.getArticlesBrand().then((result) => {
             let brand_no = localStorage.getItem("brand_no")
             let brands = []
@@ -87,9 +93,12 @@ class Home extends Component {
                         setBrandFunction={this.setBrand}
                         dropdownVisible={this.state.dropdownVisible}
                         brand_style={this.state.brand_style}
+                        notification_num={this.state.notification_num}
                     />
                     <div className="home-page__title display2">Список и поиск артикулов</div>
-                    <Articuls/>
+                    <Articuls
+                    articuls={this.state.articuls}
+                    />
                     <MatchingNumbers
                         articles_filter={this.state.articles_filter}
                     />
