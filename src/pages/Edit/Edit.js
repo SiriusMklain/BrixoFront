@@ -21,6 +21,7 @@ class Edit extends Component {
         this.state = {
             article: [],
             brands: [],
+            _brands: [],
             brand: [],
             countries: [],
             all_countries: [],
@@ -29,14 +30,40 @@ class Edit extends Component {
             crit: [],
             characteristics: [],
             reference: [],
-            notification_num: ''
+            articles_filter: [],
+            dropdownVisible: false,
+            notification_num: '',
+            brand_style: {},
+            brand_no: 'all',
         }
+
+        this.setBrand = this.setBrand.bind(this)
+        this.getStyle = this.getStyle.bind(this)
     }
 
     componentDidMount() {
         const self = this;
         apiService.getErrors().then((result) => {
             self.setState({notification_num: result.length})
+        })
+
+        apiService.getArticlesBrand().then((result) => {
+            let brand_no = localStorage.getItem("brand_no")
+            let brands = []
+            let brand_style = {}
+            result.brands.forEach((item) => {
+                if (brand_no * 1 === item.brand_no) {
+                    brand_style = {color: 'black', backgroundColor: 'while'}
+                    brands.push({...item, brand_style: {color: 'white', backgroundColor: '#6D71F9'}})
+                } else {
+                    if(brand_no === 'all'){
+                       brand_style = {color: 'white', backgroundColor: '#6D71F9'}
+                    }
+                    brands.push({...item, brand_style: {color: 'black', backgroundColor: 'while'}})
+                }
+            })
+            self.setState({_brands: brands, brand_style: brand_style})
+            console.log("Brands", this.state._brands, brands)
         })
 
         apiService.editArticle(art_no_id).then(function (result) {
@@ -96,13 +123,52 @@ class Edit extends Component {
             })
         });
     }
+    getStyle(_brands, index) {
+        let brand_no = localStorage.getItem("brand_no")
+        let brand_style = {}
+        if (brand_no === 'all') {
+            brand_style = {color: 'white', backgroundColor: '#6D71F9'}
+            this.setState({brand_style: brand_style})
+            window.location.href = '/'
+        } else {
+            brand_style = {color: 'black', backgroundColor: 'while'}
+            let brands = []
+            _brands.forEach((brand, _index) => {
+                if (index === _index) {
+                    brands.push({..._brands[_index], brand_style: {color: 'white', backgroundColor: '#6D71F9'}})
+                } else {
+                    brands.push({..._brands[_index], brand_style: {color: 'black', backgroundColor: 'while'}})
+                }
+            })
+            this.setState({brand_no: brand_no, _brands: brands, brand_style: brand_style})
+        }
+    }
+
+    setBrand(e, index) {
+        console.log("EDIT", e.target.firstElementChild.value, e)
+        let brand_no = e.target.firstElementChild.value
+        localStorage.setItem("brand_no", brand_no)
+
+        this.getStyle(this.state.brands, index)
+
+        apiService.getArticlesFiltersBrand(brand_no, localStorage.getItem("chunk")).then((result) => {
+                this.setState({
+                    articles_filter: result.article,
+                    dropdownVisible: true,
+                })
+            }
+        )
+    }
 
     render() {
-
         return (
             <div className="edit-page">
                 <div className="container">
                     <Header
+                        brands={this.state._brands}
+                        setBrandFunction={this.setBrand}
+                        dropdownVisible={this.state.dropdownVisible}
+                        brand_style={this.state.brand_style}
                         notification_num={this.state.notification_num}
                     />
                     <div className="home-page__title display2">Редактирование артикула</div>
