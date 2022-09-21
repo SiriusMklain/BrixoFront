@@ -105,10 +105,10 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    deleteArticle(pk) {
+    Article(pk) {
         const URL = `${API_URL}/api/v1/article/${pk}/`;
         return axios({
-            method: "DELETE",
+            method: "GET",
             url: URL,
             headers: {
                 'content-type': 'application/json',
