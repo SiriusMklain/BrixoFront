@@ -22,6 +22,7 @@ class MatchingNumbers extends Component {
             page_to: 100,
             article_count: 0,
             count_pages: 1,
+            number_article: '',
             numsRows: [
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
@@ -31,7 +32,9 @@ class MatchingNumbers extends Component {
         this.nextPage = this.nextPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this._handleChange = this._handleChange.bind(this);
         this.searhArticle = this.searhArticle.bind(this);
+        this.searhNumberArticle = this.searhNumberArticle.bind(this);
     }
 
     componentDidMount() {
@@ -54,7 +57,12 @@ class MatchingNumbers extends Component {
             this.state.page_from,
             this.state.page_to
         ).then(result => {
-            this.setState({articles: result.article, article_count: result.article_count, next: result.nextlink, prev: result.prevlink})
+            this.setState({
+                articles: result.article,
+                article_count: result.article_count,
+                next: result.nextlink,
+                prev: result.prevlink
+            })
         });
 
     }
@@ -85,7 +93,12 @@ class MatchingNumbers extends Component {
             localStorage.getItem('page_from') * 1,
             localStorage.getItem('page_to') * 1
         ).then((result) => {
-            this.setState({articles: result.article, count_pages: this.state.count_pages + 1, next: result.nextlink, prev: result.prevlink})
+            this.setState({
+                articles: result.article,
+                count_pages: this.state.count_pages + 1,
+                next: result.nextlink,
+                prev: result.prevlink
+            })
         });
     }
 
@@ -99,10 +112,14 @@ class MatchingNumbers extends Component {
             localStorage.getItem('page_from') * 1,
             localStorage.getItem('page_to') * 1
         ).then((result) => {
-            this.setState({articles: result.article, count_pages: this.state.count_pages - 1, next: result.nextlink, prev: result.prevlink})
+            this.setState({
+                articles: result.article,
+                count_pages: this.state.count_pages - 1,
+                next: result.nextlink,
+                prev: result.prevlink
+            })
         });
     }
-
 
     handleChange(e) {
         let chunk = Number(e.label)
@@ -126,9 +143,29 @@ class MatchingNumbers extends Component {
 
     }
 
+    _handleChange() {
+        let chunk = localStorage.getItem('chunk')
+        localStorage.setItem('count', 1);
+        apiService.getArticles(
+            localStorage.getItem("brand_no"),
+            chunk,
+            this.state.next,
+            this.state.prev,
+            this.state.page_from,
+            this.state.page_to
+        ).then(result => {
+            this.setState({
+                articles: result.article,
+                next: result.nextlink,
+                prev: result.prevlink,
+                chunk: chunk
+            })
+        });
+
+    }
+
     searhArticle(lexem) {
         this.setState({article: lexem.target.value})
-        console.log(lexem.target.value)
         if (lexem.target.value.length > 0) {
             apiService.searchArticles(lexem.target.value, "full").then(result => {
                 this.setState({articles: result.article})
@@ -147,6 +184,23 @@ class MatchingNumbers extends Component {
 
     }
 
+    deleteArticle = (id) => {
+        let article = this.state.articles.filter(el => el.id !== id)
+        this.setState({articles: article})
+        apiService.deleteArticle(id)
+    }
+
+    searhNumberArticle(lexem) {
+        this.setState({number_article: lexem.target.value})
+        if (lexem.target.value.length > 2) {
+            console.log("lexem", lexem.target.value)
+            let page_from = lexem.target.value * this.state.chunk - 1
+            let page_to = lexem.target.value * this.state.chunk + 99
+            localStorage.setItem('page_from', page_from)
+            localStorage.setItem('page_to', page_to)
+            this.setState({page_from: page_from, page_to: page_to})
+        }
+    }
 
     render() {
         return (
@@ -237,10 +291,11 @@ class MatchingNumbers extends Component {
                                 <tbody>
                                 {this.state.articles.map((article, index) =>
                                     <MatchingItem
-                                        key={index}
+                                        index={index}
                                         num={index + 1}
                                         id={article.id}
                                         articles={article}
+                                        deleteFunc={this.deleteArticle}
                                     />
                                 )}
                                 </tbody>
@@ -276,10 +331,13 @@ class MatchingNumbers extends Component {
                     </div>
                     <div className="pagination">
                         <div className="pagination__input fg">
-                            <input type="text" value={this.state.count_pages * this.state.chunk}/>
+                            <input type="text"
+                                   onChange={this.searhNumberArticle}
+                                   value={this.state.number_article}
+                            />
                         </div>
                         <div className="pagination__num">
-                            из <span>{this.state.article_count}</span>
+                            из <span>{(this.state.article_count/this.state.chunk).toFixed(0)}</span>
                         </div>
                         <div className="pagination__buttons">
                             <button className="pagination__btn">
@@ -290,7 +348,9 @@ class MatchingNumbers extends Component {
                                           fill="#232445"></path>
                                 </svg>
                             </button>
-                            <button className="pagination__btn pagination__btn--next">
+                            <button
+                                onClick={this._handleChange}
+                                className="pagination__btn pagination__btn--next">
                                 <svg width="8" height="13" viewBox="0 0 8 13" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" clipRule="evenodd"

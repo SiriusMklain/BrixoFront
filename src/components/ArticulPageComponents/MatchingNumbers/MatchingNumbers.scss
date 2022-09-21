@@ -1,9 +1,29 @@
 .table--matchings{
-  tbody{
-    tr{
-      &:hover{
-        cursor: pointer;
-      }
+  th,
+  td{
+    &:first-child{
+      width: 80px;
+    }
+    &:nth-child(2){
+      width: 253px;
+    }
+    &:nth-child(3){
+      width: 214px;
     }
   }
+  tbody{
+    tr{
+      position: relative;
+    }
+  }
+  .table__nav{
+    left: 1380px;
+  }
 }
+
+.data-block__grid--matchings{
+  border-bottom: 2px solid #E6ECFF;
+  padding-bottom: 20px;
+  display: flex;
+}
+
