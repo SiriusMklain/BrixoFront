@@ -103,7 +103,6 @@ class MatchingNumbers extends Component {
         });
     }
 
-
     handleChange(e) {
         let chunk = Number(e.label)
         localStorage.setItem('chunk', chunk);
@@ -147,6 +146,11 @@ class MatchingNumbers extends Component {
 
     }
 
+    deleteArticle = (id) => {
+        let article = this.state.articles.filter(el => el.id !== id)
+        this.setState({articles: article})
+        apiService.deleteArticle(id)
+    }
 
     render() {
         return (
@@ -237,10 +241,11 @@ class MatchingNumbers extends Component {
                                 <tbody>
                                 {this.state.articles.map((article, index) =>
                                     <MatchingItem
-                                        key={index}
+                                        index={index}
                                         num={index + 1}
                                         id={article.id}
                                         articles={article}
+                                        deleteFunc={this.deleteArticle}
                                     />
                                 )}
                                 </tbody>

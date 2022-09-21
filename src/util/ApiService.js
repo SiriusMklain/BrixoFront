@@ -105,6 +105,19 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    deleteArticle(pk) {
+        const URL = `${API_URL}/api/v1/article/${pk}/`;
+        return axios({
+            method: "DELETE",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
+
     updateCrit(art_no_id, old_name, name, old_criteria, criteria) {
 
         const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
