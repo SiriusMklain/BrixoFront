@@ -67,6 +67,7 @@ class MainData extends Component {
             gtin: this.props.article.gtin,
             gen_art_no: this.props.article.gen_art_no
         })
+
     }
 
     componentWillReceiveProps(nextProps, nextContext) {

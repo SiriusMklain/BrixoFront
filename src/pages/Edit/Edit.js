@@ -63,7 +63,6 @@ class Edit extends Component {
                 }
             })
             self.setState({_brands: brands, brand_style: brand_style})
-            console.log("Brands", this.state._brands, brands)
         })
 
         apiService.editArticle(art_no_id).then(function (result) {
@@ -120,8 +119,9 @@ class Edit extends Component {
                 crit: result.crit,
                 characteristics: characteristics,
                 reference: result.reference
-            })
+            }, () => document.title = self.state.article.art_no)
         });
+
     }
     getStyle(_brands, index) {
         let brand_no = localStorage.getItem("brand_no")
