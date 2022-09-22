@@ -42,7 +42,7 @@ class Home extends Component {
                     brands.push({...item, brand_style: {color: 'black', backgroundColor: 'while'}})
                 }
             })
-            this.setState({brands: brands, brand_style: brand_style})
+            this.setState({brands: brands, brand_style: brand_style}, () => document.title = localStorage.getItem('brand_name'))
         })
     }
 
@@ -70,7 +70,8 @@ class Home extends Component {
     setBrand(e, index) {
         let brand_no = e.target.firstElementChild.value
         localStorage.setItem("brand_no", brand_no)
-
+        localStorage.setItem("brand_name", e.target.outerText)
+        document.title = localStorage.getItem('brand_name')
         this.getStyle(this.state.brands, index)
 
         apiService.getArticlesFiltersBrand(brand_no, localStorage.getItem("chunk")).then((result) => {

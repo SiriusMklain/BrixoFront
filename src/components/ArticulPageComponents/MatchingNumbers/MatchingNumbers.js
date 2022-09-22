@@ -46,6 +46,7 @@ class MatchingNumbers extends Component {
         let brand_no = localStorage.getItem("brand_no")
         if (!brand_no) {
             localStorage.setItem('brand_no', "all");
+            localStorage.setItem('brand_name', "All brands");
             brand_no = 'all'
         }
 
