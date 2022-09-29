@@ -299,6 +299,18 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    getApplicability(art_no_id) {
+        const URL = `${API_URL}/api/v1/vehicles/${art_no_id}/`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
 }
 
 export default ApiService;

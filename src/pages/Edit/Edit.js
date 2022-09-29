@@ -193,7 +193,9 @@ class Edit extends Component {
                         all_countries={this.state.all_countries}
                         art_no={this.state.article.art_no}
                     />
-                    <Validity/>
+                    <Validity
+                    art_no_id={art_no_id}
+                    />
                     <Docs
                         art_no_id={art_no_id}
                     />
