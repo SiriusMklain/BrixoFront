@@ -190,6 +190,15 @@ class Validity extends Component {
                                                 <input type="checkbox"/>
                                                 <label></label>
                                             </div>
+                                            <span>Номер</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <div className="table__check check">
+                                                <input type="checkbox"/>
+                                                <label></label>
+                                            </div>
                                             <span>ТС</span>
                                         </div>
                                     </th>
@@ -218,6 +227,7 @@ class Validity extends Component {
                                         key={index}
                                         num={index + 1}
                                         ts={validity.ts}
+                                        type_no={validity.type_no}
                                         brand={validity.brand}
                                         model={validity.model}
                                         type={validity.type.type_name}

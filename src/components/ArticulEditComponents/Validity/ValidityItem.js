@@ -6,10 +6,11 @@ import {store} from "../../../redux/store";
 class ValidityItem extends Component {
     constructor(props) {
         super(props);
-        const {id, num, ts, brand, model, type, deleteFunc} = props
+        const {id, num, type_no, ts, brand, model, type, deleteFunc} = props
         this.id = id
         this.num = num
         this.ts = ts
+        this.type_no = type_no
         this.brand = brand
         this.model = model
         this.type = type
@@ -53,6 +54,15 @@ class ValidityItem extends Component {
                     <td>
                         <div className="table__td">
                             <span className="table__num gray-text">{this.num}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div className="table__td">
+                            <div className="table__check check">
+                                <input type="checkbox"/>
+                                <label></label>
+                            </div>
+                            <span>{this.type_no}</span>
                         </div>
                     </td>
                     <td>
