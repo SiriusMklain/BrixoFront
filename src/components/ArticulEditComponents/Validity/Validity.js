@@ -46,9 +46,7 @@ class Validity extends Component {
 
     componentDidMount() {
         apiService.getApplicability(this.props.art_no_id).then((result) => {
-            // store.dispatch(result)
-            console.log("Dispatch", store.getState())
-            // this.setState({applicability: result.vehicles}, () => console.log(this.state.applicability))
+            this.setState({applicability: result.vehicles}, () => console.log(this.state.applicability))
         })
 
     }
