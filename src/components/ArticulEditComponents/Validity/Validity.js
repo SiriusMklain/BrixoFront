@@ -4,6 +4,7 @@ import ValidityItem from "./ValidityItem";
 import './Validity.scss';
 import React, {Component, useRef, useState} from "react";
 import ApiService from "../../../util/ApiService";
+import {store} from "../../../redux/store";
 
 const apiService = new ApiService();
 
@@ -45,8 +46,11 @@ class Validity extends Component {
 
     componentDidMount() {
         apiService.getApplicability(this.props.art_no_id).then((result) => {
-            this.setState({applicability: result.vehicles}, () => console.log(this.state.applicability))
+            // store.dispatch(result)
+            console.log("Dispatch", store.getState())
+            // this.setState({applicability: result.vehicles}, () => console.log(this.state.applicability))
         })
+
     }
 
     // deleteValidity = (id) => {
@@ -194,11 +198,7 @@ class Validity extends Component {
                                         </div>
                                     </th>
                                     <th>
-                                        <div className="table__th">
-                                            <div className="table__check check">
-                                                <input type="checkbox"/>
-                                                <label></label>
-                                            </div>
+                                        <div className="table__th">                                            
                                             <span>ТС</span>
                                         </div>
                                     </th>
