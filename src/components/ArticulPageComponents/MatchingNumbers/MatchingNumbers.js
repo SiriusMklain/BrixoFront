@@ -22,7 +22,7 @@ class MatchingNumbers extends Component {
             page_to: 100,
             article_count: 0,
             count_pages: 1,
-            number_article: '',
+            number_article: 1,
             numsRows: [
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
@@ -32,7 +32,7 @@ class MatchingNumbers extends Component {
         this.nextPage = this.nextPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this._handleChange = this._handleChange.bind(this);
+        this.handleForwardChange = this.handleForwardChange.bind(this);
         this.searhArticle = this.searhArticle.bind(this);
         this.searhNumberArticle = this.searhNumberArticle.bind(this);
     }
@@ -144,7 +144,28 @@ class MatchingNumbers extends Component {
 
     }
 
-    _handleChange() {
+    handleForwardChange() {
+        let chunk = localStorage.getItem('chunk')
+        localStorage.setItem('count', 1);
+        apiService.getArticles(
+            localStorage.getItem("brand_no"),
+            chunk,
+            this.state.next,
+            this.state.prev,
+            this.state.page_from,
+            this.state.page_to
+        ).then(result => {
+            this.setState({
+                articles: result.article,
+                next: result.nextlink,
+                prev: result.prevlink,
+                chunk: chunk
+            })
+        });
+
+    }
+
+    handleForwardChange() {
         let chunk = localStorage.getItem('chunk')
         localStorage.setItem('count', 1);
         apiService.getArticles(
@@ -195,11 +216,11 @@ class MatchingNumbers extends Component {
         this.setState({number_article: lexem.target.value})
         if (lexem.target.value.length > 2) {
             console.log("lexem", lexem.target.value)
-            let page_from = lexem.target.value * this.state.chunk - 1
-            let page_to = lexem.target.value * this.state.chunk + 99
+            let page_from = lexem.target.value
+            let page_to = lexem.target.value * 1 + 100
             localStorage.setItem('page_from', page_from)
             localStorage.setItem('page_to', page_to)
-            this.setState({page_from: page_from, page_to: page_to})
+            this.setState({page_from: page_from, page_to: page_to, number_article: page_from})
         }
     }
 
@@ -341,7 +362,11 @@ class MatchingNumbers extends Component {
                             из <span>{(this.state.article_count/this.state.chunk).toFixed(0)}</span>
                         </div>
                         <div className="pagination__buttons">
-                            <button className="pagination__btn">
+                            <button
+                                className="pagination__btn"
+                                onClick={this.handleForwardChange}
+                                hidden={true}
+                            >
                                 <svg width="8" height="13" viewBox="0 0 8 13" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" clipRule="evenodd"
@@ -350,7 +375,7 @@ class MatchingNumbers extends Component {
                                 </svg>
                             </button>
                             <button
-                                onClick={this._handleChange}
+                                onClick={this.handleForwardChange}
                                 className="pagination__btn pagination__btn--next">
                                 <svg width="8" height="13" viewBox="0 0 8 13" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">

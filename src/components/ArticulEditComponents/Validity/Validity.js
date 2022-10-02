@@ -12,41 +12,13 @@ class Validity extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ts: [
-                {value: '1', label: 'ts'},
-                {value: '2', label: 'ts2'},
-                {value: '3', label: 'ts3'},
-            ],
-            brands: [
-                {value: '1', label: 'Honda'},
-                {value: '2', label: 'Honda2'},
-                {value: '3', label: 'Honda3'},
-            ],
-            model: [
-                {value: '1', label: 'model'},
-                {value: '2', label: 'model2'},
-                {value: '3', label: 'model3'},
-            ],
-
-            type: [
-                {value: '1', label: 'type'},
-                {value: '2', label: 'type2'},
-                {value: '3', label: 'type3'},
-            ],
-             validities :[
-            {id: '1', ts: 'Легк',brand: 'Honda',model: 'Land Cruiser 200',type: '2008, 1VD-FTV'},
-            {id: '2', ts: 'Легк',brand: 'Honda',model: 'Land Cruiser 200',type: '2008, 1VD-FTV'},
-            {id: '3', ts: 'Легк',brand: 'Honda',model: 'Land Cruiser 200',type: '2008, 1VD-FTV'},
-            {id: '4', ts: 'Легк',brand: 'Honda',model: 'Land Cruiser 200',type: '2008, 1VD-FTV'},
-        ],
             applicability: []
-
         }
     }
 
     componentDidMount() {
         apiService.getApplicability(this.props.art_no_id).then((result) => {
-            this.setState({applicability: result.vehicles}, () => console.log(this.state.applicability))
+            this.setState({applicability: result.vehicles})
         })
 
     }
@@ -95,7 +67,7 @@ class Validity extends Component {
                     <div className="data-block__content">
                         <div className="data-block__grid data-block__grid--validity">
                             <fieldset className="fg data-block__col data-block__col2">
-                                <label>ts </label>
+                                <label>ТС</label>
                                 <Select
                                     // ref={selectValidityts}
                                     classNamePrefix="select"
@@ -228,7 +200,10 @@ class Validity extends Component {
                                         type_no={validity.type_no}
                                         brand={validity.brand}
                                         model={validity.model}
-                                        type={validity.type.type_name}
+                                        type={validity.type.type_engine + ', '
+                                            + validity.type.type_ls_ls + ', '
+                                            + validity.type.type_name + ', '
+                                            + validity.type.type_year}
                                         // deleteFunc={deleteValidity}
                                     />
                                 )}

@@ -50,7 +50,7 @@ class MatchingItem extends Component {
             <tr>
                 <td>
                     <div className="table__td">
-                        <span className="table__num gray-text">{this.num}</span>
+                        <span className="table__num gray-text">{this.num }</span>
                     </div>
                 </td>
                 <td>

@@ -31,7 +31,7 @@ class ValidityItem extends Component {
     }
 
     componentDidMount() {
-        console.log("TEST Store", store.getState())
+
     }
 
     //  showDropdown() {

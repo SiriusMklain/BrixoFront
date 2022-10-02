@@ -38,6 +38,7 @@ class Reference extends Component {
 
     deleteReference = (ref_no, index) => {
         let reference = this.state.reference.filter(el => el.ref_no !== ref_no)
+
         this.setState({reference: reference})
         this.deleteData(index)
     }
@@ -124,12 +125,16 @@ class Reference extends Component {
             apiService.searchReferences(lexem).then(function (result) {
                 let references = [];
                 result.ref_no.forEach(function (item, index) {
-                    references.push({"value": index + 1, "label": item.ref_no})
+                    references.push({"value": index + 2, "label": item.ref_no})
                 });
-                self.setState({references: references})
+                self.setState({references: [{
+                    "value": 1,
+                    "label": lexem
+                }, ...references]})
             });
         }
     }
+
 
     render() {
 
@@ -151,7 +156,7 @@ class Reference extends Component {
                                     options={this.state.references}
                                     onChange={this.setValueReferense}
                                     onInputChange={this.searchReferences}
-                                    placeholder={'Поиск'}
+                                    placeholder={'Создание, поиск'}
                                 />
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col3">
