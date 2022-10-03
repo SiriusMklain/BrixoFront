@@ -22,6 +22,8 @@ class MatchingNumbers extends Component {
             page_to: 100,
             article_count: 0,
             count_pages: 1,
+            page: 1,
+            handle_status: false,
             number_article: 1,
             numsRows: [
                 {value: '1', label: '10'},
@@ -38,7 +40,6 @@ class MatchingNumbers extends Component {
     }
 
     componentDidMount() {
-
         localStorage.setItem('chunk', this.state.chunk);
         localStorage.setItem('page_from', "0");
         localStorage.setItem('page_to', "100");
@@ -98,9 +99,11 @@ class MatchingNumbers extends Component {
                 articles: result.article,
                 count_pages: this.state.count_pages + 1,
                 next: result.nextlink,
-                prev: result.prevlink
+                prev: result.prevlink,
+                page_from: localStorage.getItem('page_from') * 1
             })
         });
+
     }
 
     prevPage() {
@@ -138,10 +141,11 @@ class MatchingNumbers extends Component {
                 articles: result.article,
                 next: result.nextlink,
                 prev: result.prevlink,
-                chunk: chunk
+                chunk: chunk,
+                handle_status: true
+
             })
         });
-
     }
 
     handleForwardChange() {
@@ -159,31 +163,10 @@ class MatchingNumbers extends Component {
                 articles: result.article,
                 next: result.nextlink,
                 prev: result.prevlink,
-                chunk: chunk
+                chunk: chunk,
+                handle_status: true
             })
         });
-
-    }
-
-    handleForwardChange() {
-        let chunk = localStorage.getItem('chunk')
-        localStorage.setItem('count', 1);
-        apiService.getArticles(
-            localStorage.getItem("brand_no"),
-            chunk,
-            this.state.next,
-            this.state.prev,
-            this.state.page_from,
-            this.state.page_to
-        ).then(result => {
-            this.setState({
-                articles: result.article,
-                next: result.nextlink,
-                prev: result.prevlink,
-                chunk: chunk
-            })
-        });
-
     }
 
     searhArticle(lexem) {
@@ -203,7 +186,6 @@ class MatchingNumbers extends Component {
                 this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
             });
         }
-
     }
 
     deleteArticle = (id) => {
@@ -215,13 +197,52 @@ class MatchingNumbers extends Component {
     searhNumberArticle(lexem) {
         this.setState({number_article: lexem.target.value})
         if (lexem.target.value.length > 2) {
-            console.log("lexem", lexem.target.value)
             let page_from = lexem.target.value
             let page_to = lexem.target.value * 1 + 100
             localStorage.setItem('page_from', page_from)
             localStorage.setItem('page_to', page_to)
-            this.setState({page_from: page_from, page_to: page_to, number_article: page_from})
+            this.setState({page_from: page_from, page_to: page_to, number_article: page_from, page: lexem.target.value })
         }
+    }
+
+    getNum(index) {
+        if (this.state.page_from === 0 && this.state.count_pages === 1) {
+            return index + 1
+        }
+        if(this.state.page_from * 1 > 0 && this.state.count_pages === 1){
+            return (index + 1) + (this.state.page_from* 1)
+        }
+        if(this.state.page_from * 1 > 0 && this.state.count_pages !== 1){
+            let i = (index + 1) + (this.state.page_from* 1)+ (this.state.count_pages - 1) * this.state.chunk
+            if (i < 0){
+                return index + 1
+            }else {
+               return i
+            }
+        }
+        else {
+            let i = index + 1 + (this.state.count_pages - 1) * this.state.chunk
+            if (i < 0){
+                return index + 1
+            }else {
+               return i
+            }
+        }
+    }
+
+    countPages(){
+        if(this.state.handle_status === true){
+            console.log(localStorage.getItem("page_from"), this.state.page)
+            if(localStorage.getItem("page_from") === this.state.page){
+                return this.state.count_pages * 1 + localStorage.getItem('page_from') * 1 - 1
+            }else{
+                return this.state.count_pages + this.state.page * 1 - 1
+            }
+
+        }else{
+            return this.state.count_pages
+        }
+
     }
 
     render() {
@@ -314,7 +335,7 @@ class MatchingNumbers extends Component {
                                 {this.state.articles.map((article, index) =>
                                     <MatchingItem
                                         index={index}
-                                        num={index + 1}
+                                        num={this.getNum(index)}
                                         id={article.id}
                                         articles={article}
                                         deleteFunc={this.deleteArticle}
@@ -355,25 +376,13 @@ class MatchingNumbers extends Component {
                         <div className="pagination__input fg">
                             <input type="text"
                                    onChange={this.searhNumberArticle}
-                                   value={this.state.number_article}
                             />
                         </div>
-                        <div className="pagination__num">
-                            из <span>{(this.state.article_count/this.state.chunk).toFixed(0)}</span>
+                        <div className="pagination__num"> <span>{this.countPages()} </span>
+                             из <span>{(this.state.article_count / this.state.chunk).toFixed(0)}</span>
                         </div>
                         <div className="pagination__buttons">
-                            <button
-                                className="pagination__btn"
-                                onClick={this.handleForwardChange}
-                                hidden={true}
-                            >
-                                <svg width="8" height="13" viewBox="0 0 8 13" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd" clipRule="evenodd"
-                                          d="M7.73393 0.18995C7.43939 -0.0635499 6.96302 -0.0635499 6.6692 0.18995L0.441563 5.56165C0.30216 5.68006 0.191152 5.82233 0.115302 5.98028C0.0394518 6.13823 0.000356192 6.3086 0.000356177 6.48048C0.000356162 6.65236 0.0394517 6.82241 0.115302 6.98035C0.191152 7.1383 0.30216 7.28058 0.441563 7.39898L6.71429 12.8104C6.85665 12.9313 7.04518 12.9993 7.24158 13.0005C7.43798 13.0017 7.62754 12.9359 7.77175 12.8167C7.84319 12.7579 7.90034 12.6866 7.93969 12.6072C7.97903 12.5278 7.99972 12.4421 8.00047 12.3552C8.00122 12.2684 7.98201 12.1825 7.94405 12.1026C7.90608 12.0227 7.85017 11.9504 7.77975 11.8906L2.03866 6.93941C1.96891 6.88021 1.91336 6.80894 1.8754 6.72994C1.83744 6.65094 1.81785 6.56614 1.81785 6.48016C1.81785 6.39418 1.83744 6.30907 1.8754 6.23006C1.91336 6.15106 1.96891 6.0798 2.03866 6.02059L7.73393 1.10846C7.80367 1.04931 7.8592 0.977933 7.89715 0.898983C7.9351 0.820033 7.95468 0.735131 7.95468 0.649203C7.95468 0.563275 7.9351 0.478373 7.89715 0.399423C7.8592 0.320473 7.80367 0.2491 7.73393 0.18995"
-                                          fill="#232445"></path>
-                                </svg>
-                            </button>
+
                             <button
                                 onClick={this.handleForwardChange}
                                 className="pagination__btn pagination__btn--next">

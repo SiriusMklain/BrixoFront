@@ -12,15 +12,16 @@ class MatchingItem extends Component {
         this.countries = countries
         this.state = {
             articles: [],
+            num: 1
         }
     }
 
     componentDidMount() {
-        this.setState({articles: this.props.articles})
+        this.setState({articles: this.props.articles, num: this.props.num})
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({articles: nextProps.articles});
+        this.setState({articles: nextProps.articles, num: nextProps.num});
     }
 
     shouldComponentUpdate(nextProps) {
@@ -50,7 +51,7 @@ class MatchingItem extends Component {
             <tr>
                 <td>
                     <div className="table__td">
-                        <span className="table__num gray-text">{this.num }</span>
+                        <span className="table__num gray-text">{this.state.num}</span>
                     </div>
                 </td>
                 <td>
