@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import ApiService from "../../../util/ApiService";
 import Select from 'react-select';
 import MatchingItem from "./MatchingItem";
@@ -37,6 +37,7 @@ class MatchingNumbers extends Component {
         this.handleForwardChange = this.handleForwardChange.bind(this);
         this.searhArticle = this.searhArticle.bind(this);
         this.searhNumberArticle = this.searhNumberArticle.bind(this);
+        this.eventPaginationEnter = this.eventPaginationEnter.bind(this);
     }
 
     componentDidMount() {
@@ -201,7 +202,7 @@ class MatchingNumbers extends Component {
             let page_to = lexem.target.value * 1 + 100
             localStorage.setItem('page_from', page_from)
             localStorage.setItem('page_to', page_to)
-            this.setState({page_from: page_from, page_to: page_to, number_article: page_from, page: lexem.target.value })
+            this.setState({page_from: page_from, page_to: page_to, number_article: page_from, page: lexem.target.value})
         }
     }
 
@@ -209,40 +210,46 @@ class MatchingNumbers extends Component {
         if (this.state.page_from === 0 && this.state.count_pages === 1) {
             return index + 1
         }
-        if(this.state.page_from * 1 > 0 && this.state.count_pages === 1){
-            return (index + 1) + (this.state.page_from* 1)
+        if (this.state.page_from * 1 > 0 && this.state.count_pages === 1) {
+            return (index + 1) + (this.state.page_from * 1)
         }
-        if(this.state.page_from * 1 > 0 && this.state.count_pages !== 1){
-            let i = (index + 1) + (this.state.page_from* 1)+ (this.state.count_pages - 1) * this.state.chunk
-            if (i < 0){
+        if (this.state.page_from * 1 > 0 && this.state.count_pages !== 1) {
+            let i = (index + 1) + (this.state.page_from * 1) + (this.state.count_pages - 1) * this.state.chunk
+            if (i < 0) {
                 return index + 1
-            }else {
-               return i
+            } else {
+                return i
             }
-        }
-        else {
+        } else {
             let i = index + 1 + (this.state.count_pages - 1) * this.state.chunk
-            if (i < 0){
+            if (i < 0) {
                 return index + 1
-            }else {
-               return i
+            } else {
+                return i
             }
         }
     }
 
-    countPages(){
-        if(this.state.handle_status === true){
-            console.log(localStorage.getItem("page_from"), this.state.page)
-            if(localStorage.getItem("page_from") === this.state.page){
+    countPages() {
+        if (this.state.handle_status === true) {
+            if (localStorage.getItem("page_from") === this.state.page) {
                 return this.state.count_pages * 1 + localStorage.getItem('page_from') * 1 - 1
-            }else{
+            } else {
                 return this.state.count_pages + this.state.page * 1 - 1
             }
 
-        }else{
+        } else {
             return this.state.count_pages
         }
 
+    }
+
+    eventPaginationEnter(e) {
+        if (e.key === "Enter") {
+            this.setState({count_pages: 1})
+            this.handleForwardChange()
+            this.countPages()
+        }
     }
 
     render() {
@@ -376,23 +383,11 @@ class MatchingNumbers extends Component {
                         <div className="pagination__input fg">
                             <input type="text"
                                    onChange={this.searhNumberArticle}
+                                   onKeyDown={this.eventPaginationEnter}
                             />
                         </div>
-                        <div className="pagination__num"> <span>{this.countPages()} </span>
-                             из <span>{(this.state.article_count / this.state.chunk).toFixed(0)}</span>
-                        </div>
-                        <div className="pagination__buttons">
-
-                            <button
-                                onClick={this.handleForwardChange}
-                                className="pagination__btn pagination__btn--next">
-                                <svg width="8" height="13" viewBox="0 0 8 13" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd" clipRule="evenodd"
-                                          d="M0.266068 12.8101C0.560613 13.0636 1.03698 13.0636 1.3308 12.8101L7.55844 7.43835C7.69784 7.31994 7.80885 7.17767 7.8847 7.01972C7.96055 6.86177 7.99964 6.6914 7.99964 6.51952C7.99964 6.34764 7.96055 6.17759 7.8847 6.01965C7.80885 5.8617 7.69784 5.71942 7.55844 5.60102L1.28571 0.18964C1.14335 0.0687062 0.954824 0.000735296 0.758422 -0.000471958C0.562019 -0.00167921 0.372457 0.06412 0.228248 0.183293C0.15681 0.242144 0.0996551 0.31337 0.0603128 0.392765C0.0209705 0.472161 0.000282825 0.557936 -0.000467132 0.644767C-0.00121709 0.731598 0.0179853 0.817475 0.0559515 0.897404C0.0939178 0.977333 0.149833 1.04959 0.220247 1.10942L5.96134 6.06059C6.03109 6.11979 6.08664 6.19106 6.1246 6.27006C6.16256 6.34906 6.18215 6.43386 6.18215 6.51984C6.18215 6.60582 6.16256 6.69093 6.1246 6.76994C6.08664 6.84894 6.03109 6.9202 5.96134 6.97941L0.266068 11.8915C0.19633 11.9507 0.1408 12.0221 0.102849 12.101C0.0648979 12.18 0.0453203 12.2649 0.0453203 12.3508C0.0453203 12.4367 0.0648979 12.5216 0.102849 12.6006C0.1408 12.6795 0.19633 12.7509 0.266068 12.8101"
-                                          fill="#232445"></path>
-                                </svg>
-                            </button>
+                        <div className="pagination__num"><span>{this.countPages()} </span>
+                            из <span>{(this.state.article_count / this.state.chunk).toFixed(0)}</span>
                         </div>
                     </div>
                 </div>
