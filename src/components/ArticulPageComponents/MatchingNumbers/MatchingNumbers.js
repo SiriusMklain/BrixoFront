@@ -387,7 +387,7 @@ class MatchingNumbers extends Component {
                             />
                         </div>
                         <div className="pagination__num"><span>{this.countPages()} </span>
-                            из <span>{(this.state.article_count / this.state.chunk).toFixed(0)}</span>
+                            из <span>{(this.state.article_count).toFixed(0)}</span>
                         </div>
                     </div>
                 </div>
