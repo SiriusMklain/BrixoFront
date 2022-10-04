@@ -142,9 +142,7 @@ class MatchingNumbers extends Component {
                 articles: result.article,
                 next: result.nextlink,
                 prev: result.prevlink,
-                chunk: chunk,
-                handle_status: true
-
+                chunk: chunk
             })
         });
     }
@@ -213,12 +211,23 @@ class MatchingNumbers extends Component {
         if (this.state.page_from * 1 > 0 && this.state.count_pages === 1) {
             return (index + 1) + (this.state.page_from * 1)
         }
-        if (this.state.page_from * 1 > 0 && this.state.count_pages !== 1) {
-            let i = (index + 1) + (this.state.page_from * 1) + (this.state.count_pages - 1) * this.state.chunk
+        if (this.state.page_from * 1 > 0 && this.state.count_pages !== 1&& this.state.handle_status === false) {
+            let i = (index + 1) + (this.state.count_pages - 1) * this.state.chunk
             if (i < 0) {
                 return index + 1
             } else {
                 return i
+            }
+        }
+        if (this.state.page_from * 1 > 0 && this.state.count_pages !== 1 && this.state.handle_status === true) {
+            if (this.state.page_from * 1 + 1 === this.state.page * 1) {
+                console.log(1, this.state.count_pages)
+                return (index + 1) + (this.state.page_from * 1) + (this.state.count_pages - 1) * this.state.chunk
+            } if(this.state.count_pages == 11){
+                this.setState({count_pages: 1})
+                return (index + 1) + (this.state.page_from * 1)
+            }else {
+                return (index + 1) + (this.state.page_from * 1) + (this.state.count_pages - 1) * (this.state.chunk * 1)
             }
         } else {
             let i = index + 1 + (this.state.count_pages - 1) * this.state.chunk
@@ -232,16 +241,14 @@ class MatchingNumbers extends Component {
 
     countPages() {
         if (this.state.handle_status === true) {
-            if (localStorage.getItem("page_from") === this.state.page) {
-                return this.state.count_pages * 1 + localStorage.getItem('page_from') * 1 - 1
+            if (localStorage.getItem("page_from") * 1 === this.state.page * 1) {
+                return (this.state.count_pages * 1 + localStorage.getItem('page_from') * 1 - 1) * localStorage.getItem('chunk')
             } else {
-                return this.state.count_pages + this.state.page * 1 - 1
+                return (this.state.count_pages + this.state.page * 1 - 1) * localStorage.getItem('chunk')
             }
-
         } else {
-            return this.state.count_pages
+            return (this.state.count_pages) * localStorage.getItem('chunk')
         }
-
     }
 
     eventPaginationEnter(e) {
