@@ -198,8 +198,8 @@ class MatchingNumbers extends Component {
     searhNumberArticle(lexem) {
         this.setState({number_article: lexem.target.value})
         if (lexem.target.value.length > 2) {
-            let page_from = lexem.target.value
-            let page_to = lexem.target.value * 1 + 100
+            let page_from = lexem.target.value * 1 - 1
+            let page_to = lexem.target.value * 1 + 99
             localStorage.setItem('page_from', page_from)
             localStorage.setItem('page_to', page_to)
             this.setState({page_from: page_from, page_to: page_to, number_article: page_from, page: lexem.target.value})
