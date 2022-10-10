@@ -105,7 +105,7 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    deleteArticle (pk) {
+    deleteArticle(pk) {
         const URL = `${API_URL}/api/v1/article/${pk}/`;
         return axios({
             method: "DELETE",
@@ -309,6 +309,22 @@ class ApiService {
             },
             credentials: 'include',
         }).then((response) => response.data);
+    }
+
+    sendFile(art_no_id, data) {
+        var form_data = new FormData();
+        form_data.append('file', data, data.name);
+        console.log("Data", form_data)
+        const URL = `${API_URL}/api/v1/document/${art_no_id}/`;
+        return axios.post(URL, form_data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }, credentials: 'include'
+        }
+        ).then((response) => response.data);
+
+
+
     }
 
 }
