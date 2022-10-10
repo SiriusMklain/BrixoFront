@@ -57,7 +57,7 @@ class Docs extends Component{
                     </div>
                     <button className="btn btn-blue" style={{marginTop: 50}}
                     onClick={(e) => this.doSubmit(e)}
-                    >Отправить файл</button>
+                    >Загрузить файл</button>
                 </div>
             </div>
         </div>

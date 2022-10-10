@@ -7,7 +7,8 @@ const applicability = new Applicability()
 
 const rootReducer = function () {
 
-    return applicability.getApplicability()
+    // return applicability.getApplicability()
+    return ''
 }
 
 export default rootReducer
