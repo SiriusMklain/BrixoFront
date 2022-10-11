@@ -57,10 +57,10 @@ class MatchingItem extends Component {
                 <td>
                     <a href={'/edit/?id=' + this.state.articles.id}>
                         <div className="table__td">
-                            <div className="table__check check">
-                                <input type="checkbox"/>
-                                <label></label>
-                            </div>
+                            {/*<div className="table__check check">*/}
+                            {/*    <input type="checkbox"/>*/}
+                            {/*    <label></label>*/}
+                            {/*</div>*/}
                             <span>{this.state.articles.art_no}</span>
                         </div>
                     </a>

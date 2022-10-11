@@ -26,7 +26,12 @@ class Docs extends Component{
         this.setState({data: e.target.files[0]})
     }
     doSubmit(){
-        apiService.sendFile(this.props.art_no_id, this.state.data)
+        apiService.sendFile(this.props.art_no_id, this.state.data).then(()=> {
+            apiService.getImages(this.props.art_no_id).then((result)=>
+              this.setState({docs: result.docs})
+          )
+        })
+
     }
 
     render() {
