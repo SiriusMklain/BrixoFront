@@ -12,6 +12,7 @@ class Characteristic extends Component {
         this.deleteCrit = deleteCrit
         this.state = {
             name: [],
+            name_en: [],
             criteria: '',
             crit: [],
             all_crit: [],
@@ -28,7 +29,7 @@ class Characteristic extends Component {
 
     componentDidMount() {
         this.setState({
-            name: this.props.name, old_name: this.props.name,
+            name: this.props.name,  name_en: this.props.name_en, old_name: this.props.name,
             criteria: this.props.criteria, old_criteria: this.props.criteria,
             crit_id: this.props.name.id, all_crit: this.props.all_crit
         })
@@ -36,7 +37,7 @@ class Characteristic extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({
-            name: nextProps.name, criteria: nextProps.criteria,
+            name: nextProps.name, name_en: nextProps.name_en,criteria: nextProps.criteria,
             all_crit: nextProps.all_crit, crit_id: nextProps.name.id
         })
     }
@@ -64,6 +65,19 @@ class Characteristic extends Component {
                         value={this.state.name}
                         onChange={this.changeCritName}
                         onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name,
+                            this.state.old_criteria, this.state.criteria)}
+                    />
+                </fieldset>
+                <fieldset className="fg data-block__col data-block__col3">
+                    <label>Criterion</label>
+                    <Select
+                        classNamePrefix="select"
+                        isSearchable={true}
+                        name="numsOfRows"
+                        options={this.state.all_crit}
+                        value={this.state.name_en}
+                        onChange={this.changeCritName}
+                        onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name_en,
                             this.state.old_criteria, this.state.criteria)}
                     />
                 </fieldset>

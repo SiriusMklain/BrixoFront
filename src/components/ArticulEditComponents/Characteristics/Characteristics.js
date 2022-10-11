@@ -44,6 +44,13 @@ class Characteristics extends Component {
             return {"value": index, "label": 'Нет данных'}
         }
     }
+    setCritNameEn(index, crit_no_id) {
+        if (crit_no_id !== null) {
+            return {"value": index, "label": crit_no_id.name_en}
+        } else {
+            return {"value": index, "label": 'Нет данных'}
+        }
+    }
 
     updateData(old_name, name, old_criteria, criteria) {
         apiService.updateCrit(this.props.art_no_id, old_name.label, name.label, old_criteria, criteria)
@@ -75,7 +82,6 @@ class Characteristics extends Component {
     enterUpdate(e, name, criteria) {
         if (e.code === "Enter" || e.code === "NumpadEnter") {
             this.createData(name, criteria)
-
         }
     }
 
@@ -98,7 +104,8 @@ class Characteristics extends Component {
                                 addNewProp={this.addProp}
                                 key={index}
                                 criteria={prop.crit_val}
-                                name={this.setCritName(index, prop.crit_no_id)}
+                                name={this.setCritName(index, prop.crit_no_id)}z
+                                name_en={this.setCritNameEn(index, prop.crit_no_id)}
                                 defaultValue={prop.value}
                                 all_crit={this.props.all_crit}
                                 all_countries={this.props.all_countries}
@@ -113,6 +120,7 @@ class Characteristics extends Component {
                             key={-1}
                             criteria={''}
                             name={''}
+                            name_en={''}
                             defaultValue={''}
                             all_crit={this.props.all_crit}
                             all_countries={this.props.all_countries}
