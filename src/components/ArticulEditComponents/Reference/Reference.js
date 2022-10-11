@@ -214,10 +214,10 @@ class Reference extends Component {
                                     </th>
                                     <th>
                                         <div className="table__th">
-                                            <div className="table__check check">
-                                                <input type="checkbox"/>
-                                                <label></label>
-                                            </div>
+                                            {/*<div className="table__check check">*/}
+                                            {/*    <input type="checkbox"/>*/}
+                                            {/*    <label></label>*/}
+                                            {/*</div>*/}
                                             <span>Референс</span>
                                         </div>
                                     </th>

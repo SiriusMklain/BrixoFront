@@ -58,10 +58,10 @@ class ValidityItem extends Component {
                     </td>
                     <td>
                         <div className="table__td">
-                            <div className="table__check check">
-                                <input type="checkbox"/>
-                                <label></label>
-                            </div>
+                            {/*<div className="table__check check">*/}
+                            {/*    <input type="checkbox"/>*/}
+                            {/*    <label></label>*/}
+                            {/*</div>*/}
                             <span>{this.type_no}</span>
                         </div>
                     </td>
