@@ -83,7 +83,7 @@ class Characteristic extends Component {
                         options={this.state.all_crit_en}
                         value={this.state.name_en}
                         onChange={this.changeCritNameEn}
-                        onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name_en,
+                        onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name,
                             this.state.old_criteria, this.state.criteria)}
                     />
                 </fieldset>
