@@ -60,9 +60,12 @@ class Docs extends Component{
                         </svg>
                         <span>Выбрать файл</span>
                     </div>
-                    <button className="btn btn-blue" style={{marginTop: 50}}
+                    <button className="btn btn-blue" style={{marginTop: 20}}
                     onClick={(e) => this.doSubmit(e)}
                     >Загрузить файл</button>
+                    <button className="btn btn-blue" style={{marginTop: 80, marginLeft: - 150}}
+                    onClick={(e) => this.doSubmit(e)}
+                    >Удалить файл</button>
                 </div>
             </div>
         </div>
