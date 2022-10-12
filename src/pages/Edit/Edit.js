@@ -29,6 +29,7 @@ class Edit extends Component {
             supers: [],
             crit: [],
             characteristics: [],
+            characteristics_en: [],
             reference: [],
             articles_filter: [],
             dropdownVisible: false,
@@ -105,7 +106,11 @@ class Edit extends Component {
             })
             let characteristics = []
             result.characteristics.forEach(function (item, index) {
-                characteristics.push({"value": index + 1, "label": item.name})
+                characteristics.push({"value": index, "label": item.name})
+            })
+            let characteristics_en = []
+            result.characteristics.forEach(function (item, index) {
+                characteristics_en.push({"value": index, "label": item.name_en})
             })
 
             self.setState({
@@ -118,6 +123,7 @@ class Edit extends Component {
                 all_countries: all_countries,
                 crit: result.crit,
                 characteristics: characteristics,
+                characteristics_en: characteristics_en,
                 reference: result.reference
             }, () => document.title = self.state.article.art_no)
         });
@@ -186,6 +192,7 @@ class Edit extends Component {
                         art_no_id={art_no_id}
                         crit={this.state.crit}
                         all_crit={this.state.characteristics}
+                        all_crit_en={this.state.characteristics_en}
                     />
                     <Reference
                         art_no_id={art_no_id}

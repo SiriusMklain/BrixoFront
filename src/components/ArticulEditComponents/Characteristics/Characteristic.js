@@ -16,12 +16,14 @@ class Characteristic extends Component {
             criteria: '',
             crit: [],
             all_crit: [],
+            all_crit_en: [],
             crit_id: 0,
             old_name: [],
             old_criteria: ''
 
         }
         this.changeCritName = this.changeCritName.bind(this);
+        this.changeCritNameEn = this.changeCritNameEn.bind(this);
         this.changeCriteria = this.changeCriteria.bind(this);
 
 
@@ -31,20 +33,24 @@ class Characteristic extends Component {
         this.setState({
             name: this.props.name,  name_en: this.props.name_en, old_name: this.props.name,
             criteria: this.props.criteria, old_criteria: this.props.criteria,
-            crit_id: this.props.name.id, all_crit: this.props.all_crit
+            crit_id: this.props.name.id, all_crit: this.props.all_crit, all_crit_en: this.props.all_crit_en
         })
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({
             name: nextProps.name, name_en: nextProps.name_en,criteria: nextProps.criteria,
-            all_crit: nextProps.all_crit, crit_id: nextProps.name.id
+            all_crit: nextProps.all_crit, all_crit_en: nextProps.all_crit_en, crit_id: nextProps.name.id
         })
     }
 
 
     changeCritName(e) {
-        this.setState({name: e})
+        console.log("eeee", e.value, this.state.all_crit_en[e.value])
+        this.setState({name: e, name_en: this.state.all_crit_en[e.value]})
+    }
+    changeCritNameEn(e) {
+        this.setState({name_en: e, name: this.state.all_crit[e.value]})
     }
 
     changeCriteria(e) {
@@ -74,9 +80,9 @@ class Characteristic extends Component {
                         classNamePrefix="select"
                         isSearchable={true}
                         name="numsOfRows"
-                        options={this.state.all_crit}
+                        options={this.state.all_crit_en}
                         value={this.state.name_en}
-                        onChange={this.changeCritName}
+                        onChange={this.changeCritNameEn}
                         onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name_en,
                             this.state.old_criteria, this.state.criteria)}
                     />

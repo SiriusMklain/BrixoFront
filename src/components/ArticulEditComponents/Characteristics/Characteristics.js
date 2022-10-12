@@ -44,6 +44,7 @@ class Characteristics extends Component {
             return {"value": index, "label": 'Нет данных'}
         }
     }
+
     setCritNameEn(index, crit_no_id) {
         if (crit_no_id !== null) {
             return {"value": index, "label": crit_no_id.name_en}
@@ -104,10 +105,11 @@ class Characteristics extends Component {
                                 addNewProp={this.addProp}
                                 key={index}
                                 criteria={prop.crit_val}
-                                name={this.setCritName(index, prop.crit_no_id)}z
+                                name={this.setCritName(index, prop.crit_no_id)} z
                                 name_en={this.setCritNameEn(index, prop.crit_no_id)}
                                 defaultValue={prop.value}
                                 all_crit={this.props.all_crit}
+                                all_crit_en={this.props.all_crit_en}
                                 all_countries={this.props.all_countries}
                             />
                         )}
@@ -123,6 +125,7 @@ class Characteristics extends Component {
                             name_en={''}
                             defaultValue={''}
                             all_crit={this.props.all_crit}
+                            all_crit_en={this.props.all_crit_en}
                             all_countries={this.props.all_countries}
                         />
                     </div>
