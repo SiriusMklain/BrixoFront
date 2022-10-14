@@ -186,9 +186,28 @@ class MainData extends Component {
             })
         }
     }
+
     enterUpdate(e) {
         if (e.key === "Enter") {
             this.updateData()
+        }
+    }
+
+    isValid() {
+        if (this.state.art_no === '') {
+            return {borderColor: "red"}
+        } else {
+            return {borderColor: "green"}
+        }
+
+    }
+
+    isSelectValid() {
+        return {
+            control: (provided, state) => ({
+                ...provided,
+                borderColor: state.selectProps.value.value ? 'green !important' : 'red !important',
+            }),
         }
     }
 
@@ -202,7 +221,7 @@ class MainData extends Component {
                     <div className="data-block__grid data-block__grid--maindata">
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>Артикул </label>
-                            <input type="text"
+                            <input type="text" style={this.isValid()}
                                    value={this.state.art_no}
                                    onChange={this.changeArticle}
                                    onBlur={this.updateData}
@@ -213,6 +232,7 @@ class MainData extends Component {
                             <label>Бренд</label>
                             <Select
                                 classNamePrefix="select"
+                                styles={this.isSelectValid()}
                                 isSearchable={true}
                                 name="numsOfRows"
                                 options={this.props.brands}
@@ -284,7 +304,7 @@ class MainData extends Component {
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>GenArtNo</label>
-                            <input type="text"
+                            <input type="text" style={this.isValid()}
                                    value={this.state.gen_art_no}
                                    onChange={this.changeGenArtNo}
                                    onBlur={this.updateData}

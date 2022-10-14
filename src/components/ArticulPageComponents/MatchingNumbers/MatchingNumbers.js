@@ -243,7 +243,6 @@ class MatchingNumbers extends Component {
     }
 
     countPages() {
-        console.log("Page", this.state.bool)
         if (this.state.handle_status === true) {
             return this.state.bool === true ? (this.state.count_pages * 1 + localStorage.getItem('page_from') * 1) :
                     ((this.state.count_pages * 1) * this.state.chunk + localStorage.getItem('page_from') * 1 + 1) - 10

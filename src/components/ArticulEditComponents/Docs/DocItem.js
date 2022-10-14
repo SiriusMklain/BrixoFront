@@ -7,8 +7,7 @@ class DocsItem extends Component {
         this.state = {
             path_image: '',
             doc_name: '',
-            doc_no: '',
-            opacity: 1
+            doc_no: ''
         }
         this.isDeleteDoc = this.isDeleteDoc.bind(this)
     }
@@ -36,10 +35,8 @@ class DocsItem extends Component {
         return (
             <div className="docs__item" style={this.isOpacity()}>
                 <div className="docs__item-img">
-                    {this.props.path_image ?
-                        <img src={this.props.path_image} alt=""
-                             onClick={this.isDeleteDoc}/> :
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {this.props.path_image ? <img src={this.props.path_image} alt="" onClick={this.isDeleteDoc}/> :
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19 2H5C4.20435 2 3.44129 2.31607 2.87868 2.87868C2.31607 3.44129 2 4.20435 2 5V19C2
                         19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 22 5 22H19C19.1645 21.9977
                         19.3284 21.981 19.49 21.95L19.79 21.88H19.86H19.91L20.28 21.74L20.41 21.67C20.51 21.61 20.62
