@@ -1,27 +1,46 @@
 import React, {Component} from "react";
 
 
-
-class DocsItem extends Component{
+class DocsItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
             path_image: '',
             doc_name: '',
+            doc_no: '',
             opacity: 1
+        }
+        this.isDeleteDoc = this.isDeleteDoc.bind(this)
+    }
+
+    isOpacity() {
+        if (this.state.doc_name === this.props.doc_name) {
+            return {opacity: this.props.opacity}
+        } else {
+            return {opacity: 1}
+        }
+    }
+
+    isDeleteDoc(e) {
+        this.setState({doc_name: e.target.currentSrc.split('image/')[1].split('.')[0]})
+        if (this.props.opacity === 1) {
+            this.props.isDeleteFunc(this.props.doc_name, this.props.doc_no)
+
+        } else {
+            this.props.isDeleteFunc()
+            this.setState({doc_name: ''})
         }
     }
 
     render() {
-       return (
-        <div className="docs__item" style={{opacity: this.state.opacity}}>
-            <div className="docs__item-img">
-                {this.props.path_image ?
-                    <img src={this.props.path_image} alt=""
-                    onClick={()=> this.setState({opacity: 0.4})}
-                    /> :
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 2H5C4.20435 2 3.44129 2.31607 2.87868 2.87868C2.31607 3.44129 2 4.20435 2 5V19C2
+        return (
+            <div className="docs__item" style={this.isOpacity()}>
+                <div className="docs__item-img">
+                    {this.props.path_image ?
+                        <img src={this.props.path_image} alt=""
+                             onClick={this.isDeleteDoc}/> :
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 2H5C4.20435 2 3.44129 2.31607 2.87868 2.87868C2.31607 3.44129 2 4.20435 2 5V19C2
                         19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 22 5 22H19C19.1645 21.9977
                         19.3284 21.981 19.49 21.95L19.79 21.88H19.86H19.91L20.28 21.74L20.41 21.67C20.51 21.61 20.62
                         21.56 20.72 21.49C20.8535 21.3918 20.9805 21.2849 21.1 21.17L21.17 21.08C21.2682 20.9805 21.3585
@@ -38,18 +57,18 @@ class DocsItem extends Component{
                         13.86L18.12 12C17.5477 11.457 16.7889 11.1543 16 11.1543C15.2111 11.1543 14.4523 11.457 13.88
                         12L13 12.88L10.12 10C9.54772 9.45699 8.7889 9.15428 8 9.15428C7.2111 9.15428 6.45228 9.45699
                         5.88 10L4 11.86V5C4 4.73478 4.10536 4.48043 4.29289 4.29289C4.48043 4.10536 4.73478 4 5
-                        4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V13.86Z" fill="#6A6B88"/>
-                    </svg>
-                }
+                        4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V13.86Z"
+                                  fill="#6A6B88"/>
+                        </svg>
+                    }
+                </div>
+                <div className="docs__item-title">
+                    {this.props.doc_name}
+                </div>
             </div>
-            <div className="docs__item-title">
-                {this.props.doc_name}
-            </div>
-        </div>
 
-    );
-}
-
+        );
+    }
 }
 
 

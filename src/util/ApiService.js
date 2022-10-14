@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const API_URL = "http://localhost:8000"
 
 class ApiService {
@@ -128,7 +129,6 @@ class ApiService {
             credentials: 'include',
         }).then((response) => response.data);
     }
-
 
     updateCrit(art_no_id, old_name, name, old_criteria, criteria) {
 
@@ -314,7 +314,6 @@ class ApiService {
     sendFile(art_no_id, data) {
         var form_data = new FormData();
         form_data.append('file', data, data.name);
-        console.log("Data", form_data)
         const URL = `${API_URL}/api/v1/document/${art_no_id}/`;
         return axios.post(URL, form_data, {
             headers: {
@@ -325,6 +324,25 @@ class ApiService {
 
 
 
+    }
+
+     deleteDoc(art_no_id, doc_no, doc_name) {
+        const URL = `${API_URL}/api/v1/document/${art_no_id}/`;
+        const data = JSON.stringify(
+            {
+                "doc_no": doc_no,
+                "doc_name": doc_name
+            }
+        )
+        return axios({
+            method: "DELETE",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
+        }).then((response) => response.data);
     }
 
 }
