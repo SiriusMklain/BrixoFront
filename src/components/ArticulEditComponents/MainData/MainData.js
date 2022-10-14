@@ -193,8 +193,8 @@ class MainData extends Component {
         }
     }
 
-    isValid() {
-        if (this.state.art_no === '') {
+    isValid(param) {
+        if (param === '' || param === null || param === undefined) {
             return {borderColor: "red"}
         } else {
             return {borderColor: "green"}
@@ -221,7 +221,7 @@ class MainData extends Component {
                     <div className="data-block__grid data-block__grid--maindata">
                         <fieldset className="fg data-block__col data-block__col2">
                             <label>Артикул </label>
-                            <input type="text" style={this.isValid()}
+                            <input type="text" style={this.isValid(this.state.art_no)}
                                    value={this.state.art_no}
                                    onChange={this.changeArticle}
                                    onBlur={this.updateData}
@@ -304,7 +304,7 @@ class MainData extends Component {
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>GenArtNo</label>
-                            <input type="text" style={this.isValid()}
+                            <input type="text" style={this.isValid(this.state.gen_art_no)}
                                    value={this.state.gen_art_no}
                                    onChange={this.changeGenArtNo}
                                    onBlur={this.updateData}
