@@ -2,16 +2,16 @@
   th,
   td{
     &:first-child{
-      width: 80px;
+      width: 60px;
     }
     &:nth-child(2){
-      width: 180px;
+      width: 100px;
     }
     &:nth-child(3){
-      width: 120px;
+      width: 100px;
     }
     &:nth-child(4){
-      width: 220px;
+      width: 180px;
     }
     &:nth-child(5){
       width: 280px;
