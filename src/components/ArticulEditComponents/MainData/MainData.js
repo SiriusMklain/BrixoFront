@@ -139,10 +139,10 @@ class MainData extends Component {
     }
 
     updateData() {
-        apiService.updateArticle(
+        this.props.critListFunc(
             this.props.art_no_id,
             this.state.art_no,
-            this.state.brand["label"],
+            this.state.brand,
             this.state.countries,
             this.state.trades,
             this.state.quant_unit,

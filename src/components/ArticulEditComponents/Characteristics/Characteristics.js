@@ -45,12 +45,21 @@ class Characteristics extends Component {
         }
     }
 
+    setCritListName(index, crit) {
+
+        return {"value": index, "label": crit}
+    }
+
     setCritNameEn(index, crit_no_id) {
         if (crit_no_id !== null) {
             return {"value": index, "label": crit_no_id.name_en}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
+    }
+    setCritListNameEn(index, crit) {
+
+        return {"value": index, "label": crit}
     }
 
     updateData(old_name, name, old_criteria, criteria) {
@@ -87,7 +96,6 @@ class Characteristics extends Component {
     }
 
     render() {
-
         return (
             <div className="data-block">
                 <div className="data-block__head">
@@ -96,7 +104,24 @@ class Characteristics extends Component {
                 <div className="data-block__content">
                     <div className="data-block__grid props">
 
-                        {this.state.crit.map((prop, index) =>
+                        {(this.state.crit.length === 0) ? this.props.crit_list.map((prop, index) =>
+                            <Characteristic
+                                index={index}
+                                id={prop.id}
+                                deleteFunc={this.deleteCrit}
+                                updateFunc={this.updateData}
+                                addNewProp={this.addProp}
+                                key={index}
+                                criteria={''}
+                                name={this.setCritListName(index, prop.name_ru)}
+                                name_en={this.setCritListNameEn(index, prop.name_en)}
+                                defaultValue={prop.value}
+                                all_crit={this.props.all_crit}
+                                all_crit_en={this.props.all_crit_en}
+                                all_countries={this.props.all_countries}
+                            />
+                        ) :
+                        this.state.crit.map((prop, index) =>
                             <Characteristic
                                 index={index}
                                 id={prop.id}

@@ -36,10 +36,12 @@ class Edit extends Component {
             notification_num: '',
             brand_style: {},
             brand_no: 'all',
+            crit_list: []
         }
 
         this.setBrand = this.setBrand.bind(this)
         this.getStyle = this.getStyle.bind(this)
+        this.getCritList = this.getCritList.bind(this)
     }
 
     componentDidMount() {
@@ -57,8 +59,8 @@ class Edit extends Component {
                     brand_style = {color: 'black', backgroundColor: 'while'}
                     brands.push({...item, brand_style: {color: 'white', backgroundColor: '#6D71F9'}})
                 } else {
-                    if(brand_no === 'all'){
-                       brand_style = {color: 'white', backgroundColor: '#6D71F9'}
+                    if (brand_no === 'all') {
+                        brand_style = {color: 'white', backgroundColor: '#6D71F9'}
                     }
                     brands.push({...item, brand_style: {color: 'black', backgroundColor: 'while'}})
                 }
@@ -166,6 +168,39 @@ class Edit extends Component {
         )
     }
 
+    getCritList(
+        art_no_id, art_no,
+        brand, countries,
+        trades, quant_unit,
+        quant_per_unit,
+        art_stat, status_dat,
+        gtin, gen_art_no, supers) {
+        apiService.updateArticle(
+            art_no_id,
+            art_no,
+            brand,
+            countries,
+            trades,
+            quant_unit,
+            quant_per_unit,
+            art_stat,
+            status_dat,
+            gtin,
+            gen_art_no,
+            supers,
+        ).then((result) => {
+            this.setState({
+                article: result.request_data,
+                crit_list: result.crit_list,
+                brand: result.request_data.brand_no_id.name,
+                countries: result.request_data.country_id,
+                supers: result.request_data.supers_id,
+                trades: result.request_data.trade_id
+            })
+            // console.log("Test", result)
+        })
+    }
+
     render() {
         return (
             <div className="edit-page">
@@ -187,12 +222,14 @@ class Edit extends Component {
                         all_countries={this.state.all_countries}
                         trades={this.state.trades}
                         supers={this.state.supers}
+                        critListFunc={this.getCritList}
                     />
                     <Characteristics
                         art_no_id={art_no_id}
                         crit={this.state.crit}
                         all_crit={this.state.characteristics}
                         all_crit_en={this.state.characteristics_en}
+                        crit_list={this.state.crit_list}
                     />
                     <Reference
                         art_no_id={art_no_id}
@@ -201,7 +238,7 @@ class Edit extends Component {
                         art_no={this.state.article.art_no}
                     />
                     <Validity
-                    art_no_id={art_no_id}
+                        art_no_id={art_no_id}
                     />
                     <Docs
                         art_no_id={art_no_id}
