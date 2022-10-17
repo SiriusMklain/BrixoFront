@@ -18,6 +18,7 @@ class Characteristics extends Component {
         this.updateData = this.updateData.bind(this);
         this.createData = this.createData.bind(this);
         this.enterUpdate = this.enterUpdate.bind(this);
+        this.updateCritMany = this.updateCritMany.bind(this);
     }
 
 
@@ -62,8 +63,21 @@ class Characteristics extends Component {
         return {"value": index, "label": crit}
     }
 
-    updateData(old_name, name, old_criteria, criteria) {
-        apiService.updateCrit(this.props.art_no_id, old_name.label, name.label, old_criteria, criteria)
+    updateData(criteria, old_name, name, old_criteria) {
+        apiService.updateCrit(this.props.art_no_id, criteria, old_name.label, name.label, old_criteria)
+
+    }
+
+    updateCritMany(crit_no, len, criteria) {
+        console.log("Crit_no", this.props.art_no_id, crit_no, len, criteria)
+
+        let crit = [{
+                "crit_no": crit_no,
+                "crit_val": criteria
+            },]
+
+
+        apiService.updateCritMany(this.props.art_no_id, crit)
 
     }
 
@@ -109,7 +123,7 @@ class Characteristics extends Component {
                                 index={index}
                                 id={prop.id}
                                 deleteFunc={this.deleteCrit}
-                                updateFunc={this.updateData}
+                                updateFunc={(criteria) => this.updateCritMany(prop.crit_no, this.props.crit_list.length, criteria)}
                                 addNewProp={this.addProp}
                                 key={index}
                                 criteria={''}

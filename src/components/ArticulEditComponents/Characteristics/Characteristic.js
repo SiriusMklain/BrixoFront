@@ -70,8 +70,8 @@ class Characteristic extends Component {
                         options={this.state.all_crit}
                         value={this.state.name}
                         onChange={this.changeCritName}
-                        onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name,
-                            this.state.old_criteria, this.state.criteria)}
+                        onBlur={() => this.props.updateFunc(this.state.criteria, this.state.old_name, this.state.name,
+                            this.state.old_criteria)}
                     />
                 </fieldset>
                 <fieldset className="fg data-block__col data-block__col3">
@@ -93,8 +93,8 @@ class Characteristic extends Component {
                         type="text"
                         value={this.state.criteria}
                         onChange={this.changeCriteria}
-                        onBlur={() => this.props.updateFunc(this.state.old_name, this.state.name,
-                            this.state.old_criteria, this.state.criteria)}
+                        onBlur={() => this.props.updateFunc(this.state.criteria, this.state.old_name, this.state.name,
+                            this.state.old_criteria)}
                         // onBlurCapture={() => this.props.createFunc(this.state.name, this.state.criteria)}
                         onKeyDown={(e) => this.props.enterFunc(e, this.state.name, this.state.criteria)}
                     />

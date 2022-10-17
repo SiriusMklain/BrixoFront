@@ -130,7 +130,21 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    updateCrit(art_no_id, old_name, name, old_criteria, criteria) {
+    updateCritMany(art_no_id, crit) {
+        const URL = `${API_URL}/api/v1/crit_many/${art_no_id}/`;
+        const data = JSON.stringify(crit)
+        return axios({
+            method: "POST",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
+        }).then((response) => response.data);
+    }
+
+    updateCrit(art_no_id, criteria, old_name, name, old_criteria) {
 
         const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
         const data = JSON.stringify(
@@ -316,17 +330,14 @@ class ApiService {
         form_data.append('file', data, data.name);
         const URL = `${API_URL}/api/v1/document/${art_no_id}/`;
         return axios.post(URL, form_data, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }, credentials: 'include'
-        }
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }, credentials: 'include'
+            }
         ).then((response) => response.data);
-
-
-
     }
 
-     deleteDoc(art_no_id, doc_no, doc_name) {
+    deleteDoc(art_no_id, doc_no, doc_name) {
         const URL = `${API_URL}/api/v1/document/${art_no_id}/`;
         const data = JSON.stringify(
             {

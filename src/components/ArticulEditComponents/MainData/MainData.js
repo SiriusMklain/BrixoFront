@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import './MainData.scss';
 import Select from "react-select";
-import ApiService from "../../../util/ApiService";
 
-const apiService = new ApiService();
 
 class MainData extends Component {
     constructor(props) {
