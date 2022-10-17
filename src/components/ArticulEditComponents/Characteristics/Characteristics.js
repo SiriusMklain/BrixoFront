@@ -58,6 +58,7 @@ class Characteristics extends Component {
             return {"value": index, "label": 'Нет данных'}
         }
     }
+
     setCritListNameEn(index, crit) {
 
         return {"value": index, "label": crit}
@@ -68,13 +69,28 @@ class Characteristics extends Component {
 
     }
 
-    updateCritMany(crit_no, len, criteria) {
-        console.log("Crit_no", this.props.art_no_id, crit_no, len, criteria)
+    updateCritMany(crit_no, len, criteria, index) {
+        console.log("Crit_no", this.props.crit_list)
 
-        let crit = [{
-                "crit_no": crit_no,
+        let array = []
+
+        this.props.crit_list.forEach(function (item, i, arr) {
+            if(index === i){
+                array.push({
+                "crit_no": item.crit_no,
                 "crit_val": criteria
-            },]
+            })
+            }else {
+                array.push({
+                "crit_no": item.crit_no,
+                "crit_val": "Не указан критерий"
+            })
+            }
+
+        });
+        console.log("forEach", array)
+
+        let crit = array
 
 
         apiService.updateCritMany(this.props.art_no_id, crit)
@@ -119,39 +135,39 @@ class Characteristics extends Component {
                     <div className="data-block__grid props">
 
                         {(this.state.crit.length === 0) ? this.props.crit_list.map((prop, index) =>
-                            <Characteristic
-                                index={index}
-                                id={prop.id}
-                                deleteFunc={this.deleteCrit}
-                                updateFunc={(criteria) => this.updateCritMany(prop.crit_no, this.props.crit_list.length, criteria)}
-                                addNewProp={this.addProp}
-                                key={index}
-                                criteria={''}
-                                name={this.setCritListName(index, prop.name_ru)}
-                                name_en={this.setCritListNameEn(index, prop.name_en)}
-                                defaultValue={prop.value}
-                                all_crit={this.props.all_crit}
-                                all_crit_en={this.props.all_crit_en}
-                                all_countries={this.props.all_countries}
-                            />
-                        ) :
-                        this.state.crit.map((prop, index) =>
-                            <Characteristic
-                                index={index}
-                                id={prop.id}
-                                deleteFunc={this.deleteCrit}
-                                updateFunc={this.updateData}
-                                addNewProp={this.addProp}
-                                key={index}
-                                criteria={prop.crit_val}
-                                name={this.setCritName(index, prop.crit_no_id)} z
-                                name_en={this.setCritNameEn(index, prop.crit_no_id)}
-                                defaultValue={prop.value}
-                                all_crit={this.props.all_crit}
-                                all_crit_en={this.props.all_crit_en}
-                                all_countries={this.props.all_countries}
-                            />
-                        )}
+                                <Characteristic
+                                    index={index}
+                                    id={prop.id}
+                                    deleteFunc={this.deleteCrit}
+                                    updateFunc={(criteria) => this.updateCritMany(prop.crit_no, this.props.crit_list.length, criteria, index)}
+                                    addNewProp={this.addProp}
+                                    key={index}
+                                    criteria={''}
+                                    name={this.setCritListName(index, prop.name_ru)}
+                                    name_en={this.setCritListNameEn(index, prop.name_en)}
+                                    defaultValue={prop.value}
+                                    all_crit={this.props.all_crit}
+                                    all_crit_en={this.props.all_crit_en}
+                                    all_countries={this.props.all_countries}
+                                />
+                            ) :
+                            this.state.crit.map((prop, index) =>
+                                <Characteristic
+                                    index={index}
+                                    id={prop.id}
+                                    deleteFunc={this.deleteCrit}
+                                    updateFunc={this.updateData}
+                                    addNewProp={this.addProp}
+                                    key={index}
+                                    criteria={prop.crit_val}
+                                    name={this.setCritName(index, prop.crit_no_id)} z
+                                    name_en={this.setCritNameEn(index, prop.crit_no_id)}
+                                    defaultValue={prop.value}
+                                    all_crit={this.props.all_crit}
+                                    all_crit_en={this.props.all_crit_en}
+                                    all_countries={this.props.all_countries}
+                                />
+                            )}
                         <Characteristic
                             index={-1}
                             id={-1}
