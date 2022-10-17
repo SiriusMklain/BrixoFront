@@ -66,38 +66,29 @@ class Characteristics extends Component {
 
     updateData(criteria, old_name, name, old_criteria) {
         apiService.updateCrit(this.props.art_no_id, criteria, old_name.label, name.label, old_criteria)
-
     }
 
     updateCritMany(crit_no, len, criteria, index) {
-        console.log("Crit_no", this.props.crit_list)
-
-        let array = []
-
-        this.props.crit_list.forEach(function (item, i, arr) {
+        let crit = []
+        this.props.crit_list.forEach(function (item, i) {
             if(index === i){
-                array.push({
+                crit.push({
                 "crit_no": item.crit_no,
                 "crit_val": criteria
             })
             }else {
-                array.push({
+                crit.push({
                 "crit_no": item.crit_no,
-                "crit_val": "Не указан критерий"
+                "crit_val": "-"
             })
             }
-
         });
-        console.log("forEach", array)
-
-        let crit = array
-
-
-        apiService.updateCritMany(this.props.art_no_id, crit)
-
+                apiService.updateCritMany(this.props.art_no_id, crit).then(()=>{
+                    window.location.reload ()
+                })
     }
 
-    createData(name, criteria) {
+    createData(name, name_en, criteria) {
         let new_crit = {
             art_no_id: this.props.art_no_id * 1,
             crit_val: criteria,
@@ -106,22 +97,23 @@ class Characteristics extends Component {
                 crit_no: 0,
                 description: "",
                 id: 0,
-                name: name.label
+                name: name.label,
+                name_en: name_en.label
             }
         }
         let filter = this.state.crit.filter(item => item.crit_no_id !== null)
         let result = filter.find(item => item.crit_no_id.name === new_crit.crit_no_id.name)
         if (result === undefined) {
             this.setState({crit: [...this.state.crit, new_crit]})
-            apiService.createCrit(this.props.art_no_id, name.label, criteria)
+            apiService.createCrit(this.props.art_no_id, name.label, name_en.label, criteria)
         } else {
             this.setState({crit: this.state.crit})
         }
     }
 
-    enterUpdate(e, name, criteria) {
+    enterUpdate(e, name, name_en, criteria) {
         if (e.code === "Enter" || e.code === "NumpadEnter") {
-            this.createData(name, criteria)
+            this.createData(name, name_en, criteria)
         }
     }
 
@@ -172,7 +164,7 @@ class Characteristics extends Component {
                             index={-1}
                             id={-1}
                             deleteFunc={this.deleteCrit}
-                            // createFunc={this.createData}
+                            updateFunc={() => {}}
                             enterFunc={this.enterUpdate}
                             key={-1}
                             criteria={''}

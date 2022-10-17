@@ -106,7 +106,6 @@ class Header extends Component {
     addArticle(){
         apiService.createArticle().then((result) =>{
             let id = result.id
-            console.log("ID", id)
             window.location.href = '/edit/?id=' + id
         })
     }

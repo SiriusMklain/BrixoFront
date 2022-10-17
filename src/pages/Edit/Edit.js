@@ -153,7 +153,6 @@ class Edit extends Component {
     }
 
     setBrand(e, index) {
-        console.log("EDIT", e.target.firstElementChild.value, e)
         let brand_no = e.target.firstElementChild.value
         localStorage.setItem("brand_no", brand_no)
 
@@ -197,7 +196,6 @@ class Edit extends Component {
                 supers: result.request_data.supers_id,
                 trades: result.request_data.trade_id
             })
-            // console.log("Test", result)
         })
     }
 

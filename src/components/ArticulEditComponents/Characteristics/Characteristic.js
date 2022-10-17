@@ -46,7 +46,6 @@ class Characteristic extends Component {
 
 
     changeCritName(e) {
-        console.log("eeee", e.value, this.state.all_crit_en[e.value])
         this.setState({name: e, name_en: this.state.all_crit_en[e.value]})
     }
     changeCritNameEn(e) {
@@ -95,8 +94,7 @@ class Characteristic extends Component {
                         onChange={this.changeCriteria}
                         onBlur={() => this.props.updateFunc(this.state.criteria, this.state.old_name, this.state.name,
                             this.state.old_criteria)}
-                        // onBlurCapture={() => this.props.createFunc(this.state.name, this.state.criteria)}
-                        onKeyDown={(e) => this.props.enterFunc(e, this.state.name, this.state.criteria)}
+                        onKeyDown={(e) => this.props.enterFunc(e, this.state.name, this.state.name_en, this.state.criteria)}
                     />
                 </fieldset>
                 <button

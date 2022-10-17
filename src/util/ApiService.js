@@ -170,13 +170,14 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    createCrit(art_no_id, name, criteria) {
+    createCrit(art_no_id, name, name_en, criteria) {
 
         const URL = `${API_URL}/api/v1/crit/${art_no_id}/`;
         const data = JSON.stringify(
             {
                 "crit": {
                     "name": name,
+                    "name_en": name_en,
                     "crit_val": criteria
                 }
             }
