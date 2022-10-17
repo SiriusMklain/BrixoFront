@@ -91,7 +91,7 @@ class Docs extends Component {
                                 onClick={(e) => this.doSubmit(e)}
                         >Загрузить файл
                         </button>
-                        <button className="btn btn-blue" style={{marginTop: 80, marginLeft: -150}}
+                        <button className="btn btn-blue" style={{marginTop: 80, marginLeft: -157, minWidth: 157}}
                                 onClick={this.deleteDoc}
                         >Удалить файл
                         </button>
