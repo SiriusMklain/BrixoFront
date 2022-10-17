@@ -357,6 +357,18 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    exportTAF() {
+        const URL = `${API_URL}/api/v1/article/export/`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
 }
 
 export default ApiService;

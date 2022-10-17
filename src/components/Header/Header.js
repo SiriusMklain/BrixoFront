@@ -19,7 +19,7 @@ class Header extends Component {
             articles: [],
             brands: [],
             brand_style: {},
-            customStyles : {control: base => ({...base,  height: 46, minHeight: 45})},
+            customStyles: {control: base => ({...base, height: 46, minHeight: 45})},
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -41,7 +41,6 @@ class Header extends Component {
     getDropdownInvisible() {
         this.setState({dropdownVisible: false})
     }
-
 
 
     dropdown() {
@@ -100,13 +99,26 @@ class Header extends Component {
     goToEdit(e) {
         window.location.href = '/edit/?id=' + this.state.article[e.value - 1].id
     }
+
     goToHome() {
         window.location.href = '/'
     }
-    addArticle(){
-        apiService.createArticle().then((result) =>{
+
+    addArticle() {
+        apiService.createArticle().then((result) => {
             let id = result.id
             window.location.href = '/edit/?id=' + id
+        })
+    }
+
+    exportTAF() {
+        apiService.exportTAF().then((result) => {
+            const a = document.createElement('a')
+            a.href = result.file
+            a.download = result.file.split('/').pop()
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
         })
     }
 
@@ -134,14 +146,20 @@ class Header extends Component {
                                 />
 
                             </div>
-                            <button  className="data-block__add-btn btn btn-blue"
-                                     style={{marginRight: 30, minWidth: 200}}
-                                     onClick={this.addArticle}
+                            <button className="data-block__add-btn btn btn-blue"
+                                    style={{marginRight: 30, minWidth: 200}}
+                                    onClick={this.addArticle}
                             >
                                 Добавить артикул
                             </button>
+                            <button className="data-block__add-btn btn btn-blue"
+                                    style={{marginRight: 30, minWidth: 100}}
+                                    onClick={this.exportTAF}
+                            >
+                                Экспорт
+                            </button>
                             <button className="header__notification"
-                                onClick={this.goToHome}
+                                    onClick={this.goToHome}
                             >
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
