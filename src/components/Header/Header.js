@@ -6,6 +6,7 @@ import './Header.scss';
 import logo from '../../assets/img/logo.svg'
 import avatarIcon from '../../assets/img/avatar.png'
 import ApiService from "../../util/ApiService";
+import Button from "react-bootstrap/Button";
 
 
 const apiService = new ApiService();
@@ -146,18 +147,18 @@ class Header extends Component {
                                 />
 
                             </div>
-                            <button className="data-block__add-btn btn btn-blue"
-                                    style={{marginRight: 30, minWidth: 200}}
+                            <Button
+                                    style={{marginRight: 30, minWidth: 200, backgroundColor: '#6D71F9'}}
                                     onClick={this.addArticle}
                             >
                                 Добавить артикул
-                            </button>
-                            <button className="data-block__add-btn btn btn-blue"
-                                    style={{marginRight: 30, minWidth: 100}}
+                            </Button>
+                            <Button className="btn btn-blue"
+                                    style={{marginRight: 30, minWidth: 100, backgroundColor: '#6D71F9'}}
                                     onClick={this.exportTAF}
                             >
                                 Экспорт
-                            </button>
+                            </Button>
                             <button className="header__notification"
                                     onClick={this.goToHome}
                             >

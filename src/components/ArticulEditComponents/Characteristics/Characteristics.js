@@ -2,6 +2,9 @@ import './Characteristics.scss';
 import React, {Component} from "react";
 import Characteristic from "./Characteristic";
 import ApiService from "../../../util/ApiService";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 const apiService = new ApiService();
 
@@ -12,13 +15,18 @@ class Characteristics extends Component {
         this.state = {
             crit: [],
             art_no: '',
-            id: 0
+            id: 0,
+            index: '',
+            showModal: false
         }
         this.deleteCrit = this.deleteCrit.bind(this);
         this.updateData = this.updateData.bind(this);
         this.createData = this.createData.bind(this);
         this.enterUpdate = this.enterUpdate.bind(this);
         this.updateCritMany = this.updateCritMany.bind(this);
+
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
     }
 
 
@@ -26,7 +34,9 @@ class Characteristics extends Component {
         this.setState({crit: nextProps.crit, art_no: nextProps.art_no})
     }
 
-    deleteCrit(id, index) {
+    deleteCrit() {
+        let id = this.state.id
+        let index = this.state.index
         let crit = this.state.crit.filter(el => el.id !== id)
         this.setState({crit: crit})
         this.deleteData(index)
@@ -34,7 +44,9 @@ class Characteristics extends Component {
 
 
     deleteData(index) {
-        apiService.deleteCrit(this.props.art_no_id, this.state.crit[index])
+        apiService.deleteCrit(this.props.art_no_id, this.state.crit[index]).then(()=> {
+            this.close()
+        })
     }
 
     setCritName(index, crit_no_id) {
@@ -117,6 +129,14 @@ class Characteristics extends Component {
         }
     }
 
+    close() {
+        this.setState({showModal: false});
+    }
+
+    open(id, index) {
+        this.setState({showModal: true, index: index, id: id});
+    }
+
     render() {
         return (
             <div className="data-block">
@@ -130,7 +150,7 @@ class Characteristics extends Component {
                                 <Characteristic
                                     index={index}
                                     id={prop.id}
-                                    deleteFunc={this.deleteCrit}
+                                    deleteFunc={this.open}
                                     updateFunc={(criteria) => this.updateCritMany(prop.crit_no, this.props.crit_list.length, criteria, index)}
                                     addNewProp={this.addProp}
                                     key={index}
@@ -147,7 +167,7 @@ class Characteristics extends Component {
                                 <Characteristic
                                     index={index}
                                     id={prop.id}
-                                    deleteFunc={this.deleteCrit}
+                                    deleteFunc={this.open}
                                     updateFunc={this.updateData}
                                     addNewProp={this.addProp}
                                     key={index}
@@ -163,7 +183,7 @@ class Characteristics extends Component {
                         <Characteristic
                             index={-1}
                             id={-1}
-                            deleteFunc={this.deleteCrit}
+                            deleteFunc={this.open}
                             updateFunc={() => {}}
                             enterFunc={this.enterUpdate}
                             key={-1}
@@ -177,6 +197,24 @@ class Characteristics extends Component {
                         />
                     </div>
                 </div>
+
+                <>
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Удаление</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Вы уверены, что хотите удалить?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.close}>
+                            Закрыть
+                        </Button>
+                        <Button variant="primary" onClick={this.deleteCrit}>
+                            Удалить
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                </>
+
             </div>
         );
     }

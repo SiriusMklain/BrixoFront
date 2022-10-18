@@ -4,6 +4,9 @@ import React, {Component} from "react";
 
 import './Reference.scss';
 import ApiService from "../../../util/ApiService";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 const apiService = new ApiService();
 
@@ -14,6 +17,8 @@ class Reference extends Component {
         this.countryValue = React.createRef();
         this.makerValue = React.createRef();
         this.state = {
+            index: '',
+            ref_no: '',
             reference: [],
             references: [],
             reference_value: '',
@@ -21,7 +26,8 @@ class Reference extends Component {
             art_no: '',
             makers: [],
             country_value: '',
-            maker_value: ''
+            maker_value: '',
+            showModal: false
         }
         this.deleteReference = this.deleteReference.bind(this);
         this.searchMakers = this.searchMakers.bind(this);
@@ -30,13 +36,18 @@ class Reference extends Component {
         this.setValueCountry = this.setValueCountry.bind(this);
         this.setValueMaker = this.setValueMaker.bind(this);
 
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({reference: nextProps.reference, art_no: nextProps.art_no})
     }
 
-    deleteReference = (ref_no, index) => {
+    deleteReference = () => {
+        let index = this.state.index
+        let ref_no = this.state.ref_no
         let reference = this.state.reference.filter(el => el.ref_no !== ref_no)
 
         this.setState({reference: reference})
@@ -44,7 +55,9 @@ class Reference extends Component {
     }
 
     deleteData(index) {
-        apiService.deleteReference(this.props.art_no_id, this.state.reference[index])
+        apiService.deleteReference(this.props.art_no_id, this.state.reference[index]).then(()=>{
+            this.close()
+        })
     }
 
     setValueReferense(e) {
@@ -134,6 +147,14 @@ class Reference extends Component {
             });
         }
     }
+    close() {
+        this.setState({showModal: false});
+    }
+
+    open(ref_no, index) {
+        this.setState({showModal: true, index: index, ref_no: ref_no});
+    }
+
 
 
     render() {
@@ -239,7 +260,7 @@ class Reference extends Component {
                                     <ReferenceItem
                                         index={index}
                                         id={reference.art_no_id}
-                                        deleteFunc={this.deleteReference}
+                                        deleteFunc={this.open}
                                         key={index}
                                         num={index + 1}
                                         ref_no={reference.ref_no}
@@ -252,7 +273,24 @@ class Reference extends Component {
                         </div>
                     </div>
                 </div>
+                <>
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Удаление</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Вы уверены, что хотите удалить?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.close}>
+                            Закрыть
+                        </Button>
+                        <Button variant="primary" onClick={this.deleteReference}>
+                            Удалить
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                </>
             </>
+
         );
     }
 

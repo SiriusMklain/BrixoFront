@@ -5,6 +5,10 @@ import MatchingItem from "./MatchingItem";
 import './MatchingNumbers.scss';
 import LocalStorageService from "../../../util/LocalStorageService";
 
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const apiService = new ApiService();
 const localStorageService = new LocalStorageService();
 
@@ -12,6 +16,7 @@ class MatchingNumbers extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: '',
             article: [],
             articles: [],
             next: 1,
@@ -30,7 +35,8 @@ class MatchingNumbers extends Component {
                 {value: '1', label: '10'},
                 {value: '2', label: '20'},
                 {value: '3', label: '50'}
-            ]
+            ],
+            showModal: false
         }
         this.nextPage = this.nextPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
@@ -39,6 +45,9 @@ class MatchingNumbers extends Component {
         this.searhArticle = this.searhArticle.bind(this);
         this.searhNumberArticle = this.searhNumberArticle.bind(this);
         this.eventPaginationEnter = this.eventPaginationEnter.bind(this);
+
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
     }
 
     componentDidMount() {
@@ -191,10 +200,13 @@ class MatchingNumbers extends Component {
         }
     }
 
-    deleteArticle = (id) => {
+    deleteArticle = () => {
+        let id = this.state.id
         let article = this.state.articles.filter(el => el.id !== id)
         this.setState({articles: article})
-        apiService.deleteArticle(id)
+        apiService.deleteArticle(id).then(()=>{
+            this.close()
+        })
     }
 
     searhNumberArticle(lexem) {
@@ -215,7 +227,7 @@ class MatchingNumbers extends Component {
         if (this.state.page_from * 1 > 0 && this.state.count_pages === 1) {
             return (index + 1) + (this.state.page_from * 1)
         }
-        if (this.state.page_from * 1 > 0 && this.state.count_pages !== 1&& this.state.handle_status === false) {
+        if (this.state.page_from * 1 > 0 && this.state.count_pages !== 1 && this.state.handle_status === false) {
             let i = (index + 1) + (this.state.count_pages - 1) * this.state.chunk
             if (i < 0) {
                 return index + 1
@@ -226,10 +238,11 @@ class MatchingNumbers extends Component {
         if (this.state.page_from * 1 > 0 && this.state.count_pages !== 1 && this.state.handle_status === true) {
             if (this.state.page_from * 1 + 1 === this.state.page * 1) {
                 return (index + 1) + (this.state.page_from * 1) + (this.state.count_pages - 1) * this.state.chunk
-            } if(this.state.count_pages === 11){
+            }
+            if (this.state.count_pages === 11) {
                 this.setState({count_pages: 1})
                 return (index + 1) + (this.state.page_from * 1)
-            }else {
+            } else {
                 return (index + 1) + (this.state.page_from * 1) + (this.state.count_pages - 1) * (this.state.chunk * 1)
             }
         } else {
@@ -245,7 +258,7 @@ class MatchingNumbers extends Component {
     countPages() {
         if (this.state.handle_status === true) {
             return this.state.bool === true ? (this.state.count_pages * 1 + localStorage.getItem('page_from') * 1) :
-                    ((this.state.count_pages * 1) * this.state.chunk + localStorage.getItem('page_from') * 1 + 1) - 10
+                ((this.state.count_pages * 1) * this.state.chunk + localStorage.getItem('page_from') * 1 + 1) - 10
         } else {
             return (this.state.count_pages * 1) * (localStorage.getItem('chunk') * 1)
         }
@@ -257,6 +270,14 @@ class MatchingNumbers extends Component {
             this.handleForwardChange()
             this.countPages()
         }
+    }
+
+    close() {
+        this.setState({showModal: false});
+    }
+
+    open(id) {
+        this.setState({showModal: true, id: id});
     }
 
     render() {
@@ -352,7 +373,7 @@ class MatchingNumbers extends Component {
                                         num={this.getNum(index)}
                                         id={article.id}
                                         articles={article}
-                                        deleteFunc={this.deleteArticle}
+                                        deleteFunc={this.open}
                                     />
                                 )}
                                 </tbody>
@@ -369,7 +390,7 @@ class MatchingNumbers extends Component {
                                 stroke="#232445" strokeWidth="2" strokeLinecap="round"
                                 strokeLinejoin="round"></path>
                         </svg>
-                        <button className="nav__btn btn btn-gray" onClick={this.prevPage}>Назад</button>
+                        <button className="nav__btn btn btn-red-outline" onClick={this.prevPage}>Назад</button>
                         <button className="nav__btn btn btn-red-outline" onClick={this.nextPage}>Далее</button>
                         <svg width="17" height="13" viewBox="0 0 17 13" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -398,6 +419,22 @@ class MatchingNumbers extends Component {
                         </div>
                     </div>
                 </div>
+                <>
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Удаление</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Вы уверены, что хотите удалить?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.close}>
+                            Закрыть
+                        </Button>
+                        <Button variant="primary" onClick={this.deleteArticle}>
+                            Удалить
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                </>
             </>
         );
     }
