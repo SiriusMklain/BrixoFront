@@ -1,8 +1,9 @@
 import './Docs.scss';
 import DocItem from "./DocItem";
-import {Component} from "react";
+import React, {Component} from "react";
 import ApiService from "../../../util/ApiService";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 const apiService = new ApiService();
 
@@ -14,11 +15,14 @@ class Docs extends Component {
             data: '',
             doc_name: '',
             doc_no: '',
-            opacity: ''
+            opacity: '',
+
         }
         this.sendFile = this.sendFile.bind(this)
         this.beforeDelete = this.beforeDelete.bind(this)
         this.deleteDoc = this.deleteDoc.bind(this)
+
+
     }
 
     componentDidMount() {
@@ -55,6 +59,8 @@ class Docs extends Component {
         })
         return true
     }
+
+
 
     render() {
         return (
@@ -98,6 +104,7 @@ class Docs extends Component {
                         </Button>
                     </div>
                 </div>
+
             </div>
 
         );

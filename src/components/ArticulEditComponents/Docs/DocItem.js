@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 
 class DocsItem extends Component {
@@ -7,9 +9,13 @@ class DocsItem extends Component {
         this.state = {
             path_image: '',
             doc_name: '',
-            doc_no: ''
+            doc_no: '',
+            showModal: false
         }
         this.isDeleteDoc = this.isDeleteDoc.bind(this)
+
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
     }
 
     isOpacity() {
@@ -31,11 +37,23 @@ class DocsItem extends Component {
         }
     }
 
+    close() {
+        this.setState({showModal: false});
+    }
+
+    open() {
+
+        this.setState({showModal: true});
+    }
+
     render() {
         return (
             <div className="docs__item" style={this.isOpacity()}>
                 <div className="docs__item-img">
-                    {this.props.path_image ? <img src={this.props.path_image} alt="" onClick={this.isDeleteDoc}/> :
+                    {this.props.path_image ? <img src={this.props.path_image} alt=""
+                                                  onClick={this.isDeleteDoc}
+                                                  onDoubleClick={this.open}
+                        /> :
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19 2H5C4.20435 2 3.44129 2.31607 2.87868 2.87868C2.31607 3.44129 2 4.20435 2 5V19C2
                         19.7956 2.31607 20.5587 2.87868 21.1213C3.44129 21.6839 4.20435 22 5 22H19C19.1645 21.9977
@@ -62,6 +80,17 @@ class DocsItem extends Component {
                 <div className="docs__item-title">
                     {this.props.doc_name}
                 </div>
+                <>
+                <Modal
+                    size="xl"
+                    fullscreen={'xxl-down'}
+                    show={this.state.showModal}
+                    onHide={this.close}>
+                    <Modal.Header closeButton>
+                    </Modal.Header>
+                        <img src={this.props.path_image} alt=""/>
+                </Modal>
+                </>
             </div>
 
         );

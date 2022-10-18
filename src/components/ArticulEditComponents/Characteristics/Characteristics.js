@@ -205,7 +205,7 @@ class Characteristics extends Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Удаление</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Вы уверены, что хотите удалить характеристику <b>{this.state.name.split(/(?:\[|\/)+/)[0]}</b> ?</Modal.Body>
+                    <Modal.Body>Вы уверены, что хотите удалить характеристику <b>{this.state.name.split(/(?:\[|\/|\()+/)[0]}</b> ?</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.close}>
                             Закрыть
