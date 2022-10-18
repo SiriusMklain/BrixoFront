@@ -205,12 +205,13 @@ class Reference extends Component {
                                     placeholder={'Поиск'}
                                 />
                             </fieldset>
-                            <button
+                            <Button
+                                style={{marginRight: 30, minWidth: 200, backgroundColor: '#6D71F9'}}
                                 onClick={this.addNewReference}
-                                className="data-block__add-btn btn btn-blue"
+                                className="btn btn-blue"
                             >
                                 Добавить
-                            </button>
+                            </Button>
 
                         </div>
                         <div className="table reference-table">

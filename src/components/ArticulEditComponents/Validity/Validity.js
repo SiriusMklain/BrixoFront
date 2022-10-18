@@ -5,6 +5,7 @@ import './Validity.scss';
 import React, {Component, useRef, useState} from "react";
 import ApiService from "../../../util/ApiService";
 import {store} from "../../../redux/store";
+import Button from "react-bootstrap/Button";
 
 const apiService = new ApiService();
 
@@ -130,12 +131,13 @@ class Validity extends Component {
                                     // onChange={(el) => setValidityType(el)}
                                 />
                             </fieldset>
-                            <button
+                            <Button
                                 // onClick={addNewValidity}
                                 className="data-block__add-btn btn btn-blue"
+                                style={{marginRight: 30, minWidth: 200, backgroundColor: '#6D71F9'}}
                             >
                                 Добавить
-                            </button>
+                            </Button>
 
                         </div>
                         <div className="table validity-table">
