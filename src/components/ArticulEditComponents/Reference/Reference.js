@@ -279,12 +279,12 @@ class Reference extends Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Удаление</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Вы уверены, что хотите удалить?</Modal.Body>
+                    <Modal.Body>Вы уверены, что хотите удалить референс <b>{this.state.ref_no}</b> ?</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.close}>
                             Закрыть
                         </Button>
-                        <Button variant="primary" onClick={this.deleteReference}>
+                        <Button variant="danger" onClick={this.deleteReference}>
                             Удалить
                         </Button>
                     </Modal.Footer>

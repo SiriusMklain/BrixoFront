@@ -17,7 +17,8 @@ class Characteristics extends Component {
             art_no: '',
             id: 0,
             index: '',
-            showModal: false
+            showModal: false,
+            name: ''
         }
         this.deleteCrit = this.deleteCrit.bind(this);
         this.updateData = this.updateData.bind(this);
@@ -133,8 +134,9 @@ class Characteristics extends Component {
         this.setState({showModal: false});
     }
 
-    open(id, index) {
-        this.setState({showModal: true, index: index, id: id});
+    open(id, index, name) {
+        console.log(name)
+        this.setState({showModal: true, index: index, id: id, name: name.label});
     }
 
     render() {
@@ -199,16 +201,16 @@ class Characteristics extends Component {
                 </div>
 
                 <>
-                <Modal show={this.state.showModal} onHide={this.close}>
+                <Modal size="lg" show={this.state.showModal} onHide={this.close}>
                     <Modal.Header closeButton>
                         <Modal.Title>Удаление</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Вы уверены, что хотите удалить?</Modal.Body>
+                    <Modal.Body>Вы уверены, что хотите удалить характеристику <b>{this.state.name.split(/(?:\[|\/)+/)[0]}</b> ?</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.close}>
                             Закрыть
                         </Button>
-                        <Button variant="primary" onClick={this.deleteCrit}>
+                        <Button variant="danger" onClick={this.deleteCrit}>
                             Удалить
                         </Button>
                     </Modal.Footer>

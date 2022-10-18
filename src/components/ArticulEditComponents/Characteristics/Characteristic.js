@@ -57,7 +57,7 @@ class Characteristic extends Component {
     }
 
     render() {
-
+        console.log(this.state.name.label)
         return (
             <div className="prop">
                 <fieldset className="fg data-block__col data-block__col3">
@@ -99,7 +99,7 @@ class Characteristic extends Component {
                 </fieldset>
                 <button
                     className="prop__delete"
-                    onClick={() => this.props.deleteFunc(this.id, this.index)}
+                    onClick={() => this.props.deleteFunc(this.id, this.index, this.state.name)}
                 >
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd"

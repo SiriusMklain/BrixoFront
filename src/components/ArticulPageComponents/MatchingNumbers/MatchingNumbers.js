@@ -17,6 +17,7 @@ class MatchingNumbers extends Component {
         super(props);
         this.state = {
             id: '',
+            arty_no: '',
             article: [],
             articles: [],
             next: 1,
@@ -276,11 +277,12 @@ class MatchingNumbers extends Component {
         this.setState({showModal: false});
     }
 
-    open(id) {
-        this.setState({showModal: true, id: id});
+    open(id, art_no) {
+        this.setState({showModal: true, id: id, art_no: art_no});
     }
 
     render() {
+        console.log(this.state.id)
         return (
             <>
                 <div className="data-block">
@@ -424,12 +426,12 @@ class MatchingNumbers extends Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Удаление</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Вы уверены, что хотите удалить?</Modal.Body>
+                    <Modal.Body>Вы уверены, что хотите удалить артикул <b>{this.state.art_no}</b> ?</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.close}>
                             Закрыть
                         </Button>
-                        <Button variant="primary" onClick={this.deleteArticle}>
+                        <Button variant="danger" onClick={this.deleteArticle}>
                             Удалить
                         </Button>
                     </Modal.Footer>

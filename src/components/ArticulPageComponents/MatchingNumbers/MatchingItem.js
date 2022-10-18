@@ -81,7 +81,7 @@ class MatchingItem extends Component {
                     </div>
                     <div className="table__nav">
                         <button
-                            onClick={() => this.props.deleteFunc(this.state.articles.id)}
+                            onClick={() => this.props.deleteFunc(this.state.articles.id, this.state.articles.art_no)}
                             className="delete-btn"
                         >
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
