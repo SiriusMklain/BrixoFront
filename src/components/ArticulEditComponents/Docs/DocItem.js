@@ -82,7 +82,7 @@ class DocsItem extends Component {
                 </div>
                 <>
                 <Modal
-                    size="xl"
+                    size="lg"
                     fullscreen={'xxl-down'}
                     show={this.state.showModal}
                     onHide={this.close}>
