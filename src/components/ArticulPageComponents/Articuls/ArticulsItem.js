@@ -7,6 +7,7 @@ class ArticulItem extends Component {
 
     render() {
         return (
+
             <tr>
                 <td>
                     <div className="table__td">
@@ -16,10 +17,6 @@ class ArticulItem extends Component {
                 <td>
                     <a href={'/edit/?id=' + this.props.id}>
                         <div className="table__td">
-                            <div className="table__check check">
-                                <input type="checkbox"/>
-                                <label></label>
-                            </div>
                             <span>{this.props.art_no}</span>
                         </div>
                     </a>
