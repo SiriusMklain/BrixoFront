@@ -87,7 +87,7 @@ class Home extends Component {
 
     deleteError(id, article){
         let articuls = this.state.articuls.filter(el => el.id !== id)
-        this.setState({articuls: articuls, articles_filter: article})
+        this.setState({articuls: articuls, articles_filter: article, notification_num: 0})
     }
 
     render() {
