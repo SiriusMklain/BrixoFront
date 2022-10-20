@@ -206,6 +206,7 @@ class MatchingNumbers extends Component {
         let article = this.state.articles.filter(el => el.id !== id)
         this.setState({articles: article})
         apiService.deleteArticle(id).then(()=>{
+            this.props.funcDeleteError(id, article)
             this.close()
         })
     }
@@ -282,7 +283,6 @@ class MatchingNumbers extends Component {
     }
 
     render() {
-        console.log(this.state.id)
         return (
             <>
                 <div className="data-block">

@@ -3,6 +3,7 @@ import MatchingNumbers from "../../components/ArticulPageComponents/MatchingNumb
 import Header from "../../components/Header/Header";
 import React, {Component} from "react";
 import ApiService from "../../util/ApiService";
+import articuls from "../../components/ArticulPageComponents/Articuls/Articuls";
 
 const apiService = new ApiService();
 
@@ -20,6 +21,7 @@ class Home extends Component {
         }
         this.setBrand = this.setBrand.bind(this)
         this.getStyle = this.getStyle.bind(this)
+        this.deleteError = this.deleteError.bind(this)
     }
 
 
@@ -83,6 +85,11 @@ class Home extends Component {
         )
     }
 
+    deleteError(id, article){
+        let articuls = this.state.articuls.filter(el => el.id !== id)
+        this.setState({articuls: articuls, articles_filter: article})
+    }
+
     render() {
         return (
             <div className="home-page">
@@ -100,6 +107,7 @@ class Home extends Component {
                     />
                     <MatchingNumbers
                         articles_filter={this.state.articles_filter}
+                        funcDeleteError={this.deleteError}
                     />
 
                 </div>

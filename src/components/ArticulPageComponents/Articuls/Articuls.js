@@ -1,8 +1,6 @@
 import ArticulItem from "./ArticulsItem";
 import {Component} from "react";
-import ApiService from "../../../util/ApiService";
 
-const apiService = new ApiService();
 
 class Articuls extends Component {
     constructor(props) {
@@ -11,11 +9,16 @@ class Articuls extends Component {
             articuls: []
         }
     }
-     componentWillReceiveProps(nextProps, nextContext) {
+    componentDidMount() {
+        this.setState({articuies: this.props.articuls})
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
         this.setState({articuls: nextProps.articuls})
      }
 
     render() {
+
         return (
             <div className="data-block">
                 <div className="data-block__head">
