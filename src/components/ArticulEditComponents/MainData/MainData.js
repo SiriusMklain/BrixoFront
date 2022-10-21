@@ -9,6 +9,7 @@ const apiService = new ApiService();
 class MainData extends Component {
     constructor(props) {
         super(props);
+        this.genArtNoValue = React.createRef();
         this.supersValue = React.createRef();
         this.tradeValue = React.createRef();
         this.state = {
@@ -145,7 +146,6 @@ class MainData extends Component {
     }
 
     updateData() {
-        console.log(5555, this.state.gen_art_no)
         this.props.critListFunc(
             this.props.art_no_id,
             this.state.art_no,
@@ -183,6 +183,7 @@ class MainData extends Component {
     }
 
     eventSupersEnter(e) {
+        this.genArtNoValue.current.clearValue()
         if (e.key === "Enter") {
             this.supersValue.current.setValue()
             this.setState({
@@ -325,17 +326,18 @@ class MainData extends Component {
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>GenArtNo</label>
                             <Select
+                                ref={this.genArtNoValue}
                                 classNamePrefix="select"
                                 styles={this.isSelectValid()}
                                 isSearchable={true}
                                 name="getArtNo"
-                                value={{'value': 1, 'label': this.state.gen_art_no}}
+                                value={this.state.gen_art_no ? {'value': 1, 'label': this.state.gen_art_no} : ''}
                                 options={this.state.list_gen_art_no}
                                 onChange={this.changeGenArtNo}
                                 onInputChange={this.searchGetArtNo}
+                                onMenuOpen={()=> this.setState({gen_art_no: ''})}
                                 onBlur={this.updateData}
-
-                                placeholder={""}
+                                placeholder={"Создание, поиск"}
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col6">
