@@ -1,7 +1,10 @@
 import React, {Component} from "react";
 import './MainData.scss';
 import Select from "react-select";
+import ApiService from "../../../util/ApiService";
 
+
+const apiService = new ApiService();
 
 class MainData extends Component {
     constructor(props) {
@@ -25,6 +28,7 @@ class MainData extends Component {
             status_dat: '',
             gtin: '',
             gen_art_no: '',
+            list_gen_art_no: [],
             searchStatus: true
 
         }
@@ -47,6 +51,7 @@ class MainData extends Component {
         this.eventTradeEnter = this.eventTradeEnter.bind(this);
         this.eventSupersEnter = this.eventSupersEnter.bind(this);
         this.enterUpdate = this.enterUpdate.bind(this);
+        this.searchGetArtNo = this.searchGetArtNo.bind(this)
     }
 
     componentDidMount() {
@@ -124,7 +129,10 @@ class MainData extends Component {
     }
 
     changeGenArtNo(e) {
-        this.setState({gen_art_no: e.target.value})
+         try {
+            this.setState({gen_art_no: e.label})
+        } catch (e) {
+        }
     }
 
     changeSupers(e) {
@@ -137,6 +145,7 @@ class MainData extends Component {
     }
 
     updateData() {
+        console.log(5555, this.state.gen_art_no)
         this.props.critListFunc(
             this.props.art_no_id,
             this.state.art_no,
@@ -204,9 +213,22 @@ class MainData extends Component {
         return {
             control: (provided, state) => ({
                 ...provided,
-                borderColor: state.selectProps.value.value ? 'green !important' : 'red !important',
+                borderColor: state.selectProps.value.label ? 'green !important' : 'red !important',
             }),
         }
+    }
+
+    searchGetArtNo(lexem) {
+        apiService.getGenArtNo(lexem).then((result) => {
+                let gen_art_no = [];
+                result.forEach(function (item, index) {
+                    gen_art_no.push({"value": index + 2, "label": item.gen_number})
+                });
+                this.setState({list_gen_art_no: [{
+                    "value": 1,
+                    "label": lexem
+                }, ...gen_art_no]})
+            });
     }
 
     render() {
@@ -302,13 +324,19 @@ class MainData extends Component {
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
                             <label>GenArtNo</label>
-                            <input type="text" style={this.isValid(this.state.gen_art_no)}
-                                   value={this.state.gen_art_no}
-                                   onChange={this.changeGenArtNo}
-                                   onBlur={this.updateData}
-                                   onKeyDown={this.enterUpdate}
-                            />
+                            <Select
+                                classNamePrefix="select"
+                                styles={this.isSelectValid()}
+                                isSearchable={true}
+                                name="getArtNo"
+                                value={{'value': 1, 'label': this.state.gen_art_no}}
+                                options={this.state.list_gen_art_no}
+                                onChange={this.changeGenArtNo}
+                                onInputChange={this.searchGetArtNo}
+                                onBlur={this.updateData}
 
+                                placeholder={""}
+                            />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col6">
                             <label>Замены (SupersNo)</label>

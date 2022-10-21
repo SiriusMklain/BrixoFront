@@ -57,7 +57,6 @@ class Characteristic extends Component {
     }
 
     render() {
-        console.log(this.state.name.label)
         return (
             <div className="prop">
                 <fieldset className="fg data-block__col data-block__col3">

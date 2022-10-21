@@ -369,6 +369,18 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    getGenArtNo(lexem){
+        const URL = `${API_URL}/api/v1/gen_art/${lexem}/`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
 }
 
 export default ApiService;
