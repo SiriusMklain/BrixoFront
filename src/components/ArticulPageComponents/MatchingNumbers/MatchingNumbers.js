@@ -46,6 +46,7 @@ class MatchingNumbers extends Component {
         this.searhArticle = this.searhArticle.bind(this);
         this.searhNumberArticle = this.searhNumberArticle.bind(this);
         this.eventPaginationEnter = this.eventPaginationEnter.bind(this);
+        this.deleteEmptyArticle = this.deleteEmptyArticle.bind(this);
 
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
@@ -210,6 +211,13 @@ class MatchingNumbers extends Component {
             this.close()
         })
     }
+    deleteEmptyArticle = (id) => {
+        let article = this.state.articles.filter(el => el.id !== id)
+        this.setState({articles: article})
+        apiService.deleteArticle(id).then(()=>{
+            this.props.funcDeleteError(id, article)
+        })
+    }
 
     searhNumberArticle(lexem) {
         this.setState({number_article: lexem.target.value})
@@ -343,10 +351,6 @@ class MatchingNumbers extends Component {
                                     </th>
                                     <th>
                                         <div className="table__th">
-                                            {/*<div className="table__check check">*/}
-                                            {/*    <input type="checkbox"/>*/}
-                                            {/*    <label></label>*/}
-                                            {/*</div>*/}
                                             <span>Артикул</span>
                                         </div>
                                     </th>
@@ -376,6 +380,7 @@ class MatchingNumbers extends Component {
                                         id={article.id}
                                         articles={article}
                                         deleteFunc={this.open}
+                                        emptyArticleFunc={this.deleteEmptyArticle}
                                     />
                                 )}
                                 </tbody>

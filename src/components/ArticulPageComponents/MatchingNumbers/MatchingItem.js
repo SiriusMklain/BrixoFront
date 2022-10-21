@@ -17,7 +17,14 @@ class MatchingItem extends Component {
     }
 
     componentDidMount() {
-        this.setState({articles: this.props.articles, num: this.props.num})
+        if(!this.props.articles.art_no && this.props.articles.brand_no_id === null){
+            this.props.emptyArticleFunc(this.props.articles.id)
+        }
+        else if(!this.props.articles.art_no || this.props.articles.brand_no_id === null){
+            this.props.emptyArticleFunc(this.props.articles.id)
+        }else{
+            this.setState({articles: this.props.articles, num: this.props.num})
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -57,10 +64,6 @@ class MatchingItem extends Component {
                 <td>
                     <a href={'/edit/?id=' + this.state.articles.id}>
                         <div className="table__td">
-                            {/*<div className="table__check check">*/}
-                            {/*    <input type="checkbox"/>*/}
-                            {/*    <label></label>*/}
-                            {/*</div>*/}
                             <span>{this.state.articles.art_no}</span>
                         </div>
                     </a>

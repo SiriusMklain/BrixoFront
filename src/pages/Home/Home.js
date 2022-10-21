@@ -3,7 +3,7 @@ import MatchingNumbers from "../../components/ArticulPageComponents/MatchingNumb
 import Header from "../../components/Header/Header";
 import React, {Component} from "react";
 import ApiService from "../../util/ApiService";
-import articuls from "../../components/ArticulPageComponents/Articuls/Articuls";
+
 
 const apiService = new ApiService();
 

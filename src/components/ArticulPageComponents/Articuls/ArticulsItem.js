@@ -1,13 +1,9 @@
 import {Component} from "react";
 
 class ArticulItem extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
-
             <tr>
                 <td>
                     <div className="table__td">
