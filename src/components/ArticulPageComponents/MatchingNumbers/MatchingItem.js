@@ -20,7 +20,7 @@ class MatchingItem extends Component {
         if(!this.props.articles.art_no && this.props.articles.brand_no_id === null){
             this.props.emptyArticleFunc(this.props.articles.id)
         }
-        else if(!this.props.articles.art_no || this.props.articles.brand_no_id === null){
+        if(!this.props.articles.art_no || this.props.articles.brand_no_id === null){
             this.props.emptyArticleFunc(this.props.articles.id)
         }else{
             this.setState({articles: this.props.articles, num: this.props.num})

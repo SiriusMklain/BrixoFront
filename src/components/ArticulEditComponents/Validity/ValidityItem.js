@@ -99,10 +99,12 @@ class ValidityItem extends Component {
                                 <span>Добавить критерий</span>
                             </button>
                         </div>
+                    </td>
+                    <td>
                         <div className="table__nav">
                             <button
                                 // onClick={()=> {deleteFunc(id)}}
-                                className="table__delete delete-btn"
+                                className="table__delete delete-param-btn"
                             >
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
