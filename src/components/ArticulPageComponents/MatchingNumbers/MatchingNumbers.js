@@ -209,6 +209,17 @@ class MatchingNumbers extends Component {
         apiService.deleteArticle(id).then(()=>{
             this.props.funcDeleteError(id, article)
             this.close()
+        }).then(()=>{
+            apiService.getArticles(
+                localStorage.getItem("brand_no"),
+                this.state.chunk,
+                this.state.next,
+                this.state.prev,
+                this.state.page_from,
+                this.state.page_to
+            ).then(result => {
+                this.setState({articles: result.article, next: result.nextlink, prev: result.prevlink})
+            });
         })
     }
     deleteEmptyArticle = (id) => {

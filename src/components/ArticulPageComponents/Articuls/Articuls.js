@@ -20,13 +20,13 @@ class Articuls extends Component {
 
     render() {
         return (
-            <> { this.state.articuls.length !== 0 ?
+            <> {this.state.articuls.length !== 0 ?
                 <div className="data-block">
                     <div className="data-block__head">
                         <div className="data-block__title">Требующие внимания</div>
                     </div>
                     <div className="data-block__content">
-                        <div className="table table1">
+                        <div className="table table1" style={{maxHeight: 300, overflowY: "auto"}}>
                             <table>
                                 <thead>
                                 <tr>
@@ -58,7 +58,6 @@ class Articuls extends Component {
                                     </th>
                                 </tr>
                                 </thead>
-
                                 <tbody> {
                                     this.state.articuls.map((articul, index) =>
                                         <ArticulItem

@@ -3,6 +3,8 @@ import MatchingNumbers from "../../components/ArticulPageComponents/MatchingNumb
 import Header from "../../components/Header/Header";
 import React, {Component} from "react";
 import ApiService from "../../util/ApiService";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 
 const apiService = new ApiService();
@@ -26,8 +28,8 @@ class Home extends Component {
 
 
     componentDidMount() {
-         apiService.getErrors().then((result) => {
-            this.setState({articuls: result.slice(0,5), notification_num: result.length})
+        apiService.getErrors().then((result) => {
+            this.setState({articuls: result, notification_num: result.length})
         })
         apiService.getArticlesBrand().then((result) => {
             let brand_no = localStorage.getItem("brand_no")
@@ -38,13 +40,16 @@ class Home extends Component {
                     brand_style = {color: 'black', backgroundColor: 'while'}
                     brands.push({...item, brand_style: {color: 'white', backgroundColor: '#6D71F9'}})
                 } else {
-                    if(brand_no === 'all'){
-                       brand_style = {color: 'white', backgroundColor: '#6D71F9'}
+                    if (brand_no === 'all') {
+                        brand_style = {color: 'white', backgroundColor: '#6D71F9'}
                     }
                     brands.push({...item, brand_style: {color: 'black', backgroundColor: 'while'}})
                 }
             })
-            this.setState({brands: brands, brand_style: brand_style}, () => document.title = localStorage.getItem('brand_name'))
+            this.setState({
+                brands: brands,
+                brand_style: brand_style
+            }, () => document.title = localStorage.getItem('brand_name'))
         })
     }
 
@@ -85,9 +90,10 @@ class Home extends Component {
         )
     }
 
-    deleteError(id, article){
+    deleteError(id, article) {
         let articuls = this.state.articuls.filter(el => el.id !== id)
-        this.setState({articuls: articuls, articles_filter: article, notification_num: 0})
+
+        this.setState({articuls: articuls, articles_filter: article, notification_num: this.state.articuls.length - 1})
     }
 
     render() {
@@ -100,16 +106,18 @@ class Home extends Component {
                         dropdownVisible={this.state.dropdownVisible}
                         brand_style={this.state.brand_style}
                         notification_num={this.state.notification_num}
+                        articuls={this.state.articuls}
+                        home={true}
                     />
                     <div className="home-page__title display2">Список и поиск артикулов</div>
                     <Articuls
-                    articuls={this.state.articuls}
+                        articuls={this.state.articuls}
                     />
+
                     <MatchingNumbers
                         articles_filter={this.state.articles_filter}
                         funcDeleteError={this.deleteError}
                     />
-
                 </div>
             </div>
         );

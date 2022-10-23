@@ -47,7 +47,7 @@ class Edit extends Component {
     componentDidMount() {
         const self = this;
         apiService.getErrors().then((result) => {
-            self.setState({notification_num: result.length})
+            self.setState({articuls: result, notification_num: result.length})
         })
 
         apiService.getArticlesBrand().then((result) => {
@@ -209,6 +209,8 @@ class Edit extends Component {
                         dropdownVisible={this.state.dropdownVisible}
                         brand_style={this.state.brand_style}
                         notification_num={this.state.notification_num}
+                        articuls={this.state.articuls}
+                        home={false}
                     />
                     <div className="home-page__title display2">Редактирование артикула</div>
                     <MainData

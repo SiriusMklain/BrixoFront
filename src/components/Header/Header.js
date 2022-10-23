@@ -7,6 +7,7 @@ import logo from '../../assets/img/logo.svg'
 import avatarIcon from '../../assets/img/avatar.png'
 import ApiService from "../../util/ApiService";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 
 const apiService = new ApiService();
@@ -21,6 +22,7 @@ class Header extends Component {
             brands: [],
             brand_style: {},
             customStyles: {control: base => ({...base, height: 46, minHeight: 45})},
+            showModal: false
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -28,6 +30,9 @@ class Header extends Component {
         this.goToEdit = this.goToEdit.bind(this)
         this.goToHome = this.goToHome.bind(this)
         this.addArticle = this.addArticle.bind(this)
+
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
 
     }
 
@@ -123,6 +128,25 @@ class Header extends Component {
         })
     }
 
+     close() {
+        this.setState({showModal: false});
+    }
+
+    open(id, art_no) {
+        this.setState({showModal: true, id: id, art_no: art_no});
+    }
+    modalSize(){
+        if(this.props.articuls){
+            if(this.props.articuls.length > 10){
+           return "lg"
+        }else {
+           return ""
+        }
+        }else{
+            return ""
+        }
+    }
+
     render() {
         return (
             <header className='header'>
@@ -148,8 +172,8 @@ class Header extends Component {
 
                             </div>
                             <Button
-                                    style={{marginRight: 30, minWidth: 200, backgroundColor: '#6D71F9'}}
-                                    onClick={this.addArticle}
+                                style={{marginRight: 30, minWidth: 200, backgroundColor: '#6D71F9'}}
+                                onClick={this.addArticle}
                             >
                                 Добавить артикул
                             </Button>
@@ -159,19 +183,19 @@ class Header extends Component {
                             >
                                 Экспорт
                             </Button>
-                            {this.props.notification_num !== 0 ?
-                            <button className="header__notification"
-                                    onClick={this.goToHome}
-                            >
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M10.97 15.9042C11.3844 15.9164 11.7913 16.0175 12.1628 16.2005H12.1852C12.4955 16.4537 12.5483 16.9057 12.3045 17.2228C11.8605 17.8581 11.1501 18.2587 10.3735 18.3117C9.57566 18.4068 8.77216 18.1859 8.13695 17.6968C7.81028 17.4728 7.59798 17.1186 7.55544 16.7264C7.55544 16.3116 7.94312 16.119 8.30097 16.0375C8.72011 15.9492 9.14737 15.9046 9.57582 15.9042H10.97ZM10.0306 1.66666C12.6101 1.66666 15.2717 3.53339 15.5475 6.23719C15.5922 6.79277 15.5475 7.37056 15.5922 7.93355C15.7386 8.65956 16.0755 9.33423 16.5689 9.88917C16.8756 10.3452 17.0533 10.8748 17.0834 11.4226V11.5929C17.0879 12.332 16.8231 13.0477 16.3378 13.6078C15.7227 14.2655 14.8881 14.6788 13.9894 14.7708C11.3339 15.1115 8.64531 15.1115 5.98983 14.7708C5.08046 14.6858 4.23416 14.2719 3.61159 13.6078C3.14152 13.0423 2.89502 12.326 2.91825 11.5929V11.4226C2.94735 10.8769 3.11954 10.3483 3.41776 9.88917C3.91329 9.33371 4.25498 8.6598 4.40931 7.93355C4.45404 7.37056 4.40931 6.80017 4.45404 6.23719C4.73734 3.53339 7.34669 1.66666 9.95604 1.66666H10.0306Z"
-                                        fill="#6D71F9"/>
-                                </svg>
-                                 <span className="header__notification-num">{this.props.notification_num}</span>
+                            {this.props.notification_num > 0 ?
+                                <button className="header__notification"
+                                        onClick={this.open}
+                                >
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.97 15.9042C11.3844 15.9164 11.7913 16.0175 12.1628 16.2005H12.1852C12.4955 16.4537 12.5483 16.9057 12.3045 17.2228C11.8605 17.8581 11.1501 18.2587 10.3735 18.3117C9.57566 18.4068 8.77216 18.1859 8.13695 17.6968C7.81028 17.4728 7.59798 17.1186 7.55544 16.7264C7.55544 16.3116 7.94312 16.119 8.30097 16.0375C8.72011 15.9492 9.14737 15.9046 9.57582 15.9042H10.97ZM10.0306 1.66666C12.6101 1.66666 15.2717 3.53339 15.5475 6.23719C15.5922 6.79277 15.5475 7.37056 15.5922 7.93355C15.7386 8.65956 16.0755 9.33423 16.5689 9.88917C16.8756 10.3452 17.0533 10.8748 17.0834 11.4226V11.5929C17.0879 12.332 16.8231 13.0477 16.3378 13.6078C15.7227 14.2655 14.8881 14.6788 13.9894 14.7708C11.3339 15.1115 8.64531 15.1115 5.98983 14.7708C5.08046 14.6858 4.23416 14.2719 3.61159 13.6078C3.14152 13.0423 2.89502 12.326 2.91825 11.5929V11.4226C2.94735 10.8769 3.11954 10.3483 3.41776 9.88917C3.91329 9.33371 4.25498 8.6598 4.40931 7.93355C4.45404 7.37056 4.40931 6.80017 4.45404 6.23719C4.73734 3.53339 7.34669 1.66666 9.95604 1.66666H10.0306Z"
+                                            fill="#6D71F9"/>
+                                    </svg>
+                                    <span className="header__notification-num">{this.props.notification_num}</span>
 
-                            </button>: ''}
+                                </button> : ''}
                             <div className="header__user">
                                 <div className="header__user-img">
                                     <img src={avatarIcon} alt=""/>
@@ -195,6 +219,50 @@ class Header extends Component {
                             </div>
                         </div>
                     </div>
+                    {this.props.home === false ?
+                        <>
+                <Modal size={this.modalSize()} show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Требуют внимания артикулы</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Перейдите на главную страницу или проверьте артикул/ы <br/> <b>
+                         {this.props.articuls ? this.props.articuls.map((art_no) =>
+                            <Button style={{height: 40, marginRight: 20, marginTop: 10, backgroundColor: '#6D71F9'}} variant="primary">
+                                <a style={{color: 'white', textDecoration: "none"}} href={'/edit/?id=' + art_no.id}>{art_no.art_no}</a>
+
+                        </Button> ) : ''}
+                    </b></Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.close}>
+                            Отмена
+                        </Button>
+                        <Button variant="danger" onClick={this.goToHome}>
+                            На главную
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                </> :
+                    <>
+                <Modal size={this.modalSize()} show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Требуют внимания артикулы </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Проверьте артикул/ы <br/><b>
+                        {this.props.articuls ? this.props.articuls.map((art_no) =>
+                            <Button style={{height: 40, marginRight: 20, marginTop: 10, backgroundColor: '#6D71F9'}} variant="primary">
+                                <a style={{color: 'white', textDecoration: "none"}} href={'/edit/?id=' + art_no.id}>{art_no.art_no}</a>
+
+                        </Button> ) : ''}
+                    </b></Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.close}>
+                            Закрыть
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                </>
+                    }
+
                 </div>
             </header>
         );
