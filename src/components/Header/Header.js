@@ -236,7 +236,7 @@ class Header extends Component {
                         <Button variant="secondary" onClick={this.close}>
                             Отмена
                         </Button>
-                        <Button variant="danger" onClick={this.goToHome}>
+                        <Button variant="warning" onClick={this.goToHome}>
                             На главную
                         </Button>
                     </Modal.Footer>
