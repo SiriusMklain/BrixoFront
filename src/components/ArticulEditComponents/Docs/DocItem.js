@@ -78,7 +78,7 @@ class DocsItem extends Component {
                     }
                 </div>
                 <div className="docs__item-title">
-                    {this.props.doc_name}
+                    {this.props.doc_name + " / \n" + this.props.doc_no}
                 </div>
                 <>
                 <Modal

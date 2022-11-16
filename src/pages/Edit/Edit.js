@@ -36,7 +36,8 @@ class Edit extends Component {
             notification_num: '',
             brand_style: {},
             brand_no: 'all',
-            crit_list: []
+            crit_list: [],
+            all_crit_no: []
         }
 
         this.setBrand = this.setBrand.bind(this)
@@ -114,6 +115,10 @@ class Edit extends Component {
             result.characteristics.forEach(function (item, index) {
                 characteristics_en.push({"value": index, "label": item.name_en})
             })
+            let all_crit_no = []
+            result.characteristics.forEach(function (item, index) {
+                all_crit_no.push({"value": index, "label": item.crit_no.toString()})
+            })
 
             self.setState({
                 article: result.article,
@@ -126,7 +131,8 @@ class Edit extends Component {
                 crit: result.crit,
                 characteristics: characteristics,
                 characteristics_en: characteristics_en,
-                reference: result.reference
+                reference: result.reference,
+                all_crit_no: all_crit_no
             }, () => document.title = self.state.article.art_no)
         });
 
@@ -230,6 +236,7 @@ class Edit extends Component {
                         all_crit={this.state.characteristics}
                         all_crit_en={this.state.characteristics_en}
                         crit_list={this.state.crit_list}
+                        all_crit_no={this.state.all_crit_no}
                     />
                     <Reference
                         art_no_id={art_no_id}

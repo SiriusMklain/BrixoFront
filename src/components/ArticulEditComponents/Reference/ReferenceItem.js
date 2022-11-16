@@ -38,6 +38,11 @@ class ReferenceItem extends  Component{
             </td>
             <td>
                 <div className="table__td">
+                    <span>{this.props.man.short_name}</span>
+                </div>
+            </td>
+            <td>
+                <div className="table__td">
                     <span>{this.madeBy()}</span>
                 </div>
                 <div className="table__nav">

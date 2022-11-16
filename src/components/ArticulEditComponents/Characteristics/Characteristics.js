@@ -45,7 +45,7 @@ class Characteristics extends Component {
 
 
     deleteData(index) {
-        apiService.deleteCrit(this.props.art_no_id, this.state.crit[index]).then(()=> {
+        apiService.deleteCrit(this.props.art_no_id, this.state.crit[index]).then(() => {
             this.close()
         })
     }
@@ -54,6 +54,15 @@ class Characteristics extends Component {
 
         if (crit_no_id !== null) {
             return {"value": index, "label": crit_no_id.name}
+        } else {
+            return {"value": index, "label": 'Нет данных'}
+        }
+    }
+
+    setCritNo(index, crit_no_id) {
+
+        if (crit_no_id !== null) {
+            return {"value": index, "label": crit_no_id.crit_no}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
@@ -84,30 +93,30 @@ class Characteristics extends Component {
     updateCritMany(crit_no, len, criteria, index) {
         let crit = []
         this.props.crit_list.forEach(function (item, i) {
-            if(index === i){
+            if (index === i) {
                 crit.push({
-                "crit_no": item.crit_no,
-                "crit_val": criteria
-            })
-            }else {
+                    "crit_no": item.crit_no,
+                    "crit_val": criteria
+                })
+            } else {
                 crit.push({
-                "crit_no": item.crit_no,
-                "crit_val": "-"
-            })
+                    "crit_no": item.crit_no,
+                    "crit_val": "-"
+                })
             }
         });
-                apiService.updateCritMany(this.props.art_no_id, crit).then(()=>{
-                    window.location.reload ()
-                })
+        apiService.updateCritMany(this.props.art_no_id, crit).then(() => {
+            window.location.reload()
+        })
     }
 
-    createData(name, name_en, criteria) {
+    createData(name, name_en, crit_no, criteria) {
         let new_crit = {
             art_no_id: this.props.art_no_id * 1,
             crit_val: criteria,
             id: Math.floor(100000 + Math.random() * 900000),
             crit_no_id: {
-                crit_no: 0,
+                crit_no:  crit_no.label,
                 description: "",
                 id: 0,
                 name: name.label,
@@ -124,9 +133,9 @@ class Characteristics extends Component {
         }
     }
 
-    enterUpdate(e, name, name_en, criteria) {
+    enterUpdate(e, name, name_en, crit_no, criteria) {
         if (e.code === "Enter" || e.code === "NumpadEnter") {
-            this.createData(name, name_en, criteria)
+            this.createData(name, name_en, crit_no, criteria)
         }
     }
 
@@ -163,6 +172,8 @@ class Characteristics extends Component {
                                     all_crit={this.props.all_crit}
                                     all_crit_en={this.props.all_crit_en}
                                     all_countries={this.props.all_countries}
+                                    all_crit_no={this.props.all_crit_no}
+                                    crit_no={this.setCritNo(index, prop.crit_no_id)}
                                 />
                             ) :
                             this.state.crit.map((prop, index) =>
@@ -174,19 +185,22 @@ class Characteristics extends Component {
                                     addNewProp={this.addProp}
                                     key={index}
                                     criteria={prop.crit_val}
-                                    name={this.setCritName(index, prop.crit_no_id)} z
+                                    name={this.setCritName(index, prop.crit_no_id)}
                                     name_en={this.setCritNameEn(index, prop.crit_no_id)}
                                     defaultValue={prop.value}
                                     all_crit={this.props.all_crit}
                                     all_crit_en={this.props.all_crit_en}
                                     all_countries={this.props.all_countries}
+                                    all_crit_no={this.props.all_crit_no}
+                                    crit_no={this.setCritNo(index, prop.crit_no_id)}
                                 />
                             )}
                         <Characteristic
                             index={-1}
                             id={-1}
                             deleteFunc={this.open}
-                            updateFunc={() => {}}
+                            updateFunc={() => {
+                            }}
                             enterFunc={this.enterUpdate}
                             key={-1}
                             criteria={''}
@@ -196,25 +210,28 @@ class Characteristics extends Component {
                             all_crit={this.props.all_crit}
                             all_crit_en={this.props.all_crit_en}
                             all_countries={this.props.all_countries}
+                            all_crit_no={this.props.all_crit_no}
+                            crit_no={''}
                         />
                     </div>
                 </div>
 
                 <>
-                <Modal size="lg" show={this.state.showModal} onHide={this.close}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Удаление</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Вы уверены, что хотите удалить характеристику <b>{this.state.name.split(/(?:\[|\/|\()+/)[0]}</b> ?</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.close}>
-                            Закрыть
-                        </Button>
-                        <Button variant="danger" onClick={this.deleteCrit}>
-                            Удалить
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                    <Modal size="lg" show={this.state.showModal} onHide={this.close}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Удаление</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Вы уверены, что хотите удалить
+                            характеристику <b>{this.state.name.split(/(?:\[|\/|\()+/)[0]}</b> ?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.close}>
+                                Закрыть
+                            </Button>
+                            <Button variant="danger" onClick={this.deleteCrit}>
+                                Удалить
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </>
 
             </div>

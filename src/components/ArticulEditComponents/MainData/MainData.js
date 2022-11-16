@@ -229,6 +229,7 @@ class MainData extends Component {
                     "value": 1,
                     "label": lexem
                 }, ...gen_art_no]})
+                this.updateData()
             });
     }
 
@@ -335,7 +336,7 @@ class MainData extends Component {
                                 options={this.state.list_gen_art_no}
                                 onChange={this.changeGenArtNo}
                                 onInputChange={this.searchGetArtNo}
-                                onMenuOpen={()=> this.setState({gen_art_no: ''})}
+                                onMenuOpen={()=> this.setState({gen_art_no: this.state.gen_art_no})}
                                 onBlur={this.updateData}
                                 placeholder={"Создание, поиск"}
                             />

@@ -19,9 +19,12 @@ class Characteristic extends Component {
             all_crit_en: [],
             crit_id: 0,
             old_name: [],
-            old_criteria: ''
+            old_criteria: '',
+            crit_no: [],
+            all_crit_no: [],
 
         }
+        this.changeCritNo = this.changeCritNo.bind(this);
         this.changeCritName = this.changeCritName.bind(this);
         this.changeCritNameEn = this.changeCritNameEn.bind(this);
         this.changeCriteria = this.changeCriteria.bind(this);
@@ -31,25 +34,32 @@ class Characteristic extends Component {
 
     componentDidMount() {
         this.setState({
-            name: this.props.name,  name_en: this.props.name_en, old_name: this.props.name,
+            name: this.props.name, name_en: this.props.name_en, old_name: this.props.name,
             criteria: this.props.criteria, old_criteria: this.props.criteria,
-            crit_id: this.props.name.id, all_crit: this.props.all_crit, all_crit_en: this.props.all_crit_en
+            crit_id: this.props.name.id, all_crit: this.props.all_crit, all_crit_en: this.props.all_crit_en,
+            all_crit_no: this.props.all_crit_no, crit_no: this.props.crit_no
         })
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({
-            name: nextProps.name, name_en: nextProps.name_en,criteria: nextProps.criteria,
-            all_crit: nextProps.all_crit, all_crit_en: nextProps.all_crit_en, crit_id: nextProps.name.id
+            name: nextProps.name, name_en: nextProps.name_en, criteria: nextProps.criteria,
+            all_crit: nextProps.all_crit, all_crit_en: nextProps.all_crit_en, crit_id: nextProps.name.id,
+            all_crit_no: nextProps.all_crit_no, crit_no: nextProps.crit_no
         })
     }
 
 
-    changeCritName(e) {
-        this.setState({name: e, name_en: this.state.all_crit_en[e.value]})
+    changeCritNo(e) {
+        this.setState({crit_no: e, name_en: this.state.all_crit_en[e.value], name: this.state.all_crit[e.value]})
     }
+
+    changeCritName(e) {
+        this.setState({name: e, name_en: this.state.all_crit_en[e.value], crit_no: this.state.all_crit_no[e.value]})
+    }
+
     changeCritNameEn(e) {
-        this.setState({name_en: e, name: this.state.all_crit[e.value]})
+        this.setState({name_en: e, name: this.state.all_crit[e.value], crit_no: this.state.all_crit_no[e.value]})
     }
 
     changeCriteria(e) {
@@ -59,6 +69,19 @@ class Characteristic extends Component {
     render() {
         return (
             <div className="prop">
+                <fieldset className="fg data-block__col data-block__col3">
+                    <label>№ критерия</label>
+                    <Select
+                        classNamePrefix="select"
+                        isSearchable={true}
+                        name="numsOfRows"
+                        options={this.state.all_crit_no}
+                        value={this.state.crit_no}
+                        onChange={this.changeCritNo}
+                        onBlur={() => this.props.updateFunc(this.state.criteria, this.state.old_name, this.state.name,
+                            this.state.old_criteria)}
+                    />
+                </fieldset>
                 <fieldset className="fg data-block__col data-block__col3">
                     <label>Критерий</label>
                     <Select
@@ -93,7 +116,7 @@ class Characteristic extends Component {
                         onChange={this.changeCriteria}
                         onBlur={() => this.props.updateFunc(this.state.criteria, this.state.old_name, this.state.name,
                             this.state.old_criteria)}
-                        onKeyDown={(e) => this.props.enterFunc(e, this.state.name, this.state.name_en, this.state.criteria)}
+                        onKeyDown={(e) => this.props.enterFunc(e, this.state.name, this.state.name_en, this.state.crit_no, this.state.criteria)}
                     />
                 </fieldset>
                 <button

@@ -250,7 +250,12 @@ class Reference extends Component {
                                     </th>
                                     <th>
                                         <div className="table__th">
-                                            <span>Производитель</span>
+                                            <span>Производитель (short-name)</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>Производитель (term-plain)</span>
                                         </div>
                                     </th>
                                 </tr>

@@ -370,7 +370,7 @@ class ApiService {
     }
 
     getGenArtNo(lexem){
-        const URL = `${API_URL}/api/v1/gen_art/${lexem}/`;
+        const URL = `${API_URL}/api/v1/gen_art/search/?lexem=${lexem}`;
         return axios({
             method: "GET",
             url: URL,
