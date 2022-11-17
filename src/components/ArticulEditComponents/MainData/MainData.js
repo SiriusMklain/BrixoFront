@@ -29,6 +29,7 @@ class MainData extends Component {
             status_dat: '',
             gtin: '',
             gen_art_no: '',
+            gen_art_name: '',
             list_gen_art_no: [],
             searchStatus: true
 
@@ -69,7 +70,8 @@ class MainData extends Component {
             art_stat: this.props.article.art_stat,
             status_dat: this.props.article.status_dat,
             gtin: this.props.article.gtin,
-            gen_art_no: this.props.article.gen_art_no
+            gen_art_no: this.props.article.gen_art_no,
+            gen_art_name: this.props.gen_art_name
         })
 
     }
@@ -88,7 +90,8 @@ class MainData extends Component {
             art_stat: nextProps.article.art_stat,
             status_dat: nextProps.article.status_dat,
             gtin: nextProps.article.gtin,
-            gen_art_no: nextProps.article.gen_art_no
+            gen_art_no: nextProps.article.gen_art_no,
+            gen_art_name: nextProps.gen_art_name
         })
     }
 
@@ -157,7 +160,7 @@ class MainData extends Component {
             this.state.art_stat,
             this.state.status_dat,
             this.state.gtin,
-            this.state.gen_art_no,
+            this.state.gen_art_no.split('/')[0],
             this.state.supers,
         )
     }
@@ -223,7 +226,7 @@ class MainData extends Component {
         apiService.getGenArtNo(lexem).then((result) => {
                 let gen_art_no = [];
                 result.forEach(function (item, index) {
-                    gen_art_no.push({"value": index + 2, "label": item.gen_number})
+                    gen_art_no.push({"value": index + 2, "label": item.gen_number + '/' + item.name_gen})
                 });
                 this.setState({list_gen_art_no: [{
                     "value": 1,
@@ -332,11 +335,11 @@ class MainData extends Component {
                                 styles={this.isSelectValid()}
                                 isSearchable={true}
                                 name="getArtNo"
-                                value={this.state.gen_art_no ? {'value': 1, 'label': this.state.gen_art_no} : ''}
+                                value={this.state.gen_art_no ? {'value': 1, 'label': this.state.gen_art_no + "/" + this.state.gen_art_name} : ''}
                                 options={this.state.list_gen_art_no}
                                 onChange={this.changeGenArtNo}
                                 onInputChange={this.searchGetArtNo}
-                                onMenuOpen={()=> this.setState({gen_art_no: this.state.gen_art_no})}
+                                onMenuOpen={()=> this.setState({gen_art_no: this.state.gen_art_no + "/" + this.state.gen_art_name})}
                                 onBlur={this.updateData}
                                 placeholder={"Создание, поиск"}
                             />

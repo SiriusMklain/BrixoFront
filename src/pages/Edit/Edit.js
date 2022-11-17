@@ -37,7 +37,8 @@ class Edit extends Component {
             brand_style: {},
             brand_no: 'all',
             crit_list: [],
-            all_crit_no: []
+            all_crit_no: [],
+            gen_art_name: ''
         }
 
         this.setBrand = this.setBrand.bind(this)
@@ -122,6 +123,7 @@ class Edit extends Component {
 
             self.setState({
                 article: result.article,
+                gen_art_name: result.gen_art_name,
                 brands: brands,
                 brand: brand,
                 countries: countries,
@@ -222,6 +224,7 @@ class Edit extends Component {
                     <MainData
                         art_no_id={art_no_id}
                         article={this.state.article}
+                        gen_art_name={this.state.gen_art_name}
                         brands={this.state.brands}
                         brand={this.state.brand}
                         countries={this.state.countries}
