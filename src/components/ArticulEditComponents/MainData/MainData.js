@@ -29,7 +29,6 @@ class MainData extends Component {
             status_dat: '',
             gtin: '',
             gen_art_no: '',
-            gen_art_name: '',
             list_gen_art_no: [],
             searchStatus: true
 
@@ -70,8 +69,7 @@ class MainData extends Component {
             art_stat: this.props.article.art_stat,
             status_dat: this.props.article.status_dat,
             gtin: this.props.article.gtin,
-            gen_art_no: this.props.article.gen_art_no,
-            gen_art_name: this.props.gen_art_name
+            gen_art_no: this.props.article.gen_art_no
         })
 
     }
@@ -91,7 +89,6 @@ class MainData extends Component {
             status_dat: nextProps.article.status_dat,
             gtin: nextProps.article.gtin,
             gen_art_no: nextProps.article.gen_art_no,
-            gen_art_name: nextProps.gen_art_name
         })
     }
 
@@ -134,7 +131,7 @@ class MainData extends Component {
 
     changeGenArtNo(e) {
         try {
-            this.setState({gen_art_no: e.label})
+            this.setState({gen_art_no: {"gen_number": e.label.split("/")[0], "name_gen": e.label.split("/")[1]}}, () => console.log(this.state.gen_art_no))
         } catch (e) {
         }
     }
@@ -149,6 +146,7 @@ class MainData extends Component {
     }
 
     updateData() {
+        console.log(this.state.gen_art_no.gen_number)
         this.props.critListFunc(
             this.props.art_no_id,
             this.state.art_no,
@@ -160,7 +158,7 @@ class MainData extends Component {
             this.state.art_stat,
             this.state.status_dat,
             this.state.gtin,
-            this.state.gen_art_no,
+            this.state.gen_art_no.gen_number,
             this.state.supers,
         )
     }
@@ -226,7 +224,7 @@ class MainData extends Component {
         apiService.getGenArtNo(lexem).then((result) => {
             let gen_art_no = [];
             result.forEach(function (item, index) {
-                gen_art_no.push({"value": index + 2, "label": item.gen_number})
+                gen_art_no.push({"value": index + 2, "label": item.gen_number + "/" + item.name_gen})
             });
             this.setState({
                 list_gen_art_no: [{
@@ -234,7 +232,7 @@ class MainData extends Component {
                     "label": lexem
                 }, ...gen_art_no]
             })
-            this.updateData()
+            // this.updateData()
         });
     }
 
@@ -330,12 +328,12 @@ class MainData extends Component {
                                 name="getArtNo"
                                 value={this.state.gen_art_no ? {
                                     'value': 1,
-                                    'label': this.state.gen_art_no + "/" + this.state.gen_art_name
+                                    'label': this.state.gen_art_no.gen_number + "/" + this.state.gen_art_no.name_gen
                                 } : ''}
                                 options={this.state.list_gen_art_no}
                                 onChange={this.changeGenArtNo}
                                 onInputChange={this.searchGetArtNo}
-                                onMenuOpen={() => this.setState({gen_art_no: this.state.gen_art_no + "/" + this.state.gen_art_name})}
+                                // onMenuOpen={() => this.setState({gen_art_no: this.state.gen_art_no})}
                                 onBlur={this.updateData}
                                 placeholder={"Создание, поиск"}
                             />
