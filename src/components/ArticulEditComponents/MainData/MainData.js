@@ -133,7 +133,7 @@ class MainData extends Component {
     }
 
     changeGenArtNo(e) {
-         try {
+        try {
             this.setState({gen_art_no: e.label})
         } catch (e) {
         }
@@ -224,16 +224,18 @@ class MainData extends Component {
 
     searchGetArtNo(lexem) {
         apiService.getGenArtNo(lexem).then((result) => {
-                let gen_art_no = [];
-                result.forEach(function (item, index) {
-                    gen_art_no.push({"value": index + 2, "label": item.gen_number })
-                });
-                this.setState({list_gen_art_no: [{
+            let gen_art_no = [];
+            result.forEach(function (item, index) {
+                gen_art_no.push({"value": index + 2, "label": item.gen_number})
+            });
+            this.setState({
+                list_gen_art_no: [{
                     "value": 1,
                     "label": lexem
-                }, ...gen_art_no]})
-                this.updateData()
-            });
+                }, ...gen_art_no]
+            })
+            this.updateData()
+        });
     }
 
     render() {
@@ -244,7 +246,7 @@ class MainData extends Component {
                 </div>
                 <div className="data-block__content">
                     <div className="data-block__grid data-block__grid--maindata">
-                        <fieldset className="fg data-block__col data-block__col2">
+                        <fieldset className="fg data-block__col data-block__col3">
                             <label>Артикул </label>
                             <input type="text" style={this.isValid(this.state.art_no)}
                                    value={this.state.art_no}
@@ -253,7 +255,7 @@ class MainData extends Component {
                                    onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
-                        <fieldset className="fg data-block__col data-block__col2">
+                        <fieldset className="fg data-block__col data-block__col3">
                             <label>Бренд</label>
                             <Select
                                 classNamePrefix="select"
@@ -267,7 +269,7 @@ class MainData extends Component {
                                 placeholder={""}
                             />
                         </fieldset>
-                        <fieldset className="fg data-block__col data-block__col2">
+                        <fieldset className="fg data-block__col data-block__col3">
                             <label>QuantUnit </label>
                             <input type="text"
                                    value={this.state.quant_unit}
@@ -276,29 +278,11 @@ class MainData extends Component {
                                    onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
-                        <fieldset className="fg data-block__col data-block__col2">
+                        <fieldset className="fg data-block__col data-block__col3">
                             <label>QuantPerUnit </label>
                             <input type="text"
                                    value={this.state.quant_per_unit}
                                    onChange={this.changeQuantPerUnit}
-                                   onBlur={this.updateData}
-                                   onKeyDown={this.enterUpdate}
-                            />
-                        </fieldset>
-                        <fieldset className="fg data-block__col data-block__col2">
-                            <label>Статус</label>
-                            <input type="text"
-                                   value={this.state.art_stat}
-                                   onChange={this.changeArtStat}
-                                   onBlur={this.updateData}
-                                   onKeyDown={this.enterUpdate}
-                            />
-                        </fieldset>
-                        <fieldset className="fg data-block__col data-block__col2">
-                            <label>Дата</label>
-                            <input type="text"
-                                   value={this.state.status_dat}
-                                   onChange={this.changeStatusDat}
                                    onBlur={this.updateData}
                                    onKeyDown={this.enterUpdate}
                             />
@@ -319,10 +303,19 @@ class MainData extends Component {
                             />
                         </fieldset>
                         <fieldset className="fg data-block__col data-block__col3">
-                            <label>GTIN </label>
+                            <label>Статус</label>
                             <input type="text"
-                                   value={this.state.gtin}
-                                   onChange={this.changeGTIN}
+                                   value={this.state.art_stat}
+                                   onChange={this.changeArtStat}
+                                   onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
+                            />
+                        </fieldset>
+                        <fieldset className="fg data-block__col data-block__col3">
+                            <label>Дата</label>
+                            <input type="text"
+                                   value={this.state.status_dat}
+                                   onChange={this.changeStatusDat}
                                    onBlur={this.updateData}
                                    onKeyDown={this.enterUpdate}
                             />
@@ -335,15 +328,28 @@ class MainData extends Component {
                                 styles={this.isSelectValid()}
                                 isSearchable={true}
                                 name="getArtNo"
-                                value={this.state.gen_art_no ? {'value': 1, 'label': this.state.gen_art_no + "/" + this.state.gen_art_name} : ''}
+                                value={this.state.gen_art_no ? {
+                                    'value': 1,
+                                    'label': this.state.gen_art_no + "/" + this.state.gen_art_name
+                                } : ''}
                                 options={this.state.list_gen_art_no}
                                 onChange={this.changeGenArtNo}
                                 onInputChange={this.searchGetArtNo}
-                                onMenuOpen={()=> this.setState({gen_art_no: this.state.gen_art_no + "/" + this.state.gen_art_name})}
+                                onMenuOpen={() => this.setState({gen_art_no: this.state.gen_art_no + "/" + this.state.gen_art_name})}
                                 onBlur={this.updateData}
                                 placeholder={"Создание, поиск"}
                             />
                         </fieldset>
+                        <fieldset className="fg data-block__col data-block__col6">
+                            <label>GTIN </label>
+                            <input type="text"
+                                   value={this.state.gtin}
+                                   onChange={this.changeGTIN}
+                                   onBlur={this.updateData}
+                                   onKeyDown={this.enterUpdate}
+                            />
+                        </fieldset>
+
                         <fieldset className="fg data-block__col data-block__col6">
                             <label>Замены (SupersNo)</label>
                             <Select
