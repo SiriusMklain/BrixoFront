@@ -160,7 +160,7 @@ class MainData extends Component {
             this.state.art_stat,
             this.state.status_dat,
             this.state.gtin,
-            this.state.gen_art_no.split('/')[0],
+            this.state.gen_art_no,
             this.state.supers,
         )
     }
@@ -226,7 +226,7 @@ class MainData extends Component {
         apiService.getGenArtNo(lexem).then((result) => {
                 let gen_art_no = [];
                 result.forEach(function (item, index) {
-                    gen_art_no.push({"value": index + 2, "label": item.gen_number + '/' + item.name_gen})
+                    gen_art_no.push({"value": index + 2, "label": item.gen_number })
                 });
                 this.setState({list_gen_art_no: [{
                     "value": 1,
@@ -327,7 +327,7 @@ class MainData extends Component {
                                    onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
-                        <fieldset className="fg data-block__col data-block__col3">
+                        <fieldset className="fg data-block__col data-block__col6">
                             <label>GenArtNo</label>
                             <Select
                                 ref={this.genArtNoValue}
