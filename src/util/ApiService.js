@@ -83,7 +83,7 @@ class ApiService {
             {
                 "art_no": art_no,
                 "brand_no_id": {"name": brand},
-                "gen_art_no": gen_art_no,
+                "gen_art_no": gen_art_no * 1,
                 "gtin": gtin,
                 "quant_unit": quant_unit,
                 "quant_per_unit": quant_per_unit,
@@ -380,7 +380,6 @@ class ApiService {
             credentials: 'include',
         }).then((response) => response.data);
     }
-
 }
 
 export default ApiService;

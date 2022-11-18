@@ -146,7 +146,7 @@ class MainData extends Component {
     }
 
     updateData() {
-        console.log(this.state.gen_art_no.gen_number)
+        console.log(this.state.gen_art_no)
         this.props.critListFunc(
             this.props.art_no_id,
             this.state.art_no,
@@ -158,7 +158,7 @@ class MainData extends Component {
             this.state.art_stat,
             this.state.status_dat,
             this.state.gtin,
-            this.state.gen_art_no.gen_number,
+            this.state.gen_art_no,
             this.state.supers,
         )
     }
