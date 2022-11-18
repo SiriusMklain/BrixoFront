@@ -237,6 +237,7 @@ class MainData extends Component {
     }
 
     render() {
+        // console.log(this.props.article)
         return (
             <div className="data-block">
                 <div className="data-block__head">

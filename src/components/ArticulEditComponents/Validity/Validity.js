@@ -24,38 +24,7 @@ class Validity extends Component {
 
     }
 
-    // deleteValidity = (id) => {
-    //     setValidities(validities.filter(el => el.id !== id))
-    // }
 
-    // addNewValidity = () => {
-    //     if (
-    //         validityts.label === "" ||
-    //         validitybrand.label === "" ||
-    //         validityModel.label === "" ||
-    //         validityType.label === ""
-    //     ) {
-    //         return
-    //     }
-    //     setValidities(
-    //         [...validities,
-    //             {
-    //                 id: Math.floor(100000 + Math.random() * 900000),
-    //                 ts: validityts.label,
-    //                 brand: validitybrand.label,
-    //                 model: validityModel.label,
-    //                 type: validityType.label
-    //             }]
-    //     )
-    //     setValidityts({})
-    //     setValiditybrand({})
-    //     setValidityModel({})
-    //     setValidityType({})
-    //     selectValidityts.current.clearValue();
-    //     selectValidityModel.current.clearValue();
-    //     selectValiditybrand.current.clearValue();
-    //     selectValidityType.current.clearValue();
-    // }
 
     render() {
         return (
@@ -170,7 +139,7 @@ class Validity extends Component {
                                         </div>
                                     </th>
                                     <th>
-                                        <div className="table__th">                                            
+                                        <div className="table__th">
                                             <span>ТС</span>
                                         </div>
                                     </th>
@@ -191,7 +160,8 @@ class Validity extends Component {
                                     </th>
                                 </tr>
                                 </thead>
-
+                            </table>
+                            <table>
                                 <tbody>
                                 {this.state.applicability.map((validity, index) =>
                                     <ValidityItem
@@ -206,6 +176,7 @@ class Validity extends Component {
                                             + validity.type.type_ls_ls + ', '
                                             + validity.type.type_name + ', '
                                             + validity.type.type_year}
+                                        validity={validity}
                                         // deleteFunc={deleteValidity}
                                     />
                                 )}
