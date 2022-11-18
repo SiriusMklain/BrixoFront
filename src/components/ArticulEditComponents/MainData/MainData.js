@@ -232,7 +232,7 @@ class MainData extends Component {
                     "label": lexem
                 }, ...gen_art_no]
             })
-            // this.updateData()
+            this.updateData()
         });
     }
 
