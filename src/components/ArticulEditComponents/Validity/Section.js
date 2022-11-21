@@ -16,7 +16,7 @@ class Section extends Component {
     render() {
         return (
             <>
-                <div>Критерий {this.props.index + 1}</div>
+                <label style={{marginBottom: 15, marginLeft: 30}}>Секция {this.props.index + 1}</label>
                 <Table>
                     <tbody>
                     {this.props.sections.map((section) =>

@@ -15,7 +15,7 @@ class Item extends Component {
     render() {
         return (
             <tr>
-                <td style={{width: 180}}>
+                <td style={{width: 200}}>
                     <div className="table__td">
                         <span>{this.props.item !== '' ? this.props.section.sort_no : ""}</span>
                     </div>

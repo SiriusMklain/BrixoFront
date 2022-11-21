@@ -4,7 +4,6 @@ import ValidityItem from "./ValidityItem";
 import './Validity.scss';
 import React, {Component, useRef, useState} from "react";
 import ApiService from "../../../util/ApiService";
-import {store} from "../../../redux/store";
 import Button from "react-bootstrap/Button";
 
 const apiService = new ApiService();
@@ -21,9 +20,7 @@ class Validity extends Component {
         apiService.getApplicability(this.props.art_no_id).then((result) => {
             this.setState({applicability: result.vehicles})
         })
-
     }
-
 
 
     render() {

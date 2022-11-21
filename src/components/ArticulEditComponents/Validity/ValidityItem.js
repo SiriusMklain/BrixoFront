@@ -76,15 +76,10 @@ class ValidityItem extends Component {
                         </tr>
                     </AccordionHeader>
                     <AccordionBody>
-
+                        {this.state.validity.length !== 0 ?
                             <Table>
                                 <thead>
                                 <tr>
-                                    <th>
-                                        <div className="table__th">
-                                            <span>Номер</span>
-                                        </div>
-                                    </th>
                                     <th>
                                         <div className="table__th">
                                             <span>Номер критерия</span>
@@ -92,22 +87,25 @@ class ValidityItem extends Component {
                                     </th>
                                     <th>
                                         <div className="table__th">
-                                            <span>Название</span>
+                                            <span>Критерий</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>Значение критерия</span>
                                         </div>
                                     </th>
 
                                 </tr>
                                 </thead>
                             </Table>
-
-
+                            : ''}
                         {this.state.validity.length !== 0 ? this.state.validity.map((sections, index) =>
                             <Section
                                 index={index}
                                 sections={sections}
                             />
                         ) : ''}
-
 
                     </AccordionBody>
                 </AccordionItem>
