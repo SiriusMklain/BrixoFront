@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from "react";
 
 import Accordion from 'react-bootstrap/Accordion';
 
@@ -14,7 +14,26 @@ class Item extends Component {
 
     render() {
         return (
-            <span className="table__num gray-text">{this.props.item !== '' ? this.props.section.crit_no : ""}</span>
+            <tr>
+                <td style={{width: 180}}>
+                    <div className="table__td">
+                        <span>{this.props.item !== '' ? this.props.section.sort_no : ""}</span>
+                    </div>
+                </td>
+                <td style={{width: 200}}>
+                    <div className="table__td">
+                        <span>{this.props.item !== '' ? this.props.section.crit_no : ""}</span>
+                    </div>
+                </td>
+                <td style={{width: 200}}>
+                    <div className="table__td">
+                        <span>{this.props.item !== '' ? this.props.section.crit_val : ""}</span>
+                    </div>
+                </td>
+
+            </tr>
+
+
         );
     }
 

@@ -1,6 +1,10 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import Accordion from 'react-bootstrap/Accordion';
+import Table from "react-bootstrap/Table";
 import Section from "./Section";
+import AccordionItem from "react-bootstrap/AccordionItem";
+import AccordionHeader from "react-bootstrap/AccordionHeader";
+import AccordionBody from "react-bootstrap/AccordionBody";
 
 class ValidityItem extends Component {
     constructor(props) {
@@ -20,8 +24,8 @@ class ValidityItem extends Component {
         return (
 
             <Accordion defaultActiveKey="0">
-                <Accordion.Item>
-                    <Accordion.Header>
+                <AccordionItem>
+                    <AccordionHeader>
                         <tr>
                             <td>
                                 <div className="table__td">
@@ -70,15 +74,43 @@ class ValidityItem extends Component {
                                 </div>
                             </td>
                         </tr>
-                    </Accordion.Header>
-                    <Accordion.Body>
-                        {this.state.validity.length !== 0 ? this.state.validity.map((sections) =>
+                    </AccordionHeader>
+                    <AccordionBody>
+
+                            <Table>
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>Номер</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>Номер критерия</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>Название</span>
+                                        </div>
+                                    </th>
+
+                                </tr>
+                                </thead>
+                            </Table>
+
+
+                        {this.state.validity.length !== 0 ? this.state.validity.map((sections, index) =>
                             <Section
+                                index={index}
                                 sections={sections}
                             />
                         ) : ''}
-                    </Accordion.Body>
-                </Accordion.Item>
+
+
+                    </AccordionBody>
+                </AccordionItem>
             </Accordion>
 
 

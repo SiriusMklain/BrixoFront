@@ -1,7 +1,7 @@
 import {Component} from "react";
 
-import Accordion from 'react-bootstrap/Accordion';
 import Item from "./Item";
+import Table from "react-bootstrap/Table";
 
 
 class Section extends Component {
@@ -15,18 +15,17 @@ class Section extends Component {
 
     render() {
         return (
-            <tr>
-                <td>
-                    <div className="table__td">
-                        <span
-                            className="table__num gray-text">{this.props.sections.map((section) =>
-                            <Item
-                                section={section}
-                            />)}
-                        </span>
-                    </div>
-                </td>
-            </tr>
+            <>
+                <div>Критерий {this.props.index + 1}</div>
+                <Table>
+                    <tbody>
+                    {this.props.sections.map((section) =>
+                        <Item
+                            section={section}
+                        />)}
+                    </tbody>
+                </Table>
+            </>
         );
     }
 
