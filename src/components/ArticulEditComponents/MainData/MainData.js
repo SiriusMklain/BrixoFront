@@ -131,7 +131,12 @@ class MainData extends Component {
 
     changeGenArtNo(e) {
         try {
-            this.setState({gen_art_no: {"gen_number": e.label.split("/")[0], "name_gen": e.label.split("/")[1]}}, () => console.log(this.state.gen_art_no))
+            this.setState({
+                gen_art_no: {
+                    "gen_number": e.label.split("/")[0],
+                    "name_gen": e.label.split("/")[1]
+                }
+            }, () => console.log(this.state.gen_art_no))
         } catch (e) {
         }
     }
@@ -237,7 +242,6 @@ class MainData extends Component {
     }
 
     render() {
-        // console.log(this.props.article)
         return (
             <div className="data-block">
                 <div className="data-block__head">

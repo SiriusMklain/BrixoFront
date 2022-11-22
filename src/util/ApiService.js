@@ -28,6 +28,18 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    createDuplicate(id) {
+        const URL = `${API_URL}/api/v1/duplicate/${id}/`;
+        return axios({
+            method: "POST",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
     getArticlesBrand() {
         const URL = `${API_URL}/api/v1/article/brand_filter/`;
         return axios({

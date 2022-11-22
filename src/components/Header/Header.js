@@ -12,6 +12,10 @@ import Modal from "react-bootstrap/Modal";
 
 const apiService = new ApiService();
 
+var paramsString = document.location.search;
+var art_no_id = new URLSearchParams(paramsString)
+art_no_id = art_no_id.get("id")
+
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -30,6 +34,7 @@ class Header extends Component {
         this.goToEdit = this.goToEdit.bind(this)
         this.goToHome = this.goToHome.bind(this)
         this.addArticle = this.addArticle.bind(this)
+        this.createCopy = this.createCopy.bind(this)
 
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
@@ -117,6 +122,13 @@ class Header extends Component {
         })
     }
 
+    createCopy() {
+        apiService.createDuplicate(art_no_id).then((result) => {
+            let id = result.id
+            window.location.href = '/edit/?id=' + id
+        })
+    }
+
     exportTAF() {
         apiService.exportTAF().then((result) => {
             const a = document.createElement('a')
@@ -128,21 +140,22 @@ class Header extends Component {
         })
     }
 
-     close() {
+    close() {
         this.setState({showModal: false});
     }
 
     open(id, art_no) {
         this.setState({showModal: true, id: id, art_no: art_no});
     }
-    modalSize(){
-        if(this.props.articuls){
-            if(this.props.articuls.length > 10){
-           return "lg"
-        }else {
-           return ""
-        }
-        }else{
+
+    modalSize() {
+        if (this.props.articuls) {
+            if (this.props.articuls.length > 10) {
+                return "lg"
+            } else {
+                return ""
+            }
+        } else {
             return ""
         }
     }
@@ -172,11 +185,20 @@ class Header extends Component {
 
                             </div>
                             <Button
-                                style={{marginRight: 30, minWidth: 200, backgroundColor: '#6D71F9'}}
+                                style={{marginRight: 30, minWidth: 180, backgroundColor: '#6D71F9'}}
                                 onClick={this.addArticle}
                             >
                                 Добавить артикул
                             </Button>
+                            {art_no_id !== null ?
+                            <Button
+                                style={{marginRight: 30, minWidth: 180, backgroundColor: '#6D71F9'}}
+                                onClick={this.createCopy}
+                            >
+                                Создать дубликат
+                            </Button> : ''
+                            }
+
                             <Button className="btn btn-blue"
                                     style={{marginRight: 30, minWidth: 100, backgroundColor: '#6D71F9'}}
                                     onClick={this.exportTAF}
@@ -221,46 +243,58 @@ class Header extends Component {
                     </div>
                     {this.props.home === false ?
                         <>
-                <Modal size={this.modalSize()} show={this.state.showModal} onHide={this.close}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Требуют внимания артикулы</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Перейдите на главную страницу или проверьте артикул/ы <br/> <b>
-                         {this.props.articuls ? this.props.articuls.map((art_no) =>
-                            <Button style={{height: 40, marginRight: 20, marginTop: 10, backgroundColor: '#6D71F9'}} variant="primary">
-                                <a style={{color: 'white', textDecoration: "none"}} href={'/edit/?id=' + art_no.id}>{art_no.art_no}</a>
+                            <Modal size={this.modalSize()} show={this.state.showModal} onHide={this.close}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Требуют внимания артикулы</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>Перейдите на главную страницу или проверьте артикул/ы <br/> <b>
+                                    {this.props.articuls ? this.props.articuls.map((art_no) =>
+                                        <Button style={{
+                                            height: 40,
+                                            marginRight: 20,
+                                            marginTop: 10,
+                                            backgroundColor: '#6D71F9'
+                                        }} variant="primary">
+                                            <a style={{color: 'white', textDecoration: "none"}}
+                                               href={'/edit/?id=' + art_no.id}>{art_no.art_no}</a>
 
-                        </Button> ) : ''}
-                    </b></Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.close}>
-                            Отмена
-                        </Button>
-                        <Button variant="warning" onClick={this.goToHome}>
-                            На главную
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-                </> :
-                    <>
-                <Modal size={this.modalSize()} show={this.state.showModal} onHide={this.close}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Требуют внимания артикулы </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Проверьте артикул/ы <br/><b>
-                        {this.props.articuls ? this.props.articuls.map((art_no) =>
-                            <Button style={{height: 40, marginRight: 20, marginTop: 10, backgroundColor: '#6D71F9'}} variant="primary">
-                                <a style={{color: 'white', textDecoration: "none"}} href={'/edit/?id=' + art_no.id}>{art_no.art_no}</a>
+                                        </Button>) : ''}
+                                </b></Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={this.close}>
+                                        Отмена
+                                    </Button>
+                                    <Button variant="warning" onClick={this.goToHome}>
+                                        На главную
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </> :
+                        <>
+                            <Modal size={this.modalSize()} show={this.state.showModal} onHide={this.close}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Требуют внимания артикулы </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>Проверьте артикул/ы <br/><b>
+                                    {this.props.articuls ? this.props.articuls.map((art_no) =>
+                                        <Button style={{
+                                            height: 40,
+                                            marginRight: 20,
+                                            marginTop: 10,
+                                            backgroundColor: '#6D71F9'
+                                        }} variant="primary">
+                                            <a style={{color: 'white', textDecoration: "none"}}
+                                               href={'/edit/?id=' + art_no.id}>{art_no.art_no}</a>
 
-                        </Button> ) : ''}
-                    </b></Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.close}>
-                            Закрыть
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-                </>
+                                        </Button>) : ''}
+                                </b></Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={this.close}>
+                                        Закрыть
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </>
                     }
 
                 </div>
