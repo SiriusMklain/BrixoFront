@@ -10,22 +10,30 @@ class ValidityItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            validity: []
+            validity: [],
+            check_section: ''
         }
+        this.checkSections = this.checkSections.bind(this)
     }
 
     componentDidMount() {
         this.setState({validity: this.props.validity.sections ? Object.values(this.props.validity.sections) : ''})
     }
 
+    checkSections(section){
+       if(section){
+           this.setState({check_section: "#ccd7f7"})
+
+        }else {
+           this.setState({check_section: "#000"})
+       }
+    }
 
     render() {
-        // console.log(this.state.validity)
         return (
-
-            <Accordion defaultActiveKey="0">
+            <Accordion defaultActiveKey="0" style={{ backgroundColor: this.state.check_section}}>
                 <AccordionItem>
-                    <AccordionHeader>
+                    <AccordionHeader >
                         <tr>
                             <td>
                                 <div className="table__td">
@@ -104,6 +112,7 @@ class ValidityItem extends Component {
                             <Section
                                 index={index}
                                 sections={sections}
+                                funcSections={this.checkSections}
                             />
                         ) : ''}
 

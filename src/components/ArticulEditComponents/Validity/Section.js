@@ -12,6 +12,10 @@ class Section extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.funcSections(this.props.sections)
+    }
+
 
     render() {
         return (

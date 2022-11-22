@@ -12,8 +12,9 @@ class Validity extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            applicability: []
+            applicability: [],
         }
+
     }
 
     componentDidMount() {
@@ -21,6 +22,7 @@ class Validity extends Component {
             this.setState({applicability: result.vehicles})
         })
     }
+
 
 
     render() {
