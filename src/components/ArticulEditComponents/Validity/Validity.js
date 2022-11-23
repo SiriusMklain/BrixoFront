@@ -11,10 +11,17 @@ const apiService = new ApiService();
 class Validity extends Component {
     constructor(props) {
         super(props);
+        this.makerValue = React.createRef();
+        this.vehicleValue = React.createRef();
         this.state = {
             applicability: [],
+            makers: [],
+            maker_value: '',
+            vehicles: [],
+            vehicle_value: '',
         }
-
+        this.searchVehicle = this.searchVehicle.bind(this)
+        this.setValueMaker = this.setValueMaker.bind(this)
     }
 
     componentDidMount() {
@@ -23,6 +30,38 @@ class Validity extends Component {
         })
     }
 
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({makers:nextProps.makers})
+    }
+
+    setValueMaker(e) {
+        try {
+            this.setState({maker_value: e.label}, () => this.searchVehicle())
+        } catch (e) {
+        }
+    }
+
+    setValueVehicle(e) {
+        try {
+            this.setState({vehicle_value: e.label})
+        } catch (e) {
+        }
+    }
+
+
+    searchVehicle() {
+        const self = this;
+        if (this.state.maker_value !== '') {
+            apiService.searchVehicles(this.state.maker_value).then(function (result) {
+
+                let vehicles = [];
+                result.list_model.forEach(function (item, index) {
+                    vehicles.push({"value": index + 1, "label": item.name_model})
+                });
+                self.setState({vehicles: vehicles}, () => console.log(vehicles))
+            });
+        }
+    }
 
 
     render() {
@@ -36,6 +75,22 @@ class Validity extends Component {
                     <div className="data-block__content">
                         <div className="data-block__grid data-block__grid--validity">
                             <fieldset className="fg data-block__col data-block__col2">
+                                <label>SortNo для 404</label>
+                                <Select
+                                    // ref={selectValidityts}
+                                    classNamePrefix="select"
+                                    isDisabled={false}
+                                    isLoading={false}
+                                    isClearable={false}
+                                    isRtl={false}
+                                    isSearchable={false}
+                                    name="country"
+                                    // options={ts}
+                                    placeholder={'Выбрать'}
+                                    // onChange={(el) => setValidityts(el)}
+                                />
+                            </fieldset>
+                            <fieldset className="fg data-block__col data-block__col2">
                                 <label>ТС</label>
                                 <Select
                                     // ref={selectValidityts}
@@ -47,40 +102,34 @@ class Validity extends Component {
                                     isSearchable={false}
                                     name="country"
                                     // options={ts}
-                                    placeholder={'Не выбрано'}
+                                    placeholder={'Ввести'}
                                     // onChange={(el) => setValidityts(el)}
                                 />
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>Производитель </label>
                                 <Select
-                                    // ref={selectValiditybrand}
+                                    ref={this.makerValue}
                                     classNamePrefix="select"
-                                    isDisabled={false}
-                                    isLoading={false}
-                                    isClearable={false}
-                                    isRtl={false}
-                                    isSearchable={false}
-                                    name="country"
-                                    // options={brands}
-                                    placeholder={'Не выбрано'}
-                                    // onChange={(el) => setValiditybrand(el)}
+                                    isSearchable={true}
+                                    name="maker"
+                                    options={this.state.makers}
+                                    onChange={this.setValueMaker}
+                                    onInputChange={this.props.funcSearchMakers}
+                                    placeholder={'Поиск'}
                                 />
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>Модель </label>
                                 <Select
-                                    // ref={selectValidityModel}
+                                    ref={this.vehicleValue}
                                     classNamePrefix="select"
-                                    isDisabled={false}
-                                    isLoading={false}
-                                    isClearable={false}
-                                    isRtl={false}
-                                    isSearchable={false}
-                                    name="brand"
-                                    // options={model}
-                                    placeholder={'Не выбрано'}
-                                    // onChange={(el) => setValidityModel(el)}
+                                    isSearchable={true}
+                                    name="vehicle"
+                                    options={this.state.vehicles}
+                                    onChange={this.setValueVehicle}
+                                    onInputChange={''}
+                                    placeholder={'Поиск'}
                                 />
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col2">
@@ -95,14 +144,14 @@ class Validity extends Component {
                                     isSearchable={false}
                                     name="country"
                                     // options={type}
-                                    placeholder={'Не выбрано'}
+                                    placeholder={'Выбрать'}
                                     // onChange={(el) => setValidityType(el)}
                                 />
                             </fieldset>
                             <Button
                                 // onClick={addNewValidity}
                                 className="data-block__add-btn btn btn-blue"
-                                style={{marginRight: 30, minWidth: 200, backgroundColor: '#6D71F9'}}
+                                style={{marginRight: 0, minWidth: 200, backgroundColor: '#6D71F9'}}
                             >
                                 Добавить
                             </Button>

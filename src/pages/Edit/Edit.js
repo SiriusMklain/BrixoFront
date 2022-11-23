@@ -38,11 +38,14 @@ class Edit extends Component {
             brand_no: 'all',
             crit_list: [],
             all_crit_no: [],
+            makers: []
         }
 
         this.setBrand = this.setBrand.bind(this)
         this.getStyle = this.getStyle.bind(this)
         this.getCritList = this.getCritList.bind(this)
+
+        this.searchMakers = this.searchMakers.bind(this);
     }
 
     componentDidMount() {
@@ -205,6 +208,19 @@ class Edit extends Component {
         })
     }
 
+    searchMakers(lexem) {
+        const self = this;
+        if (lexem.length > 1) {
+            apiService.searchMakers(lexem).then(function (result) {
+                let makers = [];
+                result.ref_name.forEach(function (item, index) {
+                    makers.push({"value": index + 1, "label": item.term_plain})
+                });
+                self.setState({makers: makers})
+            });
+        }
+    }
+
     render() {
         return (
             <div className="edit-page">
@@ -243,9 +259,13 @@ class Edit extends Component {
                         reference={this.state.reference}
                         all_countries={this.state.all_countries}
                         art_no={this.state.article.art_no}
+                        funcSearchMakers={this.searchMakers}
+                        makers={this.state.makers}
                     />
                     <Validity
                         art_no_id={art_no_id}
+                        funcSearchMakers={this.searchMakers}
+                        makers={this.state.makers}
                     />
                     <Docs
                         art_no_id={art_no_id}

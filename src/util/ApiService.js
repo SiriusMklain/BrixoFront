@@ -302,6 +302,18 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    searchVehicles(vehicle) {
+        const URL = `${API_URL}/api/v1/veh_search/${vehicle}/`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
     getImages(art_no_id) {
         const URL = `${API_URL}/api/v1/document/${art_no_id}/`;
         return axios({
@@ -381,7 +393,7 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    getGenArtNo(lexem){
+    getGenArtNo(lexem) {
         const URL = `${API_URL}/api/v1/gen_art/search/?lexem=${lexem}`;
         return axios({
             method: "GET",

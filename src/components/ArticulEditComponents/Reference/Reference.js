@@ -30,7 +30,6 @@ class Reference extends Component {
             showModal: false
         }
         this.deleteReference = this.deleteReference.bind(this);
-        this.searchMakers = this.searchMakers.bind(this);
         this.searchReferences = this.searchReferences.bind(this);
         this.setValueReferense = this.setValueReferense.bind(this);
         this.setValueCountry = this.setValueCountry.bind(this);
@@ -42,7 +41,7 @@ class Reference extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({reference: nextProps.reference, art_no: nextProps.art_no})
+        this.setState({reference: nextProps.reference, art_no: nextProps.art_no, makers:nextProps.makers})
     }
 
     deleteReference = () => {
@@ -119,19 +118,6 @@ class Reference extends Component {
         return country_code
     }
 
-    searchMakers(lexem) {
-        const self = this;
-        if (lexem.length > 1) {
-            apiService.searchMakers(lexem).then(function (result) {
-                let makers = [];
-                result.ref_name.forEach(function (item, index) {
-                    makers.push({"value": index + 1, "label": item.term_plain})
-                });
-                self.setState({makers: makers})
-            });
-        }
-    }
-
     searchReferences(lexem) {
         const self = this;
         if (lexem.length > 1) {
@@ -201,7 +187,7 @@ class Reference extends Component {
                                     name="maker"
                                     options={this.state.makers}
                                     onChange={this.setValueMaker}
-                                    onInputChange={this.searchMakers}
+                                    onInputChange={this.props.funcSearchMakers}
                                     placeholder={'Поиск'}
                                 />
                             </fieldset>
