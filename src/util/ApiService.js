@@ -314,6 +314,24 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    searchType(vehicle, model) {
+        const URL = `${API_URL}/api/v1/veh_search/${vehicle}/`;
+         const data = JSON.stringify(
+            {
+                "req_model": model,
+            }
+        )
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data,
+        }).then((response) => response.data);
+    }
+
     getImages(art_no_id) {
         const URL = `${API_URL}/api/v1/document/${art_no_id}/`;
         return axios({

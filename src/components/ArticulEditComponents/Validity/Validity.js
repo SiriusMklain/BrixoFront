@@ -13,15 +13,20 @@ class Validity extends Component {
         super(props);
         this.makerValue = React.createRef();
         this.vehicleValue = React.createRef();
+        this.typeValue = React.createRef();
         this.state = {
             applicability: [],
             makers: [],
             maker_value: '',
             vehicles: [],
             vehicle_value: '',
+            type: [],
+            type_value: '',
         }
         this.searchVehicle = this.searchVehicle.bind(this)
         this.setValueMaker = this.setValueMaker.bind(this)
+        this.setValueVehicle = this.setValueVehicle.bind(this)
+        this.searchType = this.searchType.bind(this)
     }
 
     componentDidMount() {
@@ -31,7 +36,7 @@ class Validity extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({makers:nextProps.makers})
+        this.setState({makers: nextProps.makers})
     }
 
     setValueMaker(e) {
@@ -43,8 +48,11 @@ class Validity extends Component {
 
     setValueVehicle(e) {
         try {
-            this.setState({vehicle_value: e.label})
+
+            this.setState({vehicle_value: e.label}, () =>  this.searchType())
         } catch (e) {
+             console.log("error", e.label)
+
         }
     }
 
@@ -58,7 +66,24 @@ class Validity extends Component {
                 result.list_model.forEach(function (item, index) {
                     vehicles.push({"value": index + 1, "label": item.name_model})
                 });
-                self.setState({vehicles: vehicles}, () => console.log(vehicles))
+                self.setState({vehicles: vehicles})
+            });
+        }
+    }
+
+    searchType() {
+        const self = this;
+        if (this.state.vehicle_value !== '') {
+            apiService.searchType(this.state.maker_value, this.state.vehicle_value).then(function (result) {
+
+                let type = [];
+                result.list_model.forEach(function (item, index) {
+                    type.push({
+                        "value": index + 1,
+                        "label": item.list_type.map((type)=>
+                            type.name_type + ', ' + type.type_no)})
+                });
+                self.setState({type: type}, () => console.log(type))
             });
         }
     }
@@ -74,36 +99,24 @@ class Validity extends Component {
 
                     <div className="data-block__content">
                         <div className="data-block__grid data-block__grid--validity">
+
                             <fieldset className="fg data-block__col data-block__col2">
                                 <label>SortNo для 404</label>
-                                <Select
-                                    // ref={selectValidityts}
-                                    classNamePrefix="select"
-                                    isDisabled={false}
-                                    isLoading={false}
-                                    isClearable={false}
-                                    isRtl={false}
-                                    isSearchable={false}
-                                    name="country"
-                                    // options={ts}
-                                    placeholder={'Выбрать'}
-                                    // onChange={(el) => setValidityts(el)}
+                                <input type="text"
+                                    // value={this.state.art_no}
+                                    // onChange={this.changeArticle}
+                                    // onBlur={this.updateData}
+                                    // onKeyDown={this.enterUpdate}
                                 />
                             </fieldset>
+
                             <fieldset className="fg data-block__col data-block__col2">
                                 <label>ТС</label>
-                                <Select
-                                    // ref={selectValidityts}
-                                    classNamePrefix="select"
-                                    isDisabled={false}
-                                    isLoading={false}
-                                    isClearable={false}
-                                    isRtl={false}
-                                    isSearchable={false}
-                                    name="country"
-                                    // options={ts}
-                                    placeholder={'Ввести'}
-                                    // onChange={(el) => setValidityts(el)}
+                                <input type="text"
+                                    // value={this.state.art_no}
+                                    // onChange={this.changeArticle}
+                                    // onBlur={this.updateData}
+                                    // onKeyDown={this.enterUpdate}
                                 />
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col3">
@@ -135,17 +148,13 @@ class Validity extends Component {
                             <fieldset className="fg data-block__col data-block__col2">
                                 <label>Тип </label>
                                 <Select
-                                    // ref={selectValidityType}
+                                    ref={this.typeValue}
                                     classNamePrefix="select"
-                                    isDisabled={false}
-                                    isLoading={false}
-                                    isClearable={false}
-                                    isRtl={false}
-                                    isSearchable={false}
-                                    name="country"
-                                    // options={type}
-                                    placeholder={'Выбрать'}
-                                    // onChange={(el) => setValidityType(el)}
+                                    isSearchable={true}
+                                    name="type"
+                                    options={this.state.type}
+                                    onChange={this.searchType}
+                                    onInputChange={''}
                                 />
                             </fieldset>
                             <Button
