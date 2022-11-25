@@ -24,6 +24,7 @@ class Validity extends Component {
             type_value: '',
             sort_no: '',
             ts: '',
+            type_no: ''
         }
         this.searchVehicle = this.searchVehicle.bind(this)
         this.setValueMaker = this.setValueMaker.bind(this)
@@ -36,9 +37,7 @@ class Validity extends Component {
     }
 
     componentDidMount() {
-        apiService.getApplicability(this.props.art_no_id).then((result) => {
-            this.setState({applicability: result.vehicles})
-        })
+       this.getApplicability()
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -53,10 +52,18 @@ class Validity extends Component {
         this.setState({ts: e.target.value})
     }
 
+    getApplicability(){
+         apiService.getApplicability(this.props.art_no_id).then((result) => {
+            this.setState({applicability: result.vehicles})
+        })
+    }
 
     addApplicability() {
         apiService.createApplicability(
-            this.state.sort_no, this.state.ts, this.state.maker_value, this.state.vehicle_value, this.state.type_value
+            this.props.art_no_id, this.props.gen_art_no, this.state.ts, this.state.type_no, this.state.sort_no
+        ).then(() => {
+            this.getApplicability()
+            }
         )
     }
 
@@ -70,9 +77,9 @@ class Validity extends Component {
     setValueVehicle(e) {
         try {
 
-            this.setState({vehicle_value: e.label}, () =>  this.searchType())
+            this.setState({vehicle_value: e.label}, () => this.searchType())
         } catch (e) {
-             console.log("error", e.label)
+            console.log("error", e.label)
 
         }
     }
@@ -92,7 +99,12 @@ class Validity extends Component {
         }
     }
 
-    searchType() {
+    searchType(e) {
+        try {
+            this.setState({type_no: e.type_no})
+        } catch (e) {
+
+        }
 
         const self = this;
         if (this.state.vehicle_value !== '') {
@@ -102,11 +114,15 @@ class Validity extends Component {
                     type.push({
                         "value": index + 1,
                         "label": item.engine + ", " +
-                                 item.ls_ls + ", " +
-                                 item.model_id + ", " +
-                                 item.name_type + ", " +
-                                 item.type_no + ", " +
-                                 item.year})
+                            item.ls_ls + ", " +
+                            item.model_id + ", " +
+                            item.name_type + ", " +
+                            item.type_no + ", " +
+                            item.year,
+                        "type_no": item.type_no
+
+                    })
+
                 });
                 self.setState({type: type})
             });
@@ -128,14 +144,14 @@ class Validity extends Component {
                             <fieldset className="fg data-block__col data-block__col3">
                                 <label>SortNo для 404</label>
                                 <input type="text"
-                                    onChange={this.changeSortNo}
+                                       onChange={this.changeSortNo}
                                 />
                             </fieldset>
 
                             <fieldset className="fg data-block__col data-block__col4">
                                 <label>ТС</label>
                                 <input type="text"
-                                    onChange={this.changeTS}
+                                       onChange={this.changeTS}
                                 />
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col6">

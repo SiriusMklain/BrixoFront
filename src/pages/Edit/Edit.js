@@ -38,7 +38,8 @@ class Edit extends Component {
             brand_no: 'all',
             crit_list: [],
             all_crit_no: [],
-            makers: []
+            makers: [],
+            gen_art_no: ''
         }
 
         this.setBrand = this.setBrand.bind(this)
@@ -264,6 +265,7 @@ class Edit extends Component {
                     />
                     <Validity
                         art_no_id={art_no_id}
+                        gen_art_no={this.state.article.gen_art_no ? this.state.article.gen_art_no.gen_number : ''}
                         funcSearchMakers={this.searchMakers}
                         makers={this.state.makers}
                     />

@@ -418,13 +418,14 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    createApplicability(sort_no, ts, maker, vehicle, type) {
-        const URL = `${API_URL}/api/v1/references/${sort_no}/`;
+    createApplicability(art_no_id, gen_art_no, ts, type_no, sort_no) {
+        const URL = `${API_URL}/api/v1/vehicles/${art_no_id}/`;
         const data = JSON.stringify(
             {
-                "short_name": maker,
-                "ref_no": sort_no,
-                "country_code": sort_no
+                "gen_art_no": gen_art_no,
+                "ts": ts * 1,
+                "type_no": type_no * 1,
+                "sort_no": sort_no
             }
         )
         return axios({

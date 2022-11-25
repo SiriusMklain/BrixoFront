@@ -136,7 +136,7 @@ class MainData extends Component {
                     "gen_number": e.label.split("/")[0],
                     "name_gen": e.label.split("/")[1]
                 }
-            }, () => console.log(this.state.gen_art_no))
+            })
         } catch (e) {
         }
     }
@@ -151,7 +151,6 @@ class MainData extends Component {
     }
 
     updateData() {
-        console.log(this.state.gen_art_no)
         this.props.critListFunc(
             this.props.art_no_id,
             this.state.art_no,
