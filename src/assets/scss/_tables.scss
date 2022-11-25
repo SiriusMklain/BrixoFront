@@ -61,14 +61,35 @@
       }
     }
   }
+  &__grid2{
+    padding: 0 15px 25px;
+    display: grid;
+    align-items: flex-end;
+    .fg{
+      input{
+        height: 48px;
+        padding: 0 20px;
+      }
+      .select__value-container{
+        height: 48px;
+        padding: 0 0 0 20px;
+      }
+    }
+  }
   &__col{
     margin: 25px 7px 0;
+  }
+  &__col1{
+    width: calc((100% / 8) - 14px);
   }
   &__col2{
     width: calc((100% / 6) - 14px);
   }
   &__col3{
     width: calc((100% / 4) - 14px);
+  }
+  &__col4{
+    width: calc(40% - 14px);
   }
   &__col6{
     width: calc(50% - 14px);

@@ -303,7 +303,7 @@ class ApiService {
     }
 
     searchVehicles(vehicle) {
-        const URL = `${API_URL}/api/v1/veh_search/${vehicle}/`;
+        const URL = `${API_URL}/api/v1/veh_search/?manufacturer=${vehicle}`;
         return axios({
             method: "GET",
             url: URL,
@@ -315,12 +315,8 @@ class ApiService {
     }
 
     searchType(vehicle, model) {
-        const URL = `${API_URL}/api/v1/veh_search/${vehicle}/`;
-         const data = JSON.stringify(
-            {
-                "req_model": model,
-            }
-        )
+        const URL = `${API_URL}/api/v1/veh_search/?manufacturer=${vehicle}&model=${model}`;
+
         return axios({
             method: "GET",
             url: URL,
@@ -328,7 +324,6 @@ class ApiService {
                 'content-type': 'application/json',
             },
             credentials: 'include',
-            data: data,
         }).then((response) => response.data);
     }
 
@@ -420,6 +415,26 @@ class ApiService {
                 'content-type': 'application/json',
             },
             credentials: 'include',
+        }).then((response) => response.data);
+    }
+
+    createApplicability(sort_no, ts, maker, vehicle, type) {
+        const URL = `${API_URL}/api/v1/references/${sort_no}/`;
+        const data = JSON.stringify(
+            {
+                "short_name": maker,
+                "ref_no": sort_no,
+                "country_code": sort_no
+            }
+        )
+        return axios({
+            method: "POST",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
         }).then((response) => response.data);
     }
 }

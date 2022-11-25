@@ -22,11 +22,17 @@ class Validity extends Component {
             vehicle_value: '',
             type: [],
             type_value: '',
+            sort_no: '',
+            ts: '',
         }
         this.searchVehicle = this.searchVehicle.bind(this)
         this.setValueMaker = this.setValueMaker.bind(this)
         this.setValueVehicle = this.setValueVehicle.bind(this)
         this.searchType = this.searchType.bind(this)
+
+        this.changeSortNo = this.changeSortNo.bind(this)
+        this.changeTS = this.changeTS.bind(this)
+        this.addApplicability = this.addApplicability.bind(this)
     }
 
     componentDidMount() {
@@ -37,6 +43,21 @@ class Validity extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({makers: nextProps.makers})
+    }
+
+    changeSortNo(e) {
+        this.setState({sort_no: e.target.value})
+    }
+
+    changeTS(e) {
+        this.setState({ts: e.target.value})
+    }
+
+
+    addApplicability() {
+        apiService.createApplicability(
+            this.state.sort_no, this.state.ts, this.state.maker_value, this.state.vehicle_value, this.state.type_value
+        )
     }
 
     setValueMaker(e) {
@@ -72,18 +93,22 @@ class Validity extends Component {
     }
 
     searchType() {
+
         const self = this;
         if (this.state.vehicle_value !== '') {
             apiService.searchType(this.state.maker_value, this.state.vehicle_value).then(function (result) {
-
                 let type = [];
-                result.list_model.forEach(function (item, index) {
+                result.list_type.forEach(function (item, index) {
                     type.push({
                         "value": index + 1,
-                        "label": item.list_type.map((type)=>
-                            type.name_type + ', ' + type.type_no)})
+                        "label": item.engine + ", " +
+                                 item.ls_ls + ", " +
+                                 item.model_id + ", " +
+                                 item.name_type + ", " +
+                                 item.type_no + ", " +
+                                 item.year})
                 });
-                self.setState({type: type}, () => console.log(type))
+                self.setState({type: type})
             });
         }
     }
@@ -98,28 +123,22 @@ class Validity extends Component {
                     </div>
 
                     <div className="data-block__content">
-                        <div className="data-block__grid data-block__grid--validity">
+                        <div className="data-block__grid data-block__grid--validity2">
 
-                            <fieldset className="fg data-block__col data-block__col2">
+                            <fieldset className="fg data-block__col data-block__col3">
                                 <label>SortNo для 404</label>
                                 <input type="text"
-                                    // value={this.state.art_no}
-                                    // onChange={this.changeArticle}
-                                    // onBlur={this.updateData}
-                                    // onKeyDown={this.enterUpdate}
+                                    onChange={this.changeSortNo}
                                 />
                             </fieldset>
 
-                            <fieldset className="fg data-block__col data-block__col2">
+                            <fieldset className="fg data-block__col data-block__col4">
                                 <label>ТС</label>
                                 <input type="text"
-                                    // value={this.state.art_no}
-                                    // onChange={this.changeArticle}
-                                    // onBlur={this.updateData}
-                                    // onKeyDown={this.enterUpdate}
+                                    onChange={this.changeTS}
                                 />
                             </fieldset>
-                            <fieldset className="fg data-block__col data-block__col3">
+                            <fieldset className="fg data-block__col data-block__col6">
                                 <label>Производитель </label>
                                 <Select
                                     ref={this.makerValue}
@@ -132,7 +151,9 @@ class Validity extends Component {
                                     placeholder={'Поиск'}
                                 />
                             </fieldset>
-                            <fieldset className="fg data-block__col data-block__col3">
+                        </div>
+                        <div className="data-block__grid data-block__grid--validity">
+                            <fieldset className="fg data-block__col data-block__col4">
                                 <label>Модель </label>
                                 <Select
                                     ref={this.vehicleValue}
@@ -145,7 +166,7 @@ class Validity extends Component {
                                     placeholder={'Поиск'}
                                 />
                             </fieldset>
-                            <fieldset className="fg data-block__col data-block__col2">
+                            <fieldset className="fg data-block__col data-block__col6">
                                 <label>Тип </label>
                                 <Select
                                     ref={this.typeValue}
@@ -158,9 +179,9 @@ class Validity extends Component {
                                 />
                             </fieldset>
                             <Button
-                                // onClick={addNewValidity}
+                                onClick={this.addApplicability}
                                 className="data-block__add-btn btn btn-blue"
-                                style={{marginRight: 0, minWidth: 200, backgroundColor: '#6D71F9'}}
+                                style={{marginRight: 7, minWidth: 150, backgroundColor: '#6D71F9'}}
                             >
                                 Добавить
                             </Button>
