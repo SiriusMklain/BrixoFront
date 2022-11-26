@@ -2,6 +2,7 @@ import React, {Component} from "react";
 
 import Item from "./Item";
 import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 
 
 class Section extends Component {
@@ -39,6 +40,13 @@ class Section extends Component {
                         />)}
                     </tbody>
                 </Table>
+                <Button
+                                // onClick={this.addApplicability}
+                                className="data-block__add-btn btn btn-blue"
+                                style={{marginLeft: 850, minWidth: 200, backgroundColor: '#6D71F9'}}
+                            >
+                                Добавить секцию
+                            </Button>
             </>
         );
     }

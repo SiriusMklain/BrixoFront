@@ -5,6 +5,7 @@ import Section from "./Section";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionBody from "react-bootstrap/AccordionBody";
+import Button from "react-bootstrap/Button";
 
 class ValidityItem extends Component {
     constructor(props) {
@@ -84,8 +85,9 @@ class ValidityItem extends Component {
                         </tr>
                     </AccordionHeader>
                     <AccordionBody>
+
                         {this.state.validity.length !== 0 ?
-                            <Table>
+                                <Table>
                                 <thead>
                                 <tr>
                                     <th>
@@ -107,7 +109,16 @@ class ValidityItem extends Component {
                                 </tr>
                                 </thead>
                             </Table>
-                            : ''}
+                                    :
+
+                        <Button
+                                // onClick={this.addApplicability}
+                                className="data-block__add-btn btn btn-blue"
+                                style={{marginLeft: 850, minWidth: 200, backgroundColor: '#6D71F9'}}
+                            >
+                                Добавить секцию
+                            </Button>
+                        }
                         {this.state.validity.length !== 0 ? this.state.validity.map((sections, index) =>
                             <Section
                                 index={index}
