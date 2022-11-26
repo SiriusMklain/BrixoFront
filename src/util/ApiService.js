@@ -438,6 +438,30 @@ class ApiService {
             data: data
         }).then((response) => response.data);
     }
+
+    createSection(art_no_id, crit_no, crit_val, gen_art_no, ts, type_no, seq_no, sort_no) {
+        const URL = `${API_URL}/api/v1/add_section_veh/${art_no_id}/`;
+        const data = JSON.stringify(
+            {
+                "crit_no": crit_no,
+                "crit_val": crit_val,
+                "gen_art_no": gen_art_no,
+                "ts": ts,
+                "type_no": type_no,
+                "seq_no": seq_no,
+                "sort_no": sort_no,
+            }
+        )
+        return axios({
+            method: "POST",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
+        }).then((response) => response.data);
+    }
 }
 
 export default ApiService;

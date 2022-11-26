@@ -34,6 +34,7 @@ class Validity extends Component {
         this.changeSortNo = this.changeSortNo.bind(this)
         this.changeTS = this.changeTS.bind(this)
         this.addApplicability = this.addApplicability.bind(this)
+        this.addSection = this.addSection.bind(this)
     }
 
     componentDidMount() {
@@ -61,6 +62,14 @@ class Validity extends Component {
     addApplicability() {
         apiService.createApplicability(
             this.props.art_no_id, this.props.gen_art_no, this.state.ts, this.state.type_no, this.state.sort_no
+        ).then(() => {
+            this.getApplicability()
+            }
+        )
+    }
+    addSection(crit_no, crit_val, ts, type_no) {
+        apiService.createSection(
+            this.props.art_no_id,crit_no,crit_val, this.props.gen_art_no, ts, type_no, 1, 1
         ).then(() => {
             this.getApplicability()
             }
@@ -255,9 +264,7 @@ class Validity extends Component {
                                 <tbody>
                                 {this.state.applicability.map((validity, index) =>
                                     <ValidityItem
-                                        // id={validity.id}
-                                        key={index}
-                                        num={index + 1}
+                                        index={index}
                                         ts={validity.ts}
                                         type_no={validity.type_no}
                                         brand={validity.brand}
@@ -267,6 +274,7 @@ class Validity extends Component {
                                             + validity.type.type_name + ', '
                                             + validity.type.type_year}
                                         validity={validity}
+                                        funcAddSection={this.addSection}
                                         // deleteFunc={deleteValidity}
                                     />
                                 )}
