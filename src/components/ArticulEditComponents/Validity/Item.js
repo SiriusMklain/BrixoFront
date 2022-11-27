@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 
-import Accordion from 'react-bootstrap/Accordion';
-
 
 class Item extends Component {
     constructor(props) {
@@ -10,7 +8,6 @@ class Item extends Component {
             section: ''
         }
     }
-
 
     render() {
         return (
@@ -30,14 +27,9 @@ class Item extends Component {
                         <span>{this.props.item !== '' ? this.props.section.crit_val : ""}</span>
                     </div>
                 </td>
-
             </tr>
-
-
         );
     }
-
-
 }
 
 

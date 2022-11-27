@@ -17,15 +17,18 @@ class ValidityItem extends Component {
             check_section: '',
             modal_open: false,
             ts: '',
-            type_no: ''
+            type_no: '',
+            count_criteria: 0,
 
         }
         this.checkSections = this.checkSections.bind(this)
         this.modalOpen = this.modalOpen.bind(this)
+
+        this.critNo = this.critNo.bind(this)
     }
 
     componentDidMount() {
-        this.setState({validity: this.props.validity.sections ? Object.values(this.props.validity.sections) : ''})
+        this.setState({validity: this.props.validity ? Object.values(this.props.validity) : ''})
     }
 
     checkSections(section) {
@@ -40,11 +43,15 @@ class ValidityItem extends Component {
     modalOpen() {
         this.setState({
             modal_open: true, ts: this.props.ts, type_no: this.props.type_no
-        })
+        }, () => this.props.funcCountSeqSort(this.state.validity.length, this.state.count_criteria))
     }
 
+    critNo(count_criteria) {
+        this.setState({count_criteria: count_criteria}, () => this.props.funcCountSeqSort(0, this.state.count_criteria))
+    }
 
     render() {
+
         return (
             <>
                 <Accordion defaultActiveKey="0" style={{backgroundColor: this.state.check_section}}>
@@ -102,28 +109,37 @@ class ValidityItem extends Component {
                         <AccordionBody>
 
                             {this.state.validity.length !== 0 ?
-                                <Table>
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <div className="table__th">
-                                                <span>Номер критерия</span>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div className="table__th">
-                                                <span>Критерий</span>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div className="table__th">
-                                                <span>Значение критерия</span>
-                                            </div>
-                                        </th>
+                                <>
+                                    <Button
+                                        onClick={this.modalOpen}
+                                        className="data-block__add-btn btn btn-blue"
+                                        style={{marginLeft: 1035, minWidth: 200, backgroundColor: '#6D71F9'}}
+                                    >
+                                        Добавить секцию
+                                    </Button>
+                                    <Table>
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <div className="table__th">
+                                                    <span>Номер критерия</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div className="table__th">
+                                                    <span>Критерий</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div className="table__th">
+                                                    <span>Значение критерия</span>
+                                                </div>
+                                            </th>
 
-                                    </tr>
-                                    </thead>
-                                </Table>
+                                        </tr>
+                                        </thead>
+                                    </Table>
+                                </>
                                 :
 
                                 <Button
@@ -131,14 +147,19 @@ class ValidityItem extends Component {
                                     className="data-block__add-btn btn btn-blue"
                                     style={{marginLeft: 1035, minWidth: 200, backgroundColor: '#6D71F9'}}
                                 >
-                                    Добавить критерий
+                                    Добавить секцию
                                 </Button>
                             }
                             {this.state.validity.length !== 0 ? this.state.validity.map((sections, index) =>
                                 <Section
+                                    ts={this.props.ts}
+                                    type_no={this.props.type_no}
                                     index={index}
                                     sections={sections}
                                     funcSections={this.checkSections}
+                                    funcAddSection={this.props.funcAddSection}
+                                    new_section={this.props.new_section}
+                                    funcCritNo={this.critNo}
                                 />
                             ) : ''}
 
@@ -146,20 +167,15 @@ class ValidityItem extends Component {
                     </AccordionItem>
                 </Accordion>
                 <ModalAddCriteria
-                    ts={this.state.ts}
-                    type_no={this.state.type_no}
-                    funcModalOpen={this.state.modal_open}
+                    ts={this.props.ts}
+                    type_no={this.props.type_no}
+                    modal_open={this.state.modal_open}
                     modal_close={() => this.setState({modal_open: false})}
                     funcAddSection={this.props.funcAddSection}
                 />
-
             </>
-
-
         );
     }
-
-
 }
 
 

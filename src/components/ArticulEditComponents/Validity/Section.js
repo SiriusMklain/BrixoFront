@@ -12,6 +12,9 @@ class Section extends Component {
         this.state = {
             section: '',
             modal_open: false,
+            sections: [],
+            ts: '',
+            type_no: '',
         }
         this.modalOpen = this.modalOpen.bind(this)
     }
@@ -20,12 +23,19 @@ class Section extends Component {
         this.props.funcSections(this.props.sections)
     }
 
-    modalOpen() {
-        this.setState({
-            modal_open: true,
-        })
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (this.state.sections.length === 0) {
+            this.setState({sections: nextProps.new_section.length !== 0 ? [...nextProps.sections, nextProps.new_section] : nextProps.sections})
+        } else {
+            this.setState({sections: nextProps.new_section.length !== 0 ? [...this.state.sections, nextProps.new_section] : this.state.sections})
+        }
     }
 
+    modalOpen() {
+        this.setState({
+            modal_open: true, ts: this.props.ts, type_no: this.props.type_no
+        }, () => this.props.funcCritNo(this.props.sections.length))
+    }
 
     render() {
         return (
@@ -43,7 +53,7 @@ class Section extends Component {
                 </table>
                 <Table>
                     <tbody>
-                    {this.props.sections.map((section) =>
+                    {this.state.sections.map((section) =>
                         <Item
                             section={section}
                         />)}
@@ -52,19 +62,21 @@ class Section extends Component {
                 <Button
                     onClick={this.modalOpen}
                     className="data-block__add-btn btn btn-blue"
-                    style={{marginLeft: 1035, minWidth: 200, backgroundColor: '#6D71F9'}}
+                    style={{marginLeft: 1035, marginBottom: 20, minWidth: 200, backgroundColor: '#6D71F9'}}
+
                 >
                     Добавить критерий
                 </Button>
                 <ModalAddCriteria
-                    funcModalOpen={this.state.modal_open}
+                    ts={this.props.ts}
+                    type_no={this.props.type_no}
+                    modal_open={this.state.modal_open}
                     modal_close={() => this.setState({modal_open: false})}
+                    funcAddSection={this.props.funcAddSection}
                 />
-
             </>
         );
     }
-
 }
 
 

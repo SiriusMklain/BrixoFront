@@ -2,7 +2,7 @@ import Select from 'react-select';
 import ValidityItem from "./ValidityItem";
 
 import './Validity.scss';
-import React, {Component, useRef, useState} from "react";
+import React, {Component} from "react";
 import ApiService from "../../../util/ApiService";
 import Button from "react-bootstrap/Button";
 
@@ -24,7 +24,10 @@ class Validity extends Component {
             type_value: '',
             sort_no: '',
             ts: '',
-            type_no: ''
+            type_no: '',
+            sections: [],
+            count_section: '',
+            count_criteria: 0
         }
         this.searchVehicle = this.searchVehicle.bind(this)
         this.setValueMaker = this.setValueMaker.bind(this)
@@ -35,14 +38,16 @@ class Validity extends Component {
         this.changeTS = this.changeTS.bind(this)
         this.addApplicability = this.addApplicability.bind(this)
         this.addSection = this.addSection.bind(this)
+
+        this.countSeqSort = this.countSeqSort.bind(this)
     }
 
     componentDidMount() {
-       this.getApplicability()
+        this.getApplicability()
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({makers: nextProps.makers})
+        this.setState({makers: nextProps.makers}, () => this.getApplicability())
     }
 
     changeSortNo(e) {
@@ -53,8 +58,8 @@ class Validity extends Component {
         this.setState({ts: e.target.value})
     }
 
-    getApplicability(){
-         apiService.getApplicability(this.props.art_no_id).then((result) => {
+    getApplicability() {
+        apiService.getApplicability(this.props.art_no_id).then((result) => {
             this.setState({applicability: result.vehicles})
         })
     }
@@ -63,15 +68,17 @@ class Validity extends Component {
         apiService.createApplicability(
             this.props.art_no_id, this.props.gen_art_no, this.state.ts, this.state.type_no, this.state.sort_no
         ).then(() => {
-            this.getApplicability()
+                this.getApplicability()
             }
         )
     }
+
     addSection(crit_no, crit_val, ts, type_no) {
+
         apiService.createSection(
-            this.props.art_no_id,crit_no,crit_val, this.props.gen_art_no, ts, type_no, 1, 1
-        ).then(() => {
-            this.getApplicability()
+            this.props.art_no_id, crit_no, crit_val, this.props.gen_art_no, ts, type_no, this.state.count_section + 1, this.state.count_criteria + 1
+        ).then((result) => {
+                // this.setState({sections: {"sort_no": result.sort_no, "crit_no": result.crit_no, "crit_val": result.crit_val}})
             }
         )
     }
@@ -92,7 +99,6 @@ class Validity extends Component {
 
         }
     }
-
 
     searchVehicle() {
         const self = this;
@@ -138,6 +144,9 @@ class Validity extends Component {
         }
     }
 
+    countSeqSort(count_section = 0, count_criteria = 0) {
+        this.setState({count_section: count_section, count_criteria: count_criteria}, ()=> console.log(this.state.count_section, this.state.count_criteria))
+    }
 
     render() {
         return (
@@ -273,9 +282,10 @@ class Validity extends Component {
                                             + validity.type.type_ls_ls + ', '
                                             + validity.type.type_name + ', '
                                             + validity.type.type_year}
-                                        validity={validity}
+                                        validity={validity.sections}
                                         funcAddSection={this.addSection}
-                                        // deleteFunc={deleteValidity}
+                                        funcCountSeqSort={this.countSeqSort}
+                                        new_section={this.state.sections}
                                     />
                                 )}
                                 </tbody>
@@ -286,8 +296,6 @@ class Validity extends Component {
             </>
         );
     }
-
-
 }
 
 
