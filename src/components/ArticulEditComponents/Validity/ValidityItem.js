@@ -47,7 +47,7 @@ class ValidityItem extends Component {
     }
 
     critNo(count_criteria) {
-        this.setState({count_criteria: count_criteria}, () => this.props.funcCountSeqSort(0, this.state.count_criteria))
+        this.setState({count_criteria: count_criteria}, () => this.props.funcCountSeqSort(this.state.validity.length -1, this.state.count_criteria))
     }
 
     render() {

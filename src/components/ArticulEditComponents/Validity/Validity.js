@@ -26,7 +26,7 @@ class Validity extends Component {
             ts: '',
             type_no: '',
             sections: [],
-            count_section: '',
+            count_section: 0,
             count_criteria: 0
         }
         this.searchVehicle = this.searchVehicle.bind(this)
@@ -73,10 +73,10 @@ class Validity extends Component {
         )
     }
 
-    addSection(crit_no, crit_val, ts, type_no) {
-
+    addSection(crit_no, crit_val, ts, type_no, validity = 0) {
+        console.log(validity)
         apiService.createSection(
-            this.props.art_no_id, crit_no, crit_val, this.props.gen_art_no, ts, type_no, this.state.count_section + 1, this.state.count_criteria + 1
+            this.props.art_no_id, crit_no, crit_val, this.props.gen_art_no, ts, type_no, validity === 0 ? this.state.count_section + 1 : validity, this.state.count_criteria + 1
         ).then((result) => {
                 // this.setState({sections: {"sort_no": result.sort_no, "crit_no": result.crit_no, "crit_val": result.crit_val}})
             }

@@ -73,6 +73,7 @@ class Section extends Component {
                     modal_open={this.state.modal_open}
                     modal_close={() => this.setState({modal_open: false})}
                     funcAddSection={this.props.funcAddSection}
+                    validity={this.props.index + 1}
                 />
             </>
         );

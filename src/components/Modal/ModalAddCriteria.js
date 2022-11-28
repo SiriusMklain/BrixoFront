@@ -31,11 +31,10 @@ class ModalAddCriteria extends Component {
     }
 
     addData(e) {
-
         this.setState({
             crit_no: e.target.offsetParent.children[1].children[0][1].value,
             crit_val: e.target.offsetParent.children[1].children[0][3].value
-        }, () => this.props.funcAddSection(this.state.crit_no, this.state.crit_val, this.props.ts, this.props.type_no))
+        }, () => this.props.funcAddSection(this.state.crit_no, this.state.crit_val, this.props.ts, this.props.type_no, this.props.validity))
         this.modalClose()
     }
 
