@@ -68,7 +68,8 @@ class Validity extends Component {
         apiService.createApplicability(
             this.props.art_no_id, this.props.gen_art_no, this.state.ts, this.state.type_no, this.state.sort_no
         ).then(() => {
-                this.getApplicability()
+            window.location.reload();
+                // this.getApplicability()
             }
         )
     }
