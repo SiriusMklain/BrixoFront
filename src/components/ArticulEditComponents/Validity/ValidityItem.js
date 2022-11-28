@@ -7,7 +7,9 @@ import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionBody from "react-bootstrap/AccordionBody";
 import Button from "react-bootstrap/Button";
 import ModalAddCriteria from "../../Modal/ModalAddCriteria";
+import ApiService from "../../../util/ApiService";
 
+const apiService = new ApiService();
 
 class ValidityItem extends Component {
     constructor(props) {
@@ -25,6 +27,8 @@ class ValidityItem extends Component {
         this.modalOpen = this.modalOpen.bind(this)
 
         this.critNo = this.critNo.bind(this)
+        this.deleteApplicability = this.deleteApplicability.bind(this)
+
     }
 
     componentDidMount() {
@@ -48,6 +52,14 @@ class ValidityItem extends Component {
 
     critNo(count_criteria) {
         this.setState({count_criteria: count_criteria}, () => this.props.funcCountSeqSort(this.state.validity.length -1, this.state.count_criteria))
+    }
+
+    deleteApplicability(){
+        console.log("Delete", this.props.type_no)
+        apiService.deleteApplicability(this.props.art_no_id, this.props.type_no).then(()=>{
+             window.location.reload();
+        })
+
     }
 
     render() {
@@ -92,7 +104,7 @@ class ValidityItem extends Component {
                                 <td>
                                     <div className="table__nav">
                                         <button
-                                            // onClick={()=> {deleteFunc(id)}}
+                                            onClick={this.deleteApplicability}
                                             className="table__delete delete-param-btn"
                                         >
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"

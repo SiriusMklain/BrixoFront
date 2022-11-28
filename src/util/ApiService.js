@@ -246,6 +246,24 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    deleteApplicability(art_no_id, type_no) {
+        const URL = `${API_URL}/api/v1/vehicles/${art_no_id}/`;
+        const data = JSON.stringify(
+            {
+                "type_no": type_no
+            }
+        )
+        return axios({
+            method: "DELETE",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+            data: data
+        }).then((response) => response.data);
+    }
+
     saveReferences(art_no_id, reference, country, maker) {
         const URL = `${API_URL}/api/v1/references/${art_no_id}/`;
         const data = JSON.stringify(

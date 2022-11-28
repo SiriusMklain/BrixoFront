@@ -40,6 +40,7 @@ class Validity extends Component {
         this.addSection = this.addSection.bind(this)
 
         this.countSeqSort = this.countSeqSort.bind(this)
+
     }
 
     componentDidMount() {
@@ -149,7 +150,6 @@ class Validity extends Component {
     countSeqSort(count_section = 0, count_criteria = 0) {
         this.setState({count_section: count_section, count_criteria: count_criteria}, ()=> console.log(this.state.count_section, this.state.count_criteria))
     }
-
     render() {
         return (
             <>
@@ -288,6 +288,7 @@ class Validity extends Component {
                                         funcAddSection={this.addSection}
                                         funcCountSeqSort={this.countSeqSort}
                                         new_section={this.state.sections}
+                                        art_no_id={this.props.art_no_id}
                                     />
                                 )}
                                 </tbody>
