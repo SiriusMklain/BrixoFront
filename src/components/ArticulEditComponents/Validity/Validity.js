@@ -78,6 +78,7 @@ class Validity extends Component {
         apiService.createSection(
             this.props.art_no_id, crit_no, crit_val, this.props.gen_art_no, ts, type_no, validity === 0 ? this.state.count_section + 1 : validity, this.state.count_criteria + 1
         ).then((result) => {
+            window.location.reload();
                 // this.setState({sections: {"sort_no": result.sort_no, "crit_no": result.crit_no, "crit_val": result.crit_val}})
             }
         )
