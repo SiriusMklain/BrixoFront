@@ -70,39 +70,39 @@ class ValidityItem extends Component {
                     <AccordionItem>
                         <AccordionHeader>
                             <tr>
-                                <td>
-                                    <div className="table__td">
+                                <td style={{borderTop: 0}}>
+                                    <div >
                                         <span className="table__num gray-text">{this.props.num}</span>
                                     </div>
                                 </td>
-                                <td>
-                                    <div className="table__td">
+                                <td style={{borderTop: 0}}>
+                                    <div >
                                         <span>{this.props.type_no}</span>
                                     </div>
                                 </td>
-                                <td>
-                                    <div className="table__td">
+                                <td style={{borderTop: 0}}>
+                                    <div >
                                         <span>{this.props.ts}</span>
                                     </div>
                                 </td>
-                                <td>
-                                    <div className="table__td">
+                                <td style={{borderTop: 0}}>
+                                    <div>
                                         <span>{this.props.brand}</span>
                                     </div>
                                 </td>
-                                <td>
-                                    <div className="table__td">
+                                <td style={{borderTop: 0}}>
+                                    <div >
                                         <span>{this.props.model}</span>
                                     </div>
                                 </td>
-                                <td>
-                                    <div className="table__td">
+                                <td style={{borderTop: 0}}>
+                                    <div className="table__td" >
                                         <span>{this.props.type}</span>
 
                                     </div>
                                 </td>
-                                <td>
-                                    <div className="table__nav">
+                                <td style={{borderTop: 0}}>
+                                    <div className="table__nav" style={{right: -100}}>
                                         <button
                                             onClick={this.deleteApplicability}
                                             className="table__delete delete-param-btn"
