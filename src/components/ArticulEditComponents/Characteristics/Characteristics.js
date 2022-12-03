@@ -111,20 +111,21 @@ class Characteristics extends Component {
     }
 
     createData(name, name_en, crit_no, criteria) {
+        console.log(name, name_en, crit_no, criteria)
         let new_crit = {
             art_no_id: this.props.art_no_id * 1,
             crit_val: criteria,
             id: Math.floor(100000 + Math.random() * 900000),
-            crit_no_id: {
+
                 crit_no:  crit_no.label,
-                description: "",
-                id: 0,
+
+
                 name: name.label,
                 name_en: name_en.label
-            }
+
         }
-        let filter = this.state.crit.filter(item => item.crit_no_id !== null)
-        let result = filter.find(item => item.crit_no_id.name === new_crit.crit_no_id.name)
+        let filter = this.state.crit.filter(item => item.crit_no !== null)
+        let result = filter.find(item => item.name_ru === new_crit.name_ru)
         if (result === undefined) {
             this.setState({crit: [...this.state.crit, new_crit]})
             apiService.createCrit(this.props.art_no_id, name.label, name_en.label, criteria)
@@ -148,7 +149,6 @@ class Characteristics extends Component {
     }
 
     render() {
-        console.log(this.props.crit_list)
         return (
             <div className="data-block">
                 <div className="data-block__head">
