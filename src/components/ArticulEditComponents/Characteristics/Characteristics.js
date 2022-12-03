@@ -50,19 +50,19 @@ class Characteristics extends Component {
         })
     }
 
-    setCritName(index, crit_no_id) {
+    setCritName(index, name_ru) {
 
-        if (crit_no_id !== null) {
-            return {"value": index, "label": crit_no_id.name}
+        if (name_ru !== null) {
+            return {"value": index, "label": name_ru}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
     }
 
-    setCritNo(index, crit_no_id) {
+    setCritNo(index, crit_no) {
 
-        if (crit_no_id !== null) {
-            return {"value": index, "label": crit_no_id.crit_no}
+        if (crit_no !== null) {
+            return {"value": index, "label": crit_no}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
@@ -73,9 +73,9 @@ class Characteristics extends Component {
         return {"value": index, "label": crit}
     }
 
-    setCritNameEn(index, crit_no_id) {
-        if (crit_no_id !== null) {
-            return {"value": index, "label": crit_no_id.name_en}
+    setCritNameEn(index, name_en) {
+        if (name_en !== null) {
+            return {"value": index, "label": name_en}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
@@ -144,11 +144,11 @@ class Characteristics extends Component {
     }
 
     open(id, index, name) {
-        console.log(name)
         this.setState({showModal: true, index: index, id: id, name: name.label});
     }
 
     render() {
+        console.log(this.props.crit_list)
         return (
             <div className="data-block">
                 <div className="data-block__head">
@@ -173,7 +173,7 @@ class Characteristics extends Component {
                                     all_crit_en={this.props.all_crit_en}
                                     all_countries={this.props.all_countries}
                                     all_crit_no={this.props.all_crit_no}
-                                    crit_no={this.setCritNo(index, prop.crit_no_id)}
+                                    crit_no={this.setCritNo(index, prop.crit_no)}
                                 />
                             ) :
                             this.state.crit.map((prop, index) =>
@@ -185,14 +185,14 @@ class Characteristics extends Component {
                                     addNewProp={this.addProp}
                                     key={index}
                                     criteria={prop.crit_val}
-                                    name={this.setCritName(index, prop.crit_no_id)}
-                                    name_en={this.setCritNameEn(index, prop.crit_no_id)}
+                                    name={this.setCritName(index, prop.name_ru)}
+                                    name_en={this.setCritNameEn(index, prop.name_en)}
                                     defaultValue={prop.value}
                                     all_crit={this.props.all_crit}
                                     all_crit_en={this.props.all_crit_en}
                                     all_countries={this.props.all_countries}
                                     all_crit_no={this.props.all_crit_no}
-                                    crit_no={this.setCritNo(index, prop.crit_no_id)}
+                                    crit_no={this.setCritNo(index, prop.crit_no)}
                                 />
                             )}
                         <Characteristic
