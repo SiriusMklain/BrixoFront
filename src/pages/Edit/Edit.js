@@ -141,6 +141,7 @@ class Edit extends Component {
         });
 
     }
+
     getStyle(_brands, index) {
         let brand_no = localStorage.getItem("brand_no")
         let brand_style = {}

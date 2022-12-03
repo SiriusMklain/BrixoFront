@@ -95,12 +95,12 @@ class Characteristics extends Component {
         this.props.crit_list.forEach(function (item, i) {
             if (index === i) {
                 crit.push({
-                    "crit_no": item.crit_no,
+                    "crit_no": item.crit_no_id.crit_no,
                     "crit_val": criteria
                 })
             } else {
                 crit.push({
-                    "crit_no": item.crit_no,
+                    "crit_no": item.crit_no_id.crit_no,
                     "crit_val": "-"
                 })
             }
