@@ -60,6 +60,7 @@ class Characteristics extends Component {
     }
 
     setCritNo(index, crit_no_id) {
+
         if (crit_no_id !== null) {
             return {"value": index, "label": crit_no_id.crit_no}
         } else {
@@ -67,13 +68,9 @@ class Characteristics extends Component {
         }
     }
 
-    setCritListName(index, crit_no_id) {
+    setCritListName(index, crit) {
 
-        if (crit_no_id !== null) {
-            return {"value": index, "label": crit_no_id.name}
-        } else {
-            return {"value": index, "label": 'Нет данных'}
-        }
+        return {"value": index, "label": crit.name}
     }
 
     setCritNameEn(index, crit_no_id) {
@@ -86,7 +83,7 @@ class Characteristics extends Component {
 
     setCritListNameEn(index, crit) {
 
-        return {"value": index, "label": crit}
+        return {"value": index, "label": crit.name_en}
     }
 
     updateData(criteria, old_name, name, old_criteria) {
@@ -120,6 +117,7 @@ class Characteristics extends Component {
             id: Math.floor(100000 + Math.random() * 900000),
             crit_no_id: {
                 crit_no:  crit_no.label,
+                description: "",
                 id: 0,
                 name: name.label,
                 name_en: name_en.label
@@ -146,6 +144,7 @@ class Characteristics extends Component {
     }
 
     open(id, index, name) {
+
         this.setState({showModal: true, index: index, id: id, name: name.label});
     }
 
