@@ -50,19 +50,19 @@ class Characteristics extends Component {
         })
     }
 
-    setCritName(index, name_ru) {
+    setCritName(index, crit_no_id) {
 
-        if (name_ru !== null) {
-            return {"value": index, "label": name_ru}
+        if (crit_no_id !== null) {
+            return {"value": index, "label": crit_no_id.name}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
     }
 
-    setCritNo(index, crit_no) {
+    setCritNo(index, crit_no_id) {
 
-        if (crit_no !== null) {
-            return {"value": index, "label": crit_no}
+        if (crit_no_id !== null) {
+            return {"value": index, "label": crit_no_id.crit_no}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
@@ -73,9 +73,9 @@ class Characteristics extends Component {
         return {"value": index, "label": crit}
     }
 
-    setCritNameEn(index, name_en) {
-        if (name_en !== null) {
-            return {"value": index, "label": name_en}
+    setCritNameEn(index, crit_no_id) {
+        if (crit_no_id !== null) {
+            return {"value": index, "label": crit_no_id.name_en}
         } else {
             return {"value": index, "label": 'Нет данных'}
         }
@@ -111,18 +111,20 @@ class Characteristics extends Component {
     }
 
     createData(name, name_en, crit_no, criteria) {
-        console.log(name, name_en, crit_no, criteria)
         let new_crit = {
             art_no_id: this.props.art_no_id * 1,
             crit_val: criteria,
             id: Math.floor(100000 + Math.random() * 900000),
+            crit_no_id: {
                 crit_no:  crit_no.label,
-                name_ru: name.label,
+                description: "",
+                id: 0,
+                name: name.label,
                 name_en: name_en.label
-
+            }
         }
-        let filter = this.state.crit.filter(item => item.crit_no !== null)
-        let result = filter.find(item => item.name_ru === new_crit.name_ru)
+        let filter = this.state.crit.filter(item => item.crit_no_id !== null)
+        let result = filter.find(item => item.crit_no_id.name === new_crit.crit_no_id.name)
         if (result === undefined) {
             this.setState({crit: [...this.state.crit, new_crit]})
             apiService.createCrit(this.props.art_no_id, name.label, name_en.label, criteria)
@@ -142,6 +144,7 @@ class Characteristics extends Component {
     }
 
     open(id, index, name) {
+        console.log(name)
         this.setState({showModal: true, index: index, id: id, name: name.label});
     }
 
@@ -170,7 +173,7 @@ class Characteristics extends Component {
                                     all_crit_en={this.props.all_crit_en}
                                     all_countries={this.props.all_countries}
                                     all_crit_no={this.props.all_crit_no}
-                                    crit_no={this.setCritNo(index, prop.crit_no)}
+                                    crit_no={this.setCritNo(index, prop.crit_no_id)}
                                 />
                             ) :
                             this.state.crit.map((prop, index) =>
@@ -182,14 +185,14 @@ class Characteristics extends Component {
                                     addNewProp={this.addProp}
                                     key={index}
                                     criteria={prop.crit_val}
-                                    name={this.setCritName(index, prop.name_ru)}
-                                    name_en={this.setCritNameEn(index, prop.name_en)}
+                                    name={this.setCritName(index, prop.crit_no_id)}
+                                    name_en={this.setCritNameEn(index, prop.crit_no_id)}
                                     defaultValue={prop.value}
                                     all_crit={this.props.all_crit}
                                     all_crit_en={this.props.all_crit_en}
                                     all_countries={this.props.all_countries}
                                     all_crit_no={this.props.all_crit_no}
-                                    crit_no={this.setCritNo(index, prop.crit_no)}
+                                    crit_no={this.setCritNo(index, prop.crit_no_id)}
                                 />
                             )}
                         <Characteristic
