@@ -116,11 +116,8 @@ class Characteristics extends Component {
             art_no_id: this.props.art_no_id * 1,
             crit_val: criteria,
             id: Math.floor(100000 + Math.random() * 900000),
-
                 crit_no:  crit_no.label,
-
-
-                name: name.label,
+                name_ru: name.label,
                 name_en: name_en.label
 
         }
