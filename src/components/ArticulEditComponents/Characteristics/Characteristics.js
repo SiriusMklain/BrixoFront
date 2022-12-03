@@ -51,7 +51,7 @@ class Characteristics extends Component {
     }
 
     setCritName(index, crit_no_id) {
-
+            console.log(crit_no_id)
         if (crit_no_id !== null) {
             return {"value": index, "label": crit_no_id.name}
         } else {
@@ -60,7 +60,6 @@ class Characteristics extends Component {
     }
 
     setCritNo(index, crit_no_id) {
-
         if (crit_no_id !== null) {
             return {"value": index, "label": crit_no_id.crit_no}
         } else {
@@ -68,9 +67,13 @@ class Characteristics extends Component {
         }
     }
 
-    setCritListName(index, crit) {
+    setCritListName(index, crit_no_id) {
 
-        return {"value": index, "label": crit}
+        if (crit_no_id !== null) {
+            return {"value": index, "label": crit_no_id.name}
+        } else {
+            return {"value": index, "label": 'Нет данных'}
+        }
     }
 
     setCritNameEn(index, crit_no_id) {
@@ -117,7 +120,6 @@ class Characteristics extends Component {
             id: Math.floor(100000 + Math.random() * 900000),
             crit_no_id: {
                 crit_no:  crit_no.label,
-                description: "",
                 id: 0,
                 name: name.label,
                 name_en: name_en.label
@@ -144,7 +146,6 @@ class Characteristics extends Component {
     }
 
     open(id, index, name) {
-        console.log(name)
         this.setState({showModal: true, index: index, id: id, name: name.label});
     }
 
@@ -166,8 +167,8 @@ class Characteristics extends Component {
                                     addNewProp={this.addProp}
                                     key={index}
                                     criteria={''}
-                                    name={this.setCritListName(index, prop.name_ru)}
-                                    name_en={this.setCritListNameEn(index, prop.name_en)}
+                                    name={this.setCritListName(index, prop.crit_no_id)}
+                                    name_en={this.setCritListNameEn(index, prop.crit_no_id)}
                                     defaultValue={prop.value}
                                     all_crit={this.props.all_crit}
                                     all_crit_en={this.props.all_crit_en}
