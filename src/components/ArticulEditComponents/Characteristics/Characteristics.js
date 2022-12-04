@@ -51,7 +51,6 @@ class Characteristics extends Component {
     }
 
     setCritName(index, crit_no_id) {
-            console.log(crit_no_id)
         if (crit_no_id !== null) {
             return {"value": index, "label": crit_no_id.name}
         } else {
@@ -90,7 +89,7 @@ class Characteristics extends Component {
         apiService.updateCrit(this.props.art_no_id, criteria, old_name.label, name.label, old_criteria)
     }
 
-    updateCritMany(crit_no, len, criteria, index) {
+    updateCritMany(criteria, index) {
         let crit = []
         this.props.crit_list.forEach(function (item, i) {
             if (index === i) {
@@ -101,7 +100,7 @@ class Characteristics extends Component {
             } else {
                 crit.push({
                     "crit_no": item.crit_no_id.crit_no,
-                    "crit_val": "-"
+                    "crit_val": ""
                 })
             }
         });
@@ -116,7 +115,7 @@ class Characteristics extends Component {
             crit_val: criteria,
             id: Math.floor(100000 + Math.random() * 900000),
             crit_no_id: {
-                crit_no:  crit_no.label,
+                crit_no: crit_no.label,
                 description: "",
                 id: 0,
                 name: name.label,
@@ -136,7 +135,9 @@ class Characteristics extends Component {
     enterUpdate(e, name, name_en, crit_no, criteria) {
         if (e.code === "Enter" || e.code === "NumpadEnter") {
             this.createData(name, name_en, crit_no, criteria)
+            this.updateCritMany('', -1)
         }
+
     }
 
     close() {
@@ -156,13 +157,30 @@ class Characteristics extends Component {
                 </div>
                 <div className="data-block__content">
                     <div className="data-block__grid props">
-
+                        <Characteristic
+                            index={-1}
+                            id={-1}
+                            deleteFunc={this.open}
+                            updateFunc={() => {
+                            }}
+                            enterFunc={this.enterUpdate}
+                            key={-1}
+                            criteria={''}
+                            name={''}
+                            name_en={''}
+                            defaultValue={''}
+                            all_crit={this.props.all_crit}
+                            all_crit_en={this.props.all_crit_en}
+                            all_countries={this.props.all_countries}
+                            all_crit_no={this.props.all_crit_no}
+                            crit_no={''}
+                        />
                         {(this.state.crit.length === 0) ? this.props.crit_list.map((prop, index) =>
                                 <Characteristic
                                     index={index}
                                     id={prop.id}
                                     deleteFunc={this.open}
-                                    updateFunc={(criteria) => this.updateCritMany(prop.crit_no, this.props.crit_list.length, criteria, index)}
+                                    updateFunc={(criteria) => this.updateCritMany(criteria, index)}
                                     addNewProp={this.addProp}
                                     key={index}
                                     criteria={''}
@@ -195,24 +213,7 @@ class Characteristics extends Component {
                                     crit_no={this.setCritNo(index, prop.crit_no_id)}
                                 />
                             )}
-                        <Characteristic
-                            index={-1}
-                            id={-1}
-                            deleteFunc={this.open}
-                            updateFunc={() => {
-                            }}
-                            enterFunc={this.enterUpdate}
-                            key={-1}
-                            criteria={''}
-                            name={''}
-                            name_en={''}
-                            defaultValue={''}
-                            all_crit={this.props.all_crit}
-                            all_crit_en={this.props.all_crit_en}
-                            all_countries={this.props.all_countries}
-                            all_crit_no={this.props.all_crit_no}
-                            crit_no={''}
-                        />
+
                     </div>
                 </div>
 

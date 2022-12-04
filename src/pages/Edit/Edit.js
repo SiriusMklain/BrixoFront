@@ -47,6 +47,8 @@ class Edit extends Component {
         this.getCritList = this.getCritList.bind(this)
 
         this.searchMakers = this.searchMakers.bind(this);
+
+        this.updateCritMany = this.updateCritMany.bind(this)
     }
 
     componentDidMount() {
@@ -223,6 +225,22 @@ class Edit extends Component {
         }
     }
 
+    updateCritMany(art_no_id) {
+        let crit = []
+        this.state.crit_list.forEach(function (item, i) {
+            crit.push({
+                    "crit_no": item.crit_no_id.crit_no,
+                    "crit_val": ""
+                })
+        });
+        if(this.state.crit.length === 0){
+            apiService.updateCritMany(art_no_id, crit).then(() => {
+            window.location.reload()
+        })
+        }
+
+    }
+
     render() {
         return (
             <div className="edit-page">
@@ -247,6 +265,7 @@ class Edit extends Component {
                         trades={this.state.trades}
                         supers={this.state.supers}
                         critListFunc={this.getCritList}
+                        funcUpdateCritMany={this.updateCritMany}
                     />
                     <Characteristics
                         art_no_id={art_no_id}

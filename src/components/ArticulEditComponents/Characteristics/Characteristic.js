@@ -117,6 +117,7 @@ class Characteristic extends Component {
                         onBlur={() => this.props.updateFunc(this.state.criteria, this.state.old_name, this.state.name,
                             this.state.old_criteria)}
                         onKeyDown={(e) => this.props.enterFunc(e, this.state.name, this.state.name_en, this.state.crit_no, this.state.criteria)}
+                        placeholder={this.state.criteria ? "" : "введите значение"}
                     />
                 </fieldset>
                 <button

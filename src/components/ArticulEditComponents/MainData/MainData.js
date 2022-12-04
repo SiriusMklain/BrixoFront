@@ -53,6 +53,8 @@ class MainData extends Component {
         this.eventSupersEnter = this.eventSupersEnter.bind(this);
         this.enterUpdate = this.enterUpdate.bind(this);
         this.searchGetArtNo = this.searchGetArtNo.bind(this)
+
+        this.doUpdateCriteria = this.doUpdateCriteria.bind(this)
     }
 
     componentDidMount() {
@@ -240,6 +242,10 @@ class MainData extends Component {
         });
     }
 
+    doUpdateCriteria() {
+       // setTimeout(() => { this.props.funcUpdateCritMany(this.props.art_no_id) }, 1000);
+    }
+
     render() {
         return (
             <div className="data-block">
@@ -337,7 +343,7 @@ class MainData extends Component {
                                 options={this.state.list_gen_art_no}
                                 onChange={this.changeGenArtNo}
                                 onInputChange={this.searchGetArtNo}
-                                // onMenuOpen={() => this.setState({gen_art_no: this.state.gen_art_no})}
+                                onMenuClose={this.doUpdateCriteria}
                                 onBlur={this.updateData}
                                 placeholder={"Создание, поиск"}
                             />
