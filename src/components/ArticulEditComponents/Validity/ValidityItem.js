@@ -8,6 +8,7 @@ import AccordionBody from "react-bootstrap/AccordionBody";
 import Button from "react-bootstrap/Button";
 import ModalAddCriteria from "../../Modal/ModalAddCriteria";
 import ApiService from "../../../util/ApiService";
+import Modal from "react-bootstrap/Modal";
 
 const apiService = new ApiService();
 
@@ -18,6 +19,7 @@ class ValidityItem extends Component {
             validity: [],
             check_section: '',
             modal_open: false,
+            showModal: false,
             ts: '',
             type_no: '',
             count_criteria: 0,
@@ -28,6 +30,9 @@ class ValidityItem extends Component {
 
         this.critNo = this.critNo.bind(this)
         this.deleteApplicability = this.deleteApplicability.bind(this)
+
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
 
     }
 
@@ -51,15 +56,23 @@ class ValidityItem extends Component {
     }
 
     critNo(count_criteria) {
-        this.setState({count_criteria: count_criteria}, () => this.props.funcCountSeqSort(this.state.validity.length -1, this.state.count_criteria))
+        this.setState({count_criteria: count_criteria}, () => this.props.funcCountSeqSort(this.state.validity.length - 1, this.state.count_criteria))
     }
 
-    deleteApplicability(){
-        console.log("Delete", this.props.type_no)
-        apiService.deleteApplicability(this.props.art_no_id, this.props.type_no).then(()=>{
-             window.location.reload();
+    deleteApplicability() {
+        apiService.deleteApplicability(this.props.art_no_id, this.props.type_no).then(() => {
+            this.close()
+            window.location.reload();
         })
 
+    }
+
+    close() {
+        this.setState({showModal: false});
+    }
+
+    open() {
+        this.setState({showModal: true});
     }
 
     render() {
@@ -71,17 +84,17 @@ class ValidityItem extends Component {
                         <AccordionHeader>
                             <tr>
                                 <td style={{borderTop: 0}}>
-                                    <div >
+                                    <div>
                                         <span className="table__num gray-text">{this.props.num}</span>
                                     </div>
                                 </td>
                                 <td style={{borderTop: 0}}>
-                                    <div >
+                                    <div>
                                         <span>{this.props.type_no}</span>
                                     </div>
                                 </td>
                                 <td style={{borderTop: 0}}>
-                                    <div >
+                                    <div>
                                         <span>{this.props.ts}</span>
                                     </div>
                                 </td>
@@ -91,12 +104,12 @@ class ValidityItem extends Component {
                                     </div>
                                 </td>
                                 <td style={{borderTop: 0}}>
-                                    <div >
+                                    <div>
                                         <span>{this.props.model}</span>
                                     </div>
                                 </td>
                                 <td style={{borderTop: 0}}>
-                                    <div className="table__td" >
+                                    <div className="table__td">
                                         <span>{this.props.type}</span>
 
                                     </div>
@@ -104,7 +117,7 @@ class ValidityItem extends Component {
                                 <td style={{borderTop: 0}}>
                                     <div className="table__nav" style={{right: -100}}>
                                         <button
-                                            onClick={this.deleteApplicability}
+                                            onClick={this.open}
                                             className="table__delete delete-param-btn"
                                         >
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -185,6 +198,25 @@ class ValidityItem extends Component {
                     modal_close={() => this.setState({modal_open: false})}
                     funcAddSection={this.props.funcAddSection}
                 />
+
+                <>
+                    <Modal show={this.state.showModal} onHide={this.close}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Удаление</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Вы уверены, что хотите удалить
+                            применимость <b>{this.props.type_no}</b> ?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.close}>
+                                Закрыть
+                            </Button>
+                            <Button variant="danger" onClick={this.deleteApplicability}>
+                                Удалить
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </>
+
             </>
         );
     }
