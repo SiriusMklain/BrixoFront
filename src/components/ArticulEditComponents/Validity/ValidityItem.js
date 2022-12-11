@@ -133,7 +133,7 @@ class ValidityItem extends Component {
                                     </div>
                                 </td>
                                 <td style={{borderTop: 0}}>
-                                    <div className="table__nav" style={{right: -100}}>
+                                    <div className="table__nav" style={{right: -40}}>
                                         <button
                                             onClick={this.open}
                                             className="table__delete delete-param-btn"
