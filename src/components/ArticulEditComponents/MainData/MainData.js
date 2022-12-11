@@ -136,7 +136,8 @@ class MainData extends Component {
             this.setState({
                 gen_art_no: {
                     "gen_number": e.label.split("/")[0],
-                    "name_gen": e.label.split("/")[1]
+                    "name_gen": e.label.split("/")[1],
+                    "en_name_gen": e.label.split("/")[2]
                 }
             })
         } catch (e) {
@@ -230,7 +231,7 @@ class MainData extends Component {
         apiService.getGenArtNo(lexem).then((result) => {
             let gen_art_no = [];
             result.forEach(function (item, index) {
-                gen_art_no.push({"value": index + 2, "label": item.gen_number + "/" + item.name_gen})
+                gen_art_no.push({"value": index + 2, "label": item.gen_number + "/" + item.name_gen + "/" + item.en_name_gen})
             });
             this.setState({
                 list_gen_art_no: [{
@@ -328,7 +329,7 @@ class MainData extends Component {
                                    onKeyDown={this.enterUpdate}
                             />
                         </fieldset>
-                        <fieldset className="fg data-block__col data-block__col6">
+                        <fieldset className="fg data-block__col data-block__col8">
                             <label>GenArtNo</label>
                             <Select
                                 ref={this.genArtNoValue}
@@ -338,7 +339,7 @@ class MainData extends Component {
                                 name="getArtNo"
                                 value={this.state.gen_art_no ? {
                                     'value': 1,
-                                    'label': this.state.gen_art_no.gen_number + "/" + this.state.gen_art_no.name_gen
+                                    'label': this.state.gen_art_no.gen_number + "/" + this.state.gen_art_no.name_gen + "/" + this.state.gen_art_no.en_name_gen
                                 } : ''}
                                 options={this.state.list_gen_art_no}
                                 onChange={this.changeGenArtNo}
@@ -348,7 +349,7 @@ class MainData extends Component {
                                 placeholder={"Создание, поиск"}
                             />
                         </fieldset>
-                        <fieldset className="fg data-block__col data-block__col6">
+                        <fieldset className="fg data-block__col data-block__col3">
                             <label>GTIN </label>
                             <input type="text"
                                    value={this.state.gtin}

@@ -480,6 +480,30 @@ class ApiService {
             data: data
         }).then((response) => response.data);
     }
+
+    searchCritNo(value_of_num) {
+        const URL = `${API_URL}/api/v1/veh_val_of_search/?value_of_num=${value_of_num}`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
+    searchCritVal(value_num) {
+        const URL = `${API_URL}/api/v1/veh_val_search/?value_num=${value_num}`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
 }
 
 export default ApiService;

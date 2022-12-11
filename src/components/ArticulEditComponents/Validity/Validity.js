@@ -27,7 +27,7 @@ class Validity extends Component {
             type_no: '',
             sections: [],
             count_section: 0,
-            count_criteria: 0
+            count_criteria: 0,
         }
         this.searchVehicle = this.searchVehicle.bind(this)
         this.setValueMaker = this.setValueMaker.bind(this)
@@ -69,18 +69,18 @@ class Validity extends Component {
         apiService.createApplicability(
             this.props.art_no_id, this.props.gen_art_no, this.state.ts, this.state.type_no, this.state.sort_no
         ).then(() => {
-            window.location.reload();
+                window.location.reload();
                 // this.getApplicability()
             }
         )
     }
 
     addSection(crit_no, crit_val, ts, type_no, validity = 0) {
-        console.log(validity)
         apiService.createSection(
-            this.props.art_no_id, crit_no, crit_val, this.props.gen_art_no, ts, type_no, validity === 0 ? this.state.count_section + 1 : validity, this.state.count_criteria + 1
+            this.props.art_no_id, crit_no, crit_val, this.props.gen_art_no, ts, type_no, validity === 0 ?
+                this.state.count_section + 1 : validity, this.state.count_criteria + 1
         ).then((result) => {
-            window.location.reload();
+                window.location.reload();
                 // this.setState({sections: {"sort_no": result.sort_no, "crit_no": result.crit_no, "crit_val": result.crit_val}})
             }
         )
@@ -148,8 +148,13 @@ class Validity extends Component {
     }
 
     countSeqSort(count_section = 0, count_criteria = 0) {
-        this.setState({count_section: count_section, count_criteria: count_criteria}, ()=> console.log(this.state.count_section, this.state.count_criteria))
+        this.setState({
+            count_section: count_section,
+            count_criteria: count_criteria
+        })
     }
+
+
     render() {
         return (
             <>
@@ -263,11 +268,27 @@ class Validity extends Component {
                                             <span>Модель</span>
                                         </div>
                                     </th>
-                                    <th>
+                                    <th style={{width: 160}}>
                                         <div className="table__th">
                                             <span>Тип</span>
                                         </div>
                                     </th>
+                                    <th style={{width: 190}}>
+                                        <div className="table__th">
+                                            <span>Двигатель</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>л.с.</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>Год выпуска</span>
+                                        </div>
+                                    </th>
+
                                 </tr>
                                 </thead>
                             </table>
@@ -280,10 +301,7 @@ class Validity extends Component {
                                         type_no={validity.type_no}
                                         brand={validity.brand}
                                         model={validity.model}
-                                        type={validity.type.type_engine + ', '
-                                            + validity.type.type_ls_ls + ', '
-                                            + validity.type.type_name + ', '
-                                            + validity.type.type_year}
+                                        type={validity.type}
                                         validity={validity.sections}
                                         funcAddSection={this.addSection}
                                         funcCountSeqSort={this.countSeqSort}

@@ -51,15 +51,15 @@ class Characteristic extends Component {
 
 
     changeCritNo(e) {
-        this.setState({crit_no: e, name_en: this.state.all_crit_en[e.value], name: this.state.all_crit[e.value]})
+        this.setState({crit_no: e, name_en: this.state.all_crit_en[e.value], name: this.state.all_crit[e.value], criteria: ''})
     }
 
     changeCritName(e) {
-        this.setState({name: e, name_en: this.state.all_crit_en[e.value], crit_no: this.state.all_crit_no[e.value]})
+        this.setState({name: e, name_en: this.state.all_crit_en[e.value], crit_no: this.state.all_crit_no[e.value], criteria: ''})
     }
 
     changeCritNameEn(e) {
-        this.setState({name_en: e, name: this.state.all_crit[e.value], crit_no: this.state.all_crit_no[e.value]})
+        this.setState({name_en: e, name: this.state.all_crit[e.value], crit_no: this.state.all_crit_no[e.value], criteria: ''})
     }
 
     changeCriteria(e) {
