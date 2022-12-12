@@ -41,7 +41,8 @@ class ModalAddCriteria extends Component {
     }
 
     addData() {
-       this.props.funcAddSection(this.state.crit_no.label, this.state.crit_val.label, this.props.ts, this.props.type_no, this.props.validity)
+        console.log(this.state.crit_no, this.state.crit_val)
+       this.props.funcAddSection(this.state.crit_no.value_of_num, this.state.crit_val.value_num, this.props.ts, this.props.type_no, this.props.validity)
         this.modalClose()
     }
 
@@ -49,7 +50,7 @@ class ModalAddCriteria extends Component {
         apiService.searchCritNo(e).then((result) => {
             let value_of = []
             result.value_of.forEach(function (item, index) {
-                value_of.push({"value": index + 1, "label": item.value_of_num + " / " + item.value_of_name})
+                value_of.push({"value": index + 1, "label": item.value_of_num + " / " + item.value_of_name, "value_of_num": item.value_of_num})
             })
 
             this.setState({list_crit_no: value_of})
@@ -60,10 +61,10 @@ class ModalAddCriteria extends Component {
         apiService.searchCritVal(e).then((result) => {
             let value = []
             result.value.forEach(function (item, index) {
-                value.push({"value": index + 1, "label": item.value_num + " / " + item.value_name})
+                value.push({"value": index + 1, "label": item.value_num + " / " + item.value_name, "value_num": item.value_num})
             })
 
-            this.setState({list_crit_val: value}, ()=>console.log(value))
+            this.setState({list_crit_val: value})
         })
     }
 
