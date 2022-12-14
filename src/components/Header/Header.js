@@ -42,6 +42,7 @@ class Header extends Component {
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
         this.openModalExport = this.openModalExport.bind(this)
+        this.orderExport = this.orderExport.bind(this)
 
     }
 
@@ -170,7 +171,10 @@ class Header extends Component {
             console.log(result.file)
             this.setState({showModalExport: true, show_export: result.file});
         })
+    }
 
+    orderExport(){
+        apiService.orderExport()
     }
 
     render() {
@@ -344,7 +348,7 @@ class Header extends Component {
 
                                         Экспорт
                                     </Button>
-                                    <Button variant="primary" onClick={this.close}>
+                                    <Button variant="primary" onClick={this.orderExport}>
                                         Запрос на формирование архива
                                     </Button>
                                     <Button variant="secondary" onClick={this.close}>
