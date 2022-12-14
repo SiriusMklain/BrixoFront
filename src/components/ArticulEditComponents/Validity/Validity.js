@@ -5,6 +5,8 @@ import './Validity.scss';
 import React, {Component} from "react";
 import ApiService from "../../../util/ApiService";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import ValiditySearch from "./ValiditySearch";
 
 const apiService = new ApiService();
 
@@ -28,6 +30,7 @@ class Validity extends Component {
             sections: [],
             count_section: 0,
             count_criteria: 0,
+            modal_open: false,
         }
         this.searchVehicle = this.searchVehicle.bind(this)
         this.setValueMaker = this.setValueMaker.bind(this)
@@ -41,6 +44,9 @@ class Validity extends Component {
 
         this.countSeqSort = this.countSeqSort.bind(this)
 
+        this.modalOpen = this.modalOpen.bind(this)
+        this.modalClose = this.modalClose.bind(this);
+
     }
 
     componentDidMount() {
@@ -49,6 +55,14 @@ class Validity extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState({makers: nextProps.makers}, () => this.getApplicability())
+    }
+
+    modalOpen() {
+        this.setState({modal_open: true})
+    }
+
+    modalClose() {
+        this.setState({modal_open: false})
     }
 
     changeSortNo(e) {
@@ -117,12 +131,12 @@ class Validity extends Component {
         }
     }
 
-    searchType(e) {
-        try {
-            this.setState({type_no: e.type_no})
-        } catch (e) {
+    searchType(type_no) {
+            this.setState({type_no: type_no}, ()=>{
+                 this.modalClose()
+            })
 
-        }
+
 
         const self = this;
         if (this.state.vehicle_value !== '') {
@@ -137,7 +151,11 @@ class Validity extends Component {
                             item.name_type + ", " +
                             item.type_no + ", " +
                             item.year,
-                        "type_no": item.type_no
+                        "type_no": item.type_no,
+                        "type_engine": item.engine,
+                        "type_ls_ls": item.ls_ls,
+                        "type_name": item.type_no,
+                        "type_year": item.year,
 
                     })
 
@@ -194,7 +212,7 @@ class Validity extends Component {
                             </fieldset>
                         </div>
                         <div className="data-block__grid data-block__grid--validity">
-                            <fieldset className="fg data-block__col data-block__col4">
+                            <fieldset className="fg data-block__col data-block__col7">
                                 <label>Модель </label>
                                 <Select
                                     ref={this.vehicleValue}
@@ -209,14 +227,11 @@ class Validity extends Component {
                             </fieldset>
                             <fieldset className="fg data-block__col data-block__col6">
                                 <label>Тип </label>
-                                <Select
-                                    ref={this.typeValue}
-                                    classNamePrefix="select"
-                                    isSearchable={true}
-                                    name="type"
-                                    options={this.state.type}
-                                    onChange={this.searchType}
-                                    onInputChange={''}
+                                <input type="text"
+                                       value={this.state.type_no}
+                                       onClick={this.modalOpen}
+                                       onKeyDown={this.enterUpdate}
+                                       placeholder={"Поиск"}
                                 />
                             </fieldset>
                             <Button
@@ -314,6 +329,61 @@ class Validity extends Component {
                         </div>
                     </div>
                 </div>
+
+                <Modal size="lg" centered show={this.state.modal_open} onHide={this.modalClose}>
+
+                    <Modal.Body>
+                        <div className="table validity-table">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th style={{width: 160}}>
+                                        <div className="table__th">
+                                            <span>Тип</span>
+                                        </div>
+                                    </th>
+                                    <th style={{width: 190}}>
+                                        <div className="table__th">
+                                            <span>Двигатель</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>л.с.</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div className="table__th">
+                                            <span>Год выпуска</span>
+                                        </div>
+                                    </th>
+
+                                </tr>
+                                </thead>
+                            </table>
+                            <table>
+                                <tbody>
+                                {this.state.type.map((type, index) =>
+                                    <ValiditySearch
+                                        index={index}
+                                        type={type}
+                                        funcSearchType={this.searchType}
+                                    />
+                                )}
+                                {/*<Select*/}
+                                {/*    ref={this.typeValue}*/}
+                                {/*    classNamePrefix="select"*/}
+                                {/*    isSearchable={true}*/}
+                                {/*    name="type"*/}
+                                {/*    options={this.state.type}*/}
+                                {/*    onChange={this.searchType}*/}
+                                {/*    onInputChange={''}*/}
+                                {/*/>*/}
+                                </tbody>
+                            </table>
+                        </div>
+                    </Modal.Body>
+                </Modal>
             </>
         );
     }
