@@ -8,6 +8,7 @@ import avatarIcon from '../../assets/img/avatar.png'
 import ApiService from "../../util/ApiService";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Table from "react-bootstrap/Table";
 
 
 const apiService = new ApiService();
@@ -27,7 +28,8 @@ class Header extends Component {
             brand_style: {},
             customStyles: {control: base => ({...base, height: 46, minHeight: 45})},
             showModal: false,
-            showModalExport: false
+            showModalExport: false,
+            show_export: [],
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -163,8 +165,12 @@ class Header extends Component {
         }
     }
 
-    openModalExport(){
-        this.setState({showModalExport: true});
+    openModalExport() {
+        apiService.showExport().then((result) => {
+            console.log(result.file)
+            this.setState({showModalExport: true, show_export: result.file});
+        })
+
     }
 
     render() {
@@ -198,12 +204,12 @@ class Header extends Component {
                                 Добавить артикул
                             </Button>
                             {art_no_id !== null ?
-                            <Button
-                                style={{marginRight: 30, minWidth: 180, backgroundColor: '#6D71F9'}}
-                                onClick={this.createCopy}
-                            >
-                                Создать дубликат
-                            </Button> : ''
+                                <Button
+                                    style={{marginRight: 30, minWidth: 180, backgroundColor: '#6D71F9'}}
+                                    onClick={this.createCopy}
+                                >
+                                    Создать дубликат
+                                </Button> : ''
                             }
                             <Button className="btn btn-blue"
                                     style={{marginRight: 30, minWidth: 100, backgroundColor: '#6D71F9'}}
@@ -302,23 +308,45 @@ class Header extends Component {
                                 </Modal.Footer>
                             </Modal>
 
-                            <Modal show={this.state.showModalExport} onHide={this.close}>
+                            <Modal size={"lg"} show={this.state.showModalExport} onHide={this.close}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Экспорт артикулов</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
+                                    <div className="data-block__content">
+                                        <div className="table table2 table--matchings">
+                                            <Table>
+                                                <tbody>
+
+                                                {this.state.show_export.map((item) =>
+                                                    <tr>
+                                                        <td>
+                                                            <a href={item}>
+                                                                <div className="table__td">
+                                                                    <span>{item.split("/")[4]}</span>
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                )}
+
+
+                                                </tbody>
+                                            </Table>
+                                        </div>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer>
                                     <Button
-                                        style={{marginRight: 20}} variant="success"
+                                        variant="success"
                                         onClick={this.exportTAF}
                                     >
 
                                         Экспорт
                                     </Button>
                                     <Button variant="primary" onClick={this.close}>
-                                        Быстрый экспорт
+                                        Запрос на формирование архива
                                     </Button>
-                                </Modal.Body>
-                                <Modal.Footer>
                                     <Button variant="secondary" onClick={this.close}>
                                         Закрыть
                                     </Button>
