@@ -198,7 +198,6 @@ class Header extends Component {
                                 Создать дубликат
                             </Button> : ''
                             }
-
                             <Button className="btn btn-blue"
                                     style={{marginRight: 30, minWidth: 100, backgroundColor: '#6D71F9'}}
                                     onClick={this.exportTAF}
