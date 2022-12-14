@@ -174,7 +174,10 @@ class Header extends Component {
     }
 
     orderExport(){
-        apiService.orderExport()
+        apiService.orderExport().then(()=>{
+            this.close()
+        })
+
     }
 
     render() {
