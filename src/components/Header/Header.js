@@ -26,7 +26,8 @@ class Header extends Component {
             brands: [],
             brand_style: {},
             customStyles: {control: base => ({...base, height: 46, minHeight: 45})},
-            showModal: false
+            showModal: false,
+            showModalExport: false
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -38,6 +39,7 @@ class Header extends Component {
 
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.openModalExport = this.openModalExport.bind(this)
 
     }
 
@@ -138,10 +140,11 @@ class Header extends Component {
             a.click()
             document.body.removeChild(a)
         })
+
     }
 
     close() {
-        this.setState({showModal: false});
+        this.setState({showModal: false, showModalExport: false});
     }
 
     open(id, art_no) {
@@ -158,6 +161,10 @@ class Header extends Component {
         } else {
             return ""
         }
+    }
+
+    openModalExport(){
+        this.setState({showModalExport: true});
     }
 
     render() {
@@ -200,7 +207,7 @@ class Header extends Component {
                             }
                             <Button className="btn btn-blue"
                                     style={{marginRight: 30, minWidth: 100, backgroundColor: '#6D71F9'}}
-                                    onClick={this.exportTAF}
+                                    onClick={this.openModalExport}
                             >
                                 Экспорт
                             </Button>
@@ -287,6 +294,29 @@ class Header extends Component {
 
                                         </Button>) : ''}
                                 </b></Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={this.close}>
+                                        Закрыть
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
+
+                            <Modal show={this.state.showModalExport} onHide={this.close}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Экспорт артикулов</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Button
+                                        style={{marginRight: 20}} variant="success"
+                                        onClick={this.exportTAF}
+                                    >
+
+                                        Экспорт
+                                    </Button>
+                                    <Button variant="primary" onClick={this.close}>
+                                        Быстрый экспорт
+                                    </Button>
+                                </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={this.close}>
                                         Закрыть

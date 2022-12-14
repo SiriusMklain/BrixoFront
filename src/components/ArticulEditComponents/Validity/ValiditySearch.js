@@ -1,16 +1,4 @@
 import React, {Component} from "react";
-import Accordion from 'react-bootstrap/Accordion';
-import Table from "react-bootstrap/Table";
-import Section from "./Section";
-import AccordionItem from "react-bootstrap/AccordionItem";
-import AccordionHeader from "react-bootstrap/AccordionHeader";
-import AccordionBody from "react-bootstrap/AccordionBody";
-import Button from "react-bootstrap/Button";
-import ModalAddCriteria from "../../Modal/ModalAddCriteria";
-import ApiService from "../../../util/ApiService";
-import Modal from "react-bootstrap/Modal";
-
-const apiService = new ApiService();
 
 class ValiditySearch extends Component {
     constructor(props) {
@@ -25,15 +13,14 @@ class ValiditySearch extends Component {
         this.setState({type: this.props.type})
     }
 
-    changeType(e){
-        console.log(e.target.lastChild.data)
+    changeType(e) {
         this.props.funcSearchType(e.target.lastChild.data)
     }
 
     render() {
         return (
             <tr style={{cursor: "pointer"}}
-            onClick={this.changeType}
+                onClick={this.changeType}
             >
                 <td style={{borderTop: 0, width: 160}}>
                     <div className="table__td">
