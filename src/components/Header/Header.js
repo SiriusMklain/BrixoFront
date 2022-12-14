@@ -297,6 +297,7 @@ class Header extends Component {
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={this.close}>
                                         Закрыть
+
                                     </Button>
                                 </Modal.Footer>
                             </Modal>
