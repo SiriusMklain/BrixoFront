@@ -358,13 +358,6 @@ class Header extends Component {
                                                 {this.state.show_export.map((item) =>
                                                     <tr>
                                                         <td>
-                                                            <div style={{
-                                                                float: "left",
-                                                                paddingRight: 20,
-                                                                marginTop: 17
-                                                            }}>
-                                                                Скачать
-                                                            </div>
                                                             <a href={item}>
                                                                 <div className="table__td"
                                                                      style={{float: "left"}}>
@@ -376,8 +369,7 @@ class Header extends Component {
                                                         <td>
                                                            <div style={{
                                                                 float: "left",
-                                                                paddingRight: 20,
-                                                                marginTop: 17
+                                                                marginTop: 14
                                                             }}>
                                                                 от &nbsp; {item.split("/")[4].split("_")[1]}
                                                                 &nbsp; {item.split("/")[4].split("_")[2].split(".")[0]}
