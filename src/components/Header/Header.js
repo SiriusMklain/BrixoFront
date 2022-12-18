@@ -54,6 +54,7 @@ class Header extends Component {
         this.close = this.close.bind(this);
         this.openModalExport = this.openModalExport.bind(this)
         this.orderExport = this.orderExport.bind(this)
+        this.orderCancel = this.orderCancel.bind(this)
         this.prepExport = this.prepExport.bind(this)
 
     }
@@ -199,6 +200,10 @@ class Header extends Component {
             this.close()
         })
 
+    }
+
+    orderCancel(){
+        this.setState({hidden_button_export: true, hidden_export: false})
     }
 
     optionsBrands() {
@@ -406,6 +411,12 @@ class Header extends Component {
                                         variant="primary"
                                         onClick={this.orderExport}
                                     >Сформиировать архив для {this.state.name_brand}
+                                    </Button>
+                                    <Button
+                                        hidden={this.state.hidden_button_export}
+                                        variant="danger"
+                                        onClick={this.orderCancel}
+                                    >Отмена
                                     </Button>
 
                                 </Modal.Footer>
