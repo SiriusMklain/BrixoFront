@@ -242,12 +242,13 @@ class Header extends Component {
                                     Создать дубликат
                                 </Button> : ''
                             }
+                            {art_no_id === null ?
                             <Button className="btn btn-blue"
                                     style={{marginRight: 30, minWidth: 100, backgroundColor: '#6D71F9'}}
                                     onClick={this.openModalExport}
                             >
                                 Экспорт
-                            </Button>
+                            </Button> : ''}
                             {this.props.notification_num > 0 ?
                                 <button className="header__notification"
                                         onClick={this.open}
