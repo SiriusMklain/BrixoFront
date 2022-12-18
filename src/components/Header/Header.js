@@ -56,7 +56,12 @@ class Header extends Component {
         this.orderExport = this.orderExport.bind(this)
         this.orderCancel = this.orderCancel.bind(this)
         this.prepExport = this.prepExport.bind(this)
+        this.checkReadyExport = this.checkReadyExport.bind(this)
 
+    }
+
+    componentDidMount() {
+        this.checkReadyExport()
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -198,11 +203,25 @@ class Header extends Component {
         apiService.orderExport(this.state.brand_no_export).then(() => {
             this.setState({hidden_button_export: true, hidden_export: false})
             this.close()
+            this.checkReadyExport()
         })
 
     }
 
-    orderCancel(){
+    checkReadyExport() {
+            setTimeout(() => {
+                apiService.checkReadyExport().then((result) => {
+                    if (result.file === false) {
+                        this.checkReadyExport()
+                    }else{
+                        this.openModalExport()
+                    }
+                })
+            }, 60000)
+
+    }
+
+    orderCancel() {
         this.setState({hidden_button_export: true, hidden_export: false})
     }
 
@@ -372,7 +391,7 @@ class Header extends Component {
                                                             </a>
                                                         </td>
                                                         <td>
-                                                           <div style={{
+                                                            <div style={{
                                                                 float: "left",
                                                                 marginTop: 14
                                                             }}>

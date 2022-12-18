@@ -447,6 +447,18 @@ class ApiService {
         }).then((response) => response.data);
     }
 
+    checkReadyExport() {
+        const URL = `${API_URL}/api/v1/article/check_export/`;
+        return axios({
+            method: "GET",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            credentials: 'include',
+        }).then((response) => response.data);
+    }
+
     getGenArtNo(lexem) {
         const URL = `${API_URL}/api/v1/gen_art/search/?lexem=${lexem}`;
         return axios({
