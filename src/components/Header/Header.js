@@ -387,7 +387,6 @@ class Header extends Component {
                                         variant="success"
                                         onClick={this.exportTAF}
                                     >
-
                                         Быстрый экспорт
                                     </Button>
                                     <div style={{width: 250}}
@@ -397,7 +396,7 @@ class Header extends Component {
                                             options={this.optionsBrands()}
                                             onChange={this.prepExport}
                                             styles={customStyles}
-                                            placeholder={"Выберите бренд для формирования архива"}
+                                            placeholder={"Выберите бренд"}
                                         >
                                         </Select>
                                     </div>
