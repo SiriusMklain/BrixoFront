@@ -13,11 +13,11 @@ import Table from "react-bootstrap/Table";
 
 const apiService = new ApiService();
 const customStyles = {
-  control: base => ({
-    ...base,
-    height: 35,
-    minHeight: 50
-  })
+    control: base => ({
+        ...base,
+        height: 35,
+        minHeight: 50
+    })
 };
 
 var paramsString = document.location.search;
@@ -185,7 +185,12 @@ class Header extends Component {
     }
 
     prepExport(e) {
-        this.setState({brand_no_export: e.brand_no, name_brand: e.label, hidden_export: true, hidden_button_export: false})
+        this.setState({
+            brand_no_export: e.brand_no,
+            name_brand: e.label,
+            hidden_export: true,
+            hidden_button_export: false
+        })
     }
 
     orderExport() {
@@ -243,12 +248,12 @@ class Header extends Component {
                                 </Button> : ''
                             }
                             {art_no_id === null ?
-                            <Button className="btn btn-blue"
-                                    style={{marginRight: 30, minWidth: 100, backgroundColor: '#6D71F9'}}
-                                    onClick={this.openModalExport}
-                            >
-                                Экспорт
-                            </Button> : ''}
+                                <Button className="btn btn-blue"
+                                        style={{marginRight: 30, minWidth: 100, backgroundColor: '#6D71F9'}}
+                                        onClick={this.openModalExport}
+                                >
+                                    Экспорт
+                                </Button> : ''}
                             {this.props.notification_num > 0 ?
                                 <button className="header__notification"
                                         onClick={this.open}
@@ -340,24 +345,26 @@ class Header extends Component {
                                 </Modal.Footer>
                             </Modal>
 
-                            <Modal size={"lg"}  show={this.state.showModalExport} onHide={this.close}>
+                            <Modal size={"lg"} show={this.state.showModalExport} onHide={this.close}>
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Экспорт артикулов</Modal.Title>
+                                    <Modal.Title>Формирование и экспорт архивов</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <div className="data-block__content">
                                         <div className="table table2 table--matchings">
                                             <Table>
                                                 <tbody>
-
+                                                <h5>Сформированные архивы</h5>
                                                 {this.state.show_export.map((item) =>
                                                     <tr>
-                                                        <td>
-                                                            <a href={item}>
-                                                                <div className="table__td">
-                                                                    <span>{item.split("/")[4]}</span>
-                                                                </div>
-                                                            </a>
+                                                        <td><div style={{float: "left", paddingRight: 30, marginTop: 17}}>
+                                                            Скачать
+                                                        </div>
+                                                             <a href={item}>
+                                                            <div className="table__td">
+                                                                <span>{item.split("/")[4]}</span>
+                                                            </div>
+                                                        </a>
                                                         </td>
                                                     </tr>
                                                 )}
@@ -375,7 +382,7 @@ class Header extends Component {
                                         Быстрый экспорт
                                     </Button>
                                     <div style={{width: 250}}
-                                        hidden={this.state.hidden_export}
+                                         hidden={this.state.hidden_export}
                                     >
                                         <Select
                                             options={this.optionsBrands()}
