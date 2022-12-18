@@ -340,7 +340,7 @@ class Header extends Component {
                                 </Modal.Footer>
                             </Modal>
 
-                            <Modal size={"lg"} show={this.state.showModalExport} onHide={this.close}>
+                            <Modal size={"lg"}  show={this.state.showModalExport} onHide={this.close}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Экспорт артикулов</Modal.Title>
                                 </Modal.Header>
@@ -361,8 +361,6 @@ class Header extends Component {
                                                         </td>
                                                     </tr>
                                                 )}
-
-
                                                 </tbody>
                                             </Table>
                                         </div>
@@ -383,23 +381,18 @@ class Header extends Component {
                                             options={this.optionsBrands()}
                                             onChange={this.prepExport}
                                             styles={customStyles}
+                                            placeholder={"Выберите бренд для формирования архива"}
                                         >
-                                            Запрос на формирование архива
                                         </Select>
                                     </div>
 
                                     <Button
                                         hidden={this.state.hidden_button_export}
-                                        variant="success"
+                                        variant="primary"
                                         onClick={this.orderExport}
-                                    >
-
-                                        Экспорт {this.state.name_brand}
+                                    >Сформиировать архив для {this.state.name_brand}
                                     </Button>
 
-                                    <Button variant="secondary" onClick={this.close}>
-                                        Закрыть
-                                    </Button>
                                 </Modal.Footer>
                             </Modal>
                         </>
