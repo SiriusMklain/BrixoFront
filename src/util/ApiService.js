@@ -435,8 +435,8 @@ class ApiService {
         }).then((response) => response.data);
     }
 
-    orderExport() {
-        const URL = `${API_URL}/api/v1/article/export_brand/?brand_no=4630`;
+    orderExport(brand_no) {
+        const URL = `${API_URL}/api/v1/article/export_brand/?brand_no=${brand_no}`;
         return axios({
             method: "GET",
             url: URL,

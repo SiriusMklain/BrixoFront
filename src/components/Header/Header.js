@@ -12,6 +12,13 @@ import Table from "react-bootstrap/Table";
 
 
 const apiService = new ApiService();
+const customStyles = {
+  control: base => ({
+    ...base,
+    height: 35,
+    minHeight: 50
+  })
+};
 
 var paramsString = document.location.search;
 var art_no_id = new URLSearchParams(paramsString)
@@ -30,6 +37,10 @@ class Header extends Component {
             showModal: false,
             showModalExport: false,
             show_export: [],
+            hidden_export: false,
+            hidden_button_export: true,
+            brand_no_export: '',
+            name_brand: ''
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -43,6 +54,7 @@ class Header extends Component {
         this.close = this.close.bind(this);
         this.openModalExport = this.openModalExport.bind(this)
         this.orderExport = this.orderExport.bind(this)
+        this.prepExport = this.prepExport.bind(this)
 
     }
 
@@ -168,16 +180,28 @@ class Header extends Component {
 
     openModalExport() {
         apiService.showExport().then((result) => {
-            console.log(result.file)
-            this.setState({showModalExport: true, show_export: result.file});
+            this.setState({showModalExport: true, show_export: result.file}, () => this.optionsBrands());
         })
     }
 
-    orderExport(){
-        apiService.orderExport().then(()=>{
+    prepExport(e) {
+        this.setState({brand_no_export: e.brand_no, name_brand: e.label, hidden_export: true, hidden_button_export: false})
+    }
+
+    orderExport() {
+        apiService.orderExport(this.state.brand_no_export).then(() => {
+            this.setState({hidden_button_export: true, hidden_export: false})
             this.close()
         })
 
+    }
+
+    optionsBrands() {
+        let brands = []
+        this.state.brands.forEach((item, index) => {
+            brands.push({"value": index + 1, "label": item.name, "brand_no": item.brand_no})
+        })
+        return brands
     }
 
     render() {
@@ -349,11 +373,29 @@ class Header extends Component {
                                         onClick={this.exportTAF}
                                     >
 
-                                        Экспорт
+                                        Быстрый экспорт
                                     </Button>
-                                    <Button variant="primary" onClick={this.orderExport}>
-                                        Запрос на формирование архива
+                                    <div style={{width: 250}}
+                                        hidden={this.state.hidden_export}
+                                    >
+                                        <Select
+                                            options={this.optionsBrands()}
+                                            onChange={this.prepExport}
+                                            styles={customStyles}
+                                        >
+                                            Запрос на формирование архива
+                                        </Select>
+                                    </div>
+
+                                    <Button
+                                        hidden={this.state.hidden_button_export}
+                                        variant="success"
+                                        onClick={this.orderExport}
+                                    >
+
+                                        Экспорт {this.state.name_brand}
                                     </Button>
+
                                     <Button variant="secondary" onClick={this.close}>
                                         Закрыть
                                     </Button>
