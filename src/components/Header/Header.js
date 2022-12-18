@@ -357,14 +357,31 @@ class Header extends Component {
                                                 <h5>Сформированные архивы</h5>
                                                 {this.state.show_export.map((item) =>
                                                     <tr>
-                                                        <td><div style={{float: "left", paddingRight: 30, marginTop: 17}}>
-                                                            Скачать
-                                                        </div>
-                                                             <a href={item}>
-                                                            <div className="table__td">
-                                                                <span>{item.split("/")[4]}</span>
+                                                        <td>
+                                                            <div style={{
+                                                                float: "left",
+                                                                paddingRight: 20,
+                                                                marginTop: 17
+                                                            }}>
+                                                                Скачать
                                                             </div>
-                                                        </a>
+                                                            <a href={item}>
+                                                                <div className="table__td"
+                                                                     style={{float: "left"}}>
+                                                                <span>{item.split("/")[4].split("_")[0]}
+                                                                </span>
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                           <div style={{
+                                                                float: "left",
+                                                                paddingRight: 20,
+                                                                marginTop: 17
+                                                            }}>
+                                                                от &nbsp; {item.split("/")[4].split("_")[1]}
+                                                                &nbsp; {item.split("/")[4].split("_")[2].split(".")[0]}
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 )}
