@@ -186,7 +186,13 @@ class Header extends Component {
 
     openModalExport() {
         apiService.showExport().then((result) => {
-            this.setState({showModalExport: true, show_export: result.file}, () => this.optionsBrands());
+            try {
+                this.setState({showModalExport: true, show_export: result.file}, () => this.optionsBrands());
+            }
+            catch (e) {
+                
+            }
+            
         })
     }
 
