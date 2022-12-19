@@ -190,7 +190,7 @@ class Header extends Component {
                 this.setState({showModalExport: true, show_export: result.file}, () => this.optionsBrands());
             }
             catch (e) {
-                
+                this.setState({showModalExport: false, show_export: []});
             }
             
         })
