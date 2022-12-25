@@ -217,13 +217,14 @@ class Header extends Component {
     checkReadyExport() {
             setTimeout(() => {
                 apiService.checkReadyExport().then((result) => {
+                    console.log(111, result)
                     if (result.file === false) {
                         this.checkReadyExport()
                     }else{
                         this.openModalExport()
                     }
                 })
-            }, 60000)
+            }, 10000)
 
     }
 
@@ -237,6 +238,19 @@ class Header extends Component {
             brands.push({"value": index + 1, "label": item.name, "brand_no": item.brand_no})
         })
         return brands
+    }
+
+     setArchives(item) {
+        try {
+            let file_name = item.split("/")[4].split("_")[0]
+            let file_date = item.split("/")[4].split("_")[1]
+            let file_time = item.split("/")[4].split("_")[2].split(".")[0]
+
+            return {"name": file_name, "date": file_date, "time": file_time}
+
+        } catch (e) {
+            return {"name": ''}
+        }
     }
 
     render() {
@@ -386,26 +400,30 @@ class Header extends Component {
                                                 <tbody>
                                                 <h5>Сформированные архивы</h5>
                                                 {this.state.show_export.map((item) =>
-                                                    <tr>
-                                                        <td>
-                                                            <a href={item}>
-                                                                <div className="table__td"
-                                                                     style={{float: "left"}}>
-                                                                <span>{item.split("/")[4].split("_")[0]}
+                                                    <>
+                                                        {this.setArchives(item).name ?
+                                                            <tr>
+                                                                <td>
+                                                                    <a href={item}>
+                                                                        <div className="table__td"
+                                                                             style={{float: "left"}}>
+                                                                <span>{this.setArchives(item).name}
                                                                 </span>
-                                                                </div>
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <div style={{
-                                                                float: "left",
-                                                                marginTop: 14
-                                                            }}>
-                                                                от &nbsp; {item.split("/")[4].split("_")[1]}
-                                                                &nbsp; {item.split("/")[4].split("_")[2].split(".")[0]}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                                        </div>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <div style={{
+                                                                        float: "left",
+                                                                        marginTop: 14
+                                                                    }}>
+                                                                        от &nbsp; {this.setArchives(item).date}
+                                                                        &nbsp; {this.setArchives(item).time}
+                                                                    </div>
+                                                                </td>
+                                                            </tr> : ''
+                                                        }
+                                                    </>
                                                 )}
                                                 </tbody>
                                             </Table>
@@ -448,6 +466,9 @@ class Header extends Component {
                             </Modal>
                         </>
                     }
+                    <>
+
+                    </>
 
                 </div>
             </header>
