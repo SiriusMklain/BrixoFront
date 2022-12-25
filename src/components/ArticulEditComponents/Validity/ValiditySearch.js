@@ -19,12 +19,14 @@ class ValiditySearch extends Component {
 
     render() {
         return (
-            <tr style={{cursor: "pointer"}}
-                onClick={this.changeType}
+            <tr
             >
-                <td style={{borderTop: 0, width: 160}}>
+                <td
+                    style={{borderTop: 0, width: 160, cursor: "pointer", color: "blue"}}
+                    onClick={this.changeType}
+                >
                     <div className="table__td">
-                        <span>{this.props.type.type_name}</span>
+                        <u>{this.props.type.type_name}</u>
 
                     </div>
                 </td>
