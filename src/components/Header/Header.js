@@ -36,6 +36,7 @@ class Header extends Component {
             customStyles: {control: base => ({...base, height: 46, minHeight: 45})},
             showModal: false,
             showModalExport: false,
+            showModalReadyExport: false,
             show_export: [],
             hidden_export: false,
             hidden_button_export: true,
@@ -53,6 +54,7 @@ class Header extends Component {
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
         this.openModalExport = this.openModalExport.bind(this)
+        this.openModalReadyExport = this.openModalReadyExport.bind(this)
         this.orderExport = this.orderExport.bind(this)
         this.orderCancel = this.orderCancel.bind(this)
         this.prepExport = this.prepExport.bind(this)
@@ -165,7 +167,7 @@ class Header extends Component {
     }
 
     close() {
-        this.setState({showModal: false, showModalExport: false});
+        this.setState({showModal: false, showModalExport: false, showModalReadyExport: false});
     }
 
     open(id, art_no) {
@@ -196,6 +198,18 @@ class Header extends Component {
         })
     }
 
+    openModalReadyExport() {
+        apiService.showExport().then((result) => {
+            try {
+                this.setState({showModalReadyExport: true});
+            }
+            catch (e) {
+                this.setState({showModalReadyExport: false});
+            }
+
+        })
+    }
+
     prepExport(e) {
         this.setState({
             brand_no_export: e.brand_no,
@@ -217,14 +231,14 @@ class Header extends Component {
     checkReadyExport() {
             setTimeout(() => {
                 apiService.checkReadyExport().then((result) => {
-                    console.log(111, result)
-                    if (result.file === false) {
+
+                    if (result.file === 'False') {
                         this.checkReadyExport()
                     }else{
-                        this.openModalExport()
+                        this.openModalReadyExport()
                     }
                 })
-            }, 10000)
+            }, 30000)
 
     }
 
@@ -467,7 +481,11 @@ class Header extends Component {
                         </>
                     }
                     <>
-
+                        <Modal size={"lg"} show={this.state.showModalReadyExport} onHide={this.close}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Архивы сформированы для экспорта и готовы для загрузки</Modal.Title>
+                                </Modal.Header>
+                            </Modal>
                     </>
 
                 </div>
