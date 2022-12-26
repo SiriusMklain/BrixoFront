@@ -50,7 +50,10 @@ class ModalAddCriteria extends Component {
         apiService.searchCritNo(e).then((result) => {
             let value_of = []
             result.value_of.forEach(function (item, index) {
-                value_of.push({"value": index + 1, "label": item.value_of_num + " / " + item.value_of_name, "value_of_num": item.value_of_num})
+                value_of.push({
+                    "value": index + 1,
+                    "label": item.value_of_num + " / " + item.value_of_name + " / " + item.value_of_name_en,
+                    "value_of_num": item.value_of_num})
             })
 
             this.setState({list_crit_no: value_of})
@@ -61,7 +64,10 @@ class ModalAddCriteria extends Component {
         apiService.searchCritVal(e).then((result) => {
             let value = []
             result.value.forEach(function (item, index) {
-                value.push({"value": index + 1, "label": item.value_num + " / " + item.value_name, "value_num": item.value_num})
+                value.push({
+                    "value": index + 1,
+                    "label": item.value_num + " / " + item.value_name  + " / " + item.value_name_en,
+                    "value_num": item.value_num})
             })
 
             this.setState({list_crit_val: value})
@@ -85,7 +91,7 @@ class ModalAddCriteria extends Component {
                 <Modal.Body>
                 <Form>
                     <div className="data-block__grid data-block__grid--validity2">
-                        <fieldset className="fg data-block__col data-block__col6" style={{marginBottom: 40}}>
+                        <fieldset className="fg data-block__col data-block__col12" style={{marginBottom: 40}}>
                             <label>Crit_no</label>
                             <Select
                                 classNamePrefix="select"
@@ -98,7 +104,9 @@ class ModalAddCriteria extends Component {
                                 placeholder={"Поиск"}
                             />
                         </fieldset>
-                        <fieldset className="fg data-block__col data-block__col6" style={{marginBottom: 40}}>
+                         </div>
+                    <div className="data-block__grid data-block__grid--validity2">
+                        <fieldset className="fg data-block__col data-block__col12" style={{marginBottom: 40}}>
                             <label>Crit_val</label>
                             <Select
                                 classNamePrefix="select"
