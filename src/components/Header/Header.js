@@ -9,6 +9,7 @@ import ApiService from "../../util/ApiService";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
+import Spinner from 'react-bootstrap/Spinner';
 
 
 const apiService = new ApiService();
@@ -41,7 +42,8 @@ class Header extends Component {
             hidden_export: false,
             hidden_button_export: true,
             brand_no_export: '',
-            name_brand: ''
+            name_brand: '',
+            spinner: false,
         }
         this.getDropdownVisible = this.getDropdownVisible.bind(this)
         this.getDropdownInvisible = this.getDropdownInvisible.bind(this)
@@ -59,6 +61,8 @@ class Header extends Component {
         this.orderCancel = this.orderCancel.bind(this)
         this.prepExport = this.prepExport.bind(this)
         this.checkReadyExport = this.checkReadyExport.bind(this)
+
+        this.exportTAF = this.exportTAF.bind(this)
 
     }
 
@@ -155,7 +159,9 @@ class Header extends Component {
     }
 
     exportTAF() {
+        this.setState({spinner: true})
         apiService.exportTAF().then((result) => {
+            this.setState({spinner: false})
             const a = document.createElement('a')
             a.href = result.file
             a.download = result.file.split('/').pop()
@@ -190,11 +196,10 @@ class Header extends Component {
         apiService.showExport().then((result) => {
             try {
                 this.setState({showModalExport: true, show_export: result.file}, () => this.optionsBrands());
-            }
-            catch (e) {
+            } catch (e) {
                 this.setState({showModalExport: false, show_export: []});
             }
-            
+
         })
     }
 
@@ -202,8 +207,7 @@ class Header extends Component {
         apiService.showExport().then((result) => {
             try {
                 this.setState({showModalReadyExport: true});
-            }
-            catch (e) {
+            } catch (e) {
                 this.setState({showModalReadyExport: false});
             }
 
@@ -229,16 +233,16 @@ class Header extends Component {
     }
 
     checkReadyExport() {
-            setTimeout(() => {
-                apiService.checkReadyExport().then((result) => {
+        setTimeout(() => {
+            apiService.checkReadyExport().then((result) => {
 
-                    if (result.file === 'False') {
-                        this.checkReadyExport()
-                    }else{
-                        this.openModalReadyExport()
-                    }
-                })
-            }, 30000)
+                if (result.file === 'False') {
+                    this.checkReadyExport()
+                } else {
+                    this.openModalReadyExport()
+                }
+            })
+        }, 30000)
 
     }
 
@@ -254,7 +258,7 @@ class Header extends Component {
         return brands
     }
 
-     setArchives(item) {
+    setArchives(item) {
         try {
             let file_name = item.split("/")[4].split("_")[0]
             let file_date = item.split("/")[4].split("_")[1]
@@ -412,7 +416,13 @@ class Header extends Component {
                                         <div className="table table2 table--matchings">
                                             <Table>
                                                 <tbody>
-                                                <h5>Сформированные архивы</h5>
+                                                {this.state.show_export.length !== 0 ?
+                                                    <h5>Сформированные архивы</h5> :
+                                                    <>
+                                                        <p>Нет сформированных архивов для полного экспорта</p>
+                                                    </>
+
+                                                }
                                                 {this.state.show_export.map((item) =>
                                                     <>
                                                         {this.setArchives(item).name ?
@@ -427,15 +437,27 @@ class Header extends Component {
                                                                     </a>
                                                                 </td>
                                                                 <td>
-                                                                    <div style={{
-                                                                        float: "left",
-                                                                        marginTop: 14
-                                                                    }}>
+                                                                    <div className="table__td">
                                                                         от &nbsp; {this.setArchives(item).date}
                                                                         &nbsp; {this.setArchives(item).time}
                                                                     </div>
                                                                 </td>
-                                                            </tr> : ''
+                                                            </tr> : <tr>
+                                                                <td >
+                                                                    <div className="table__td">
+                                                                    <span>
+                                                                        Архив для <b
+                                                                        style={{color: "#0d6efd"}}>{item.split("/")[4]}</b> формируется
+                                                                    </span>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div className="table__td">
+                                                                        <Spinner animation="border" variant="primary" />
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
                                                         }
                                                     </>
                                                 )}
@@ -445,20 +467,24 @@ class Header extends Component {
                                     </div>
                                 </Modal.Body>
                                 <Modal.Footer>
+                                    {this.state.spinner === true ?
+                                    <Spinner animation="border" variant="success" /> : ''
+                                    }
+
                                     <Button
                                         variant="success"
                                         onClick={this.exportTAF}
                                     >
                                         Быстрый экспорт
                                     </Button>
-                                    <div style={{width: 250}}
+                                    <div style={{width: 380}}
                                          hidden={this.state.hidden_export}
                                     >
                                         <Select
                                             options={this.optionsBrands()}
                                             onChange={this.prepExport}
                                             styles={customStyles}
-                                            placeholder={"Выберите бренд"}
+                                            placeholder={"Выберите бренд для полного экспорта"}
                                         >
                                         </Select>
                                     </div>
@@ -482,10 +508,10 @@ class Header extends Component {
                     }
                     <>
                         <Modal size={"lg"} show={this.state.showModalReadyExport} onHide={this.close}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Архивы сформированы для экспорта и готовы для загрузки</Modal.Title>
-                                </Modal.Header>
-                            </Modal>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Архивы сформированы для экспорта и готовы для загрузки</Modal.Title>
+                            </Modal.Header>
+                        </Modal>
                     </>
 
                 </div>
