@@ -67,6 +67,10 @@ class Header extends Component {
     }
 
     componentDidMount() {
+        if(!localStorage.getItem("check_export")){
+            localStorage.setItem("check_export", "False")
+        }
+
         this.checkReadyExport()
     }
 
@@ -196,8 +200,10 @@ class Header extends Component {
         apiService.showExport().then((result) => {
             try {
                 this.setState({showModalExport: true, show_export: result.file}, () => this.optionsBrands());
+                localStorage.setItem("check_export", "True")
             } catch (e) {
                 this.setState({showModalExport: false, show_export: []});
+                localStorage.setItem("check_export", "False")
             }
 
         })
@@ -227,6 +233,7 @@ class Header extends Component {
         apiService.orderExport(this.state.brand_no_export).then(() => {
             this.setState({hidden_button_export: true, hidden_export: false})
             this.close()
+            localStorage.setItem("check_export", "False")
             this.checkReadyExport()
         })
 
@@ -239,7 +246,10 @@ class Header extends Component {
                 if (result.file === 'False') {
                     this.checkReadyExport()
                 } else {
-                    this.openModalReadyExport()
+                    if(localStorage.getItem("check_export") === "False"){
+                        this.openModalReadyExport()
+                        localStorage.setItem("check_export", "True")
+                    }
                 }
             })
         }, 30000)
@@ -493,7 +503,7 @@ class Header extends Component {
                                         hidden={this.state.hidden_button_export}
                                         variant="primary"
                                         onClick={this.orderExport}
-                                    >Сформиировать архив для {this.state.name_brand}
+                                    >Сформировать архив для {this.state.name_brand}
                                     </Button>
                                     <Button
                                         hidden={this.state.hidden_button_export}
