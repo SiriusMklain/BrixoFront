@@ -203,6 +203,7 @@ class ValidityItem extends Component {
                                     funcAddSection={this.props.funcAddSection}
                                     new_section={this.props.new_section}
                                     funcCritNo={this.critNo}
+                                    art_no_id={this.props.art_no_id}
                                 />
                             ) : ''}
 

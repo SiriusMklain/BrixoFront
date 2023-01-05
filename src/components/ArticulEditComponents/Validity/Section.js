@@ -56,6 +56,7 @@ class Section extends Component {
                     {this.state.sections.map((section) =>
                         <Item
                             section={section}
+                            art_no_id={this.props.art_no_id}
                         />)}
                     </tbody>
                 </Table>

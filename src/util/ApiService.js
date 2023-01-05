@@ -423,6 +423,7 @@ class ApiService {
             credentials: 'include',
         }).then((response) => response.data);
     }
+
     showExport() {
         const URL = `${API_URL}/api/v1/article/show_export/`;
         return axios({
@@ -513,6 +514,24 @@ class ApiService {
             },
             credentials: 'include',
             data: data
+        }).then((response) => response.data);
+    }
+
+    deleteCriteria(art_no_id, crit_id) {
+        const URL = `${API_URL}/api/v1/add_section_veh/${art_no_id}/`;
+        const data = JSON.stringify(
+            {
+                "crit_id": crit_id,
+            }
+        )
+        return axios({
+            method: "DELETE",
+            url: URL,
+            headers: {
+                'content-type': 'application/json',
+            },
+            data: data,
+            credentials: 'include',
         }).then((response) => response.data);
     }
 
